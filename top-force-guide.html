@@ -1,0 +1,695 @@
+<!doctype html>
+<!--
+Editor: Visual Studio Code
+Script Name: top-force-guide.html
+Author: Paul Hanlon
+Date: 2026-09-06
+Description:
+  Single-file interactive web version of the Top Force Leveling & Combat Power
+  Guide (v0.1). Contains a clickable two-lane progression map (Military Base /
+  Barracks), a formation bonus calculator, a troop counter-triangle selector,
+  a barracks tier lookup, and the full priority, resource, and doctrine content.
+  No external dependencies except Google Fonts. All state is in-memory.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Top Force — Leveling &amp; Combat Power Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0A1A1E;
+  --deep:#0E2328;
+  --panel:#132E33;
+  --line:#1F454C;
+  --parch:#E8E5D8;
+  --muted:#8FA9A9;
+  --amber:#E9A03B;
+  --teal:#57B0A6;
+  --rust:#C4603F;
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  margin:0;background:var(--void);color:var(--parch);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:16px;line-height:1.6;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(87,176,166,.10), transparent 42%),
+    radial-gradient(circle at 88% 72%, rgba(233,160,59,.07), transparent 45%),
+    repeating-linear-gradient(0deg,transparent 0 47px,rgba(143,169,169,.045) 47px 48px),
+    repeating-linear-gradient(90deg,transparent 0 47px,rgba(143,169,169,.045) 47px 48px);
+}
+h1,h2,h3,h4{font-family:Archivo,system-ui,sans-serif;letter-spacing:-.02em;margin:0}
+a{color:var(--teal)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+/* ---- masthead ---- */
+header.top{border-bottom:1px solid var(--line);background:rgba(10,26,30,.86);backdrop-filter:blur(6px);position:sticky;top:0;z-index:40}
+.top .wrap{display:flex;align-items:center;gap:18px;height:58px}
+.brand{font-family:Archivo;font-weight:800;font-size:17px;white-space:nowrap}
+.brand span{color:var(--amber)}
+nav.jump{display:flex;gap:16px;overflow-x:auto;scrollbar-width:none}
+nav.jump::-webkit-scrollbar{display:none}
+nav.jump a{color:var(--muted);text-decoration:none;font-size:14px;white-space:nowrap;padding:4px 0;border-bottom:2px solid transparent}
+nav.jump a:hover,nav.jump a:focus-visible{color:var(--parch);border-bottom-color:var(--amber)}
+
+/* ---- hero ---- */
+.hero{padding:64px 0 34px}
+.hero h1{font-size:clamp(38px,6.4vw,74px);font-weight:800;line-height:.95}
+.hero .sub{max-width:60ch;margin-top:18px;font-size:18px;color:#CFD8D2}
+.hero .meta{margin-top:22px;color:var(--muted);font-size:14px}
+.thesis{margin-top:26px;border-left:3px solid var(--amber);padding:6px 0 6px 18px;max-width:64ch;font-size:17px}
+
+/* ---- generic section ---- */
+section{padding:52px 0;border-top:1px solid var(--line)}
+section h2{font-size:clamp(24px,3.2vw,34px);font-weight:700}
+section h2 .num{color:var(--amber);font-weight:600;margin-right:12px}
+.lede{color:var(--muted);max-width:70ch;margin-top:10px}
+.grid2{display:grid;gap:26px;grid-template-columns:1fr 1fr}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+
+/* ---- map ---- */
+.mapwrap{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;margin-top:28px;align-items:start}
+@media(max-width:900px){.mapwrap{grid-template-columns:1fr}}
+.lanes{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;position:relative}
+.lanehead{font-family:Archivo;font-weight:600;font-size:13px;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.lane{position:relative;padding:0 0 0 26px}
+.lane::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--line),var(--line))}
+.node{display:block;width:100%;text-align:left;position:relative;background:none;border:0;color:inherit;
+  font:inherit;padding:9px 10px 9px 4px;margin:0 0 8px;cursor:pointer;border-radius:6px;min-height:62px}
+.node:hover{background:rgba(87,176,166,.08)}
+.node:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.node .dot{position:absolute;left:-24px;top:15px;width:13px;height:13px;border-radius:50%;
+  background:var(--void);border:2px solid var(--line)}
+.node .lv{font-family:Archivo;font-weight:600;font-size:15px;display:block}
+.node .cap{font-size:12.5px;color:var(--muted);display:block;line-height:1.35}
+.node.reached .dot{background:var(--teal);border-color:var(--teal)}
+.node.active{background:rgba(233,160,59,.11)}
+.node.active .dot{border-color:var(--amber);box-shadow:0 0 0 4px rgba(233,160,59,.16)}
+.node.spacer{visibility:hidden;pointer-events:none}
+
+.detail{position:sticky;top:76px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px}
+.detail h3{font-size:24px;font-weight:700}
+.tag{display:inline-block;font-size:11.5px;letter-spacing:.04em;padding:2px 8px;border-radius:3px;
+  border:1px solid var(--line);color:var(--muted);margin-bottom:12px}
+.tag.verified{color:var(--teal);border-color:rgba(87,176,166,.5)}
+.tag.observed{color:var(--amber);border-color:rgba(233,160,59,.5)}
+.tag.strategy{color:#CFA6E0;border-color:rgba(207,166,224,.45)}
+.detail ul{margin:12px 0 0;padding-left:18px}
+.detail li{margin-bottom:6px}
+.detail .why{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);color:#CFD8D2}
+.detail .why b{color:var(--amber);font-weight:600}
+.mark{margin-top:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+button.btn{font:inherit;font-size:14px;background:transparent;color:var(--parch);border:1px solid var(--line);
+  border-radius:6px;padding:8px 14px;cursor:pointer}
+button.btn:hover{border-color:var(--teal);color:var(--teal)}
+button.btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+button.btn.on{background:rgba(87,176,166,.14);border-color:var(--teal);color:var(--teal)}
+.progress{margin-top:22px}
+.bar{height:6px;background:var(--deep);border-radius:3px;overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:var(--teal);width:0}
+.progress p{margin:8px 0 0;font-size:13px;color:var(--muted)}
+
+/* ---- priority stack ---- */
+.stack{margin-top:24px;border-top:1px solid var(--line)}
+.stack details{border-bottom:1px solid var(--line)}
+.stack summary{display:flex;gap:16px;align-items:baseline;padding:14px 4px;cursor:pointer;list-style:none}
+.stack summary::-webkit-details-marker{display:none}
+.stack summary:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}
+.stack .rank{font-family:Archivo;font-weight:800;font-size:22px;color:var(--amber);min-width:34px}
+.stack .name{font-family:Archivo;font-weight:600;font-size:17px}
+.stack p{margin:0 0 16px 50px;color:#CFD8D2;max-width:66ch}
+
+/* ---- triangle ---- */
+.triwrap{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;margin-top:26px}
+@media(max-width:820px){.triwrap{grid-template-columns:1fr}}
+svg.tri{width:100%;max-width:420px;height:auto;display:block;margin:0 auto}
+svg.tri .tnode{cursor:pointer}
+svg.tri text{font-family:Archivo;font-weight:600;fill:var(--parch);font-size:15px}
+svg.tri .ring{fill:var(--deep);stroke:var(--line);stroke-width:2}
+svg.tri .tnode.sel .ring{stroke:var(--amber);fill:rgba(233,160,59,.16)}
+svg.tri .tnode.beats .ring{stroke:var(--teal)}
+svg.tri .tnode.loses .ring{stroke:var(--rust)}
+svg.tri .arrow{stroke:var(--line);stroke-width:2;fill:none}
+svg.tri .arrow.lit{stroke:var(--teal)}
+.triinfo{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px}
+.triinfo h3{font-size:22px}
+.triinfo dl{margin:14px 0 0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:15px}
+.triinfo dt{color:var(--muted)}
+.triinfo dd{margin:0}
+
+/* ---- formation ---- */
+.slots{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.slot{width:96px;height:96px;border:1px dashed var(--line);border-radius:8px;background:var(--deep);
+  color:var(--muted);font:inherit;font-size:14px;cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px}
+.slot:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.slot.f{border-style:solid;color:var(--parch)}
+.slot.inf{border-color:var(--teal);background:rgba(87,176,166,.12)}
+.slot.tank{border-color:var(--amber);background:rgba(233,160,59,.12)}
+.slot.air{border-color:#9C8AD6;background:rgba(156,138,214,.14)}
+.slot .ico{font-size:22px;line-height:1}
+.readout{margin-top:20px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.readout .big{font-family:Archivo;font-weight:800;font-size:52px;color:var(--amber);line-height:1}
+.readout .txt{color:#CFD8D2;max-width:46ch}
+
+/* ---- tables ---- */
+table{width:100%;border-collapse:collapse;margin-top:20px;font-size:15px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:Archivo;font-weight:600;font-size:13px;color:var(--muted)}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+
+/* ---- tier slider ---- */
+.tier{margin-top:24px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px}
+.tier input[type=range]{width:100%;accent-color:var(--amber);margin-top:14px}
+.tierout{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.tierout .t{font-family:Archivo;font-weight:800;font-size:46px;color:var(--teal);line-height:1}
+.tierout .note{color:var(--muted);font-size:14px;max-width:44ch}
+
+/* ---- do/avoid ---- */
+.doavoid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:24px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+@media(max-width:760px){.doavoid{grid-template-columns:1fr}}
+.col{padding:20px}
+.col.do{background:rgba(87,176,166,.07)}
+.col.avoid{background:rgba(196,96,63,.07);border-left:1px solid var(--line)}
+@media(max-width:760px){.col.avoid{border-left:0;border-top:1px solid var(--line)}}
+.col h3{font-size:18px;margin-bottom:12px}
+.col.do h3{color:var(--teal)}
+.col.avoid h3{color:var(--rust)}
+.col ul{margin:0;padding-left:18px}
+.col li{margin-bottom:10px}
+
+/* ---- loop checklist ---- */
+.loop{margin-top:24px;counter-reset:step}
+.loop label{display:flex;gap:14px;align-items:flex-start;padding:12px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+.loop input{margin-top:5px;width:17px;height:17px;accent-color:var(--teal);flex:none}
+.loop .n{font-family:Archivo;font-weight:600;color:var(--amber);min-width:22px}
+.loop input:checked ~ .t{color:var(--muted);text-decoration:line-through}
+.loop .t{flex:1}
+
+/* ---- gaps + sources ---- */
+.gaps{columns:2;column-gap:34px;margin-top:20px}
+@media(max-width:760px){.gaps{columns:1}}
+.gaps li{margin-bottom:10px;break-inside:avoid}
+footer{border-top:1px solid var(--line);padding:34px 0 60px;color:var(--muted);font-size:14px}
+footer ul{padding-left:18px}
+footer li{margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">TOP <span>FORCE</span></div>
+    <nav class="jump" aria-label="Sections">
+      <a href="#map">Map</a><a href="#stack">Priority</a><a href="#counters">Counters</a>
+      <a href="#formation">Formation</a><a href="#tiers">Tiers</a><a href="#resources">Resources</a>
+      <a href="#doctrine">Doctrine</a><a href="#loop">Loop</a><a href="#gaps">Gaps</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <h1>Leveling &amp;<br>combat power</h1>
+  <p class="sub">Displayed power is not fighting strength. This is a route for building marches that actually survive and kill, for players who cannot buy breadth.</p>
+  <p class="thesis">Build one genuinely dangerous primary march before trying to make every troop type, hero, building, and squad equally strong.</p>
+  <p class="meta">Version 0.1 · September 2026 · Community wiki data cross-checked against live-server observation</p>
+</div>
+
+<section id="map">
+  <div class="wrap">
+    <h2><span class="num">1</span>Progression map</h2>
+    <p class="lede">Two lanes run in parallel: Military Base unlocks systems, Barracks unlocks the units those systems carry. Pick a node to see what it opens and what to do while you are there. Mark the ones you have cleared to see where you actually are.</p>
+
+    <div class="mapwrap">
+      <div>
+        <div class="lanes">
+          <div>
+            <div class="lanehead">Military Base</div>
+            <div class="lane" id="laneMB"></div>
+          </div>
+          <div>
+            <div class="lanehead">Barracks</div>
+            <div class="lane" id="laneBK"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail" id="detail" aria-live="polite">
+        <span class="tag" id="dTag">Verified</span>
+        <h3 id="dTitle">Military Base 7</h3>
+        <p id="dSummary"></p>
+        <ul id="dList"></ul>
+        <div class="why"><b>What to do here.</b> <span id="dWhy"></span></div>
+        <div class="mark">
+          <button class="btn" id="dMark" type="button">Mark as reached</button>
+        </div>
+        <div class="progress">
+          <div class="bar"><i id="pBar"></i></div>
+          <p id="pTxt">0 of 13 checkpoints reached</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <h2><span class="num">2</span>Where the next upgrade goes</h2>
+    <p class="lede">Use this order unless an event or a hard prerequisite forces a temporary deviation. Open any line for the reasoning.</p>
+    <div class="stack" id="stackList"></div>
+  </div>
+</section>
+
+<section id="counters">
+  <div class="wrap">
+    <h2><span class="num">3</span>The counter triangle</h2>
+    <p class="lede">Three-way counters make troop type strategically important, but they do not justify splitting early resources across all three. Pick a type to see its matchups and its Center unlock.</p>
+    <div class="triwrap">
+      <svg class="tri" viewBox="0 0 400 340" role="group" aria-label="Troop type counter triangle">
+        <path class="arrow" id="aInf" d="M200 92 L318 232" marker-end="url(#h)"/>
+        <path class="arrow" id="aAir" d="M300 250 L110 250" marker-end="url(#h)"/>
+        <path class="arrow" id="aTank" d="M82 232 L182 92" marker-end="url(#h)"/>
+        <defs>
+          <marker id="h" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+            <path d="M0 0 L9 4.5 L0 9 z" fill="#1F454C"/></marker>
+          <marker id="hl" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+            <path d="M0 0 L9 4.5 L0 9 z" fill="#57B0A6"/></marker>
+        </defs>
+        <g class="tnode" id="nInf" data-type="inf" tabindex="0" role="button" aria-label="Infantry">
+          <circle class="ring" cx="200" cy="62" r="46"/><text x="200" y="68" text-anchor="middle">Infantry</text>
+        </g>
+        <g class="tnode" id="nTank" data-type="tank" tabindex="0" role="button" aria-label="Tank">
+          <circle class="ring" cx="62" cy="272" r="46"/><text x="62" y="278" text-anchor="middle">Tank</text>
+        </g>
+        <g class="tnode" id="nAir" data-type="air" tabindex="0" role="button" aria-label="Aircraft">
+          <circle class="ring" cx="338" cy="272" r="46"/><text x="338" y="278" text-anchor="middle">Aircraft</text>
+        </g>
+      </svg>
+      <div class="triinfo">
+        <h3 id="tName">Infantry</h3>
+        <dl>
+          <dt>Beats</dt><dd id="tBeat"></dd>
+          <dt>Loses to</dt><dd id="tLose"></dd>
+          <dt>Center unlock</dt><dd id="tUnlock"></dd>
+          <dt>Center at 30</dt><dd id="tCap"></dd>
+        </dl>
+        <p style="margin-top:16px;color:#CFD8D2">Choose the type where you have the strongest hero core and the best realistic access to shards, skills, and gear — then push it hard. A highly developed primary march is worth more than three underdeveloped counters.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="formation">
+  <div class="wrap">
+    <h2><span class="num">4</span>Formation bonus</h2>
+    <p class="lede">A squad carries five heroes and pays you for matching types. Tap a slot to cycle through Infantry, Tank, Aircraft, and empty.</p>
+    <div class="slots" id="slots"></div>
+    <div class="readout">
+      <div class="big" id="fBonus">+20%</div>
+      <div class="txt" id="fText"></div>
+    </div>
+    <table>
+      <thead><tr><th>Formation</th><th>HP / ATK / DEF bonus</th></tr></thead>
+      <tbody>
+        <tr><td>3 heroes of one type</td><td>+5%</td></tr>
+        <tr><td>3 of one type + 2 of another</td><td>+10%</td></tr>
+        <tr><td>4 heroes of one type</td><td>+15%</td></tr>
+        <tr><td>5 heroes of one type</td><td>+20%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="tiers">
+  <div class="wrap">
+    <h2><span class="num">5</span>Unit tiers and training</h2>
+    <p class="lede">Barracks level sets the highest unit tier you can train. Treat T4 through T10 as combat breakpoints and arrive with the resources to actually field the new tier.</p>
+    <div class="tier">
+      <label for="bkRange">Barracks level <b id="bkVal">30</b></label>
+      <input type="range" id="bkRange" min="1" max="30" value="30" aria-describedby="bkNote">
+      <div class="tierout" style="margin-top:14px">
+        <div class="t" id="bkTier">T10</div>
+        <div class="note" id="bkNote"></div>
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>Queue</th><th>Unlocked by</th></tr></thead>
+      <tbody>
+        <tr><td>Barracks queue 1</td><td>Military Base 7</td></tr>
+        <tr><td>Barracks queue 2</td><td>Military Base 10</td></tr>
+        <tr><td>Barracks queue 3</td><td>Military Base 17</td></tr>
+        <tr><td>Barracks queue 4</td><td>Extra Barracks Development technology</td></tr>
+        <tr><td>Squad 2 / Squad 3</td><td>Military Base 10 / Military Base 20</td></tr>
+        <tr><td>Squad 4</td><td>Super Monthly Pass</td></tr>
+      </tbody>
+    </table>
+    <p class="lede" style="margin-top:16px">At level 30 each Barracks has a base Training Count of 570. Throughput is valuable, but training more weak units is not a substitute for unlocking and supporting stronger tiers.</p>
+  </div>
+</section>
+
+<section id="resources">
+  <div class="wrap">
+    <h2><span class="num">6</span>Resource discipline</h2>
+    <p class="lede">Late upgrades are expensive enough that bad sequencing becomes a combat problem. The direct Military Base 22 upgrade runs about 114.1M Food + 114.1M Iron + 38M Coins — 266.2M total. From a minimally prepared Lv. 21 account the full path can approach 477.5M. Commit resources to a defined breakpoint or event objective, not to whichever button is lit.</p>
+    <table>
+      <thead><tr><th>Resource or item</th><th>Default use</th></tr></thead>
+      <tbody>
+        <tr><td>Food / Iron / Coins</td><td>Military Base prerequisites, primary type Center, Barracks breakpoints, critical research.</td></tr>
+        <tr><td>Speed-ups</td><td>Save for meaningful breakpoints and scoring events wherever practical.</td></tr>
+        <tr><td>Hero shards</td><td>Primary five-hero march first. Avoid a collection of half-built heroes.</td></tr>
+        <tr><td>Skill medals</td><td>Primary combat skills first.</td></tr>
+        <tr><td>Gear materials</td><td>Finish strong sets on primary heroes before spreading upgrades.</td></tr>
+        <tr><td>Training items</td><td>New unit tiers, combat preparation, and high-value event scoring.</td></tr>
+        <tr><td>Diamonds</td><td>Avoid convenience spending that creates no permanent or strategic power.</td></tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top:34px;font-size:20px">Get paid twice for the same upgrade</h3>
+    <p class="lede">Alliance Duel scores research power and research speed-ups on Tech day; hero shards, skill medals, and Hero EXP on Hero day; building power, research power, training, and several speed-up types on War Preparations. Where timing allows, spend inside the window that rewards that exact action — without delaying critical combat progression indefinitely.</p>
+  </div>
+</section>
+
+<section id="doctrine">
+  <div class="wrap">
+    <h2><span class="num">7</span>Fighting accounts richer than you</h2>
+    <p class="lede">You do not beat a whale by imitating one. Their advantage is purchased breadth, acceleration, and replacement capacity. The counter is to maximise the combat value of every resource and deny them favourable exchanges.</p>
+    <div class="doavoid">
+      <div class="col do">
+        <h3>Do</h3>
+        <ul>
+          <li>Concentrate five strong heroes into one primary formation.</li>
+          <li>Maintain the highest practical unit tier.</li>
+          <li>Use counters when the strength gap is manageable.</li>
+          <li>Fight with alliance concentration, rallies, reinforcement, and timing.</li>
+          <li>Force the whale to spend teleports, stamina, healing, and time for limited gain.</li>
+          <li>Preserve troops when the fight is unwinnable.</li>
+        </ul>
+      </div>
+      <div class="col avoid">
+        <h3>Avoid</h3>
+        <ul>
+          <li>Leveling every hero because it raises account power.</li>
+          <li>Producing enormous numbers of obsolete troops.</li>
+          <li>Attacking a whale only because your troop type counters theirs.</li>
+          <li>Feeding individual marches into a stronger account.</li>
+          <li>Giving repeatable easy kills or undefended objectives.</li>
+          <li>Treating every attack as a mandatory stand-and-fight.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="loop">
+  <div class="wrap">
+    <h2><span class="num">8</span>The leveling loop</h2>
+    <p class="lede">Run this in order, then run it again. Tick items off as you go.</p>
+    <div class="loop" id="loopList"></div>
+  </div>
+</section>
+
+<section id="gaps">
+  <div class="wrap">
+    <h2><span class="num">9</span>Not yet documented</h2>
+    <p class="lede">Version 0.1 deliberately does not invent hero rankings or exact research-node priorities. These need verified game data or controlled testing before they go in.</p>
+    <ul class="gaps">
+      <li>Current hero roster, and which five-hero combinations beat simple same-type stacking.</li>
+      <li>Hero tier, star, and shard breakpoints — the real cost of taking a hero from usable to competitive.</li>
+      <li>Exact skill priority by hero role.</li>
+      <li>Gear stat priority and upgrade breakpoints.</li>
+      <li>Airship progression and component efficiency.</li>
+      <li>Detailed combat research path by troop type.</li>
+      <li>Hospital, wounded, and dead mechanics; minimising irreversible losses.</li>
+      <li>Rally and reinforcement mechanics for fighting accounts stronger than any single member.</li>
+      <li>PvP target selection based on march power rather than displayed account power.</li>
+      <li>Whale-response playbook for city wars, tiles, alliance events, and base attacks.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Top Force is new and changes frequently, and official patch notes carry little mechanical detail. Numbers here come from the community Top Force Wiki, cross-checked against live-server observation where available.</p>
+    <ul>
+      <li>Top Force Wiki — Squads: formation bonuses, squad unlocks, squad technology. Accessed September 2026.</li>
+      <li>Top Force Wiki — Barracks: unit-tier unlocks, training queues, training bonuses. Accessed September 2026.</li>
+      <li>Top Force Wiki — Infantry, Tank, and Aircraft Centers: type bonuses, squad size, counter triangle, Wall of Honor. Accessed September 2026.</li>
+      <li>Top Force Wiki — Alliance Duel: event scoring and reward structure. Accessed September 2026.</li>
+      <li>Prior live-server progression analysis: Military Base 22 costs, city economy, resource constraints.</li>
+    </ul>
+    <p>Evidence labels — Verified: documented by the community wiki or official material. Server-observed: seen in live play, not documented well enough to call universal. Strategy: derived from the mechanics, not a rule imposed by the game.</p>
+  </div>
+</footer>
+
+<script>
+/* ---------------- progression map ---------------- */
+const NODES = [
+  {id:'mb7', lane:'mb', row:1, lv:'Military Base 7', cap:'First Barracks queue',
+   tag:'Verified', sum:'The Barracks opens and unit development becomes a real decision instead of a default.',
+   list:['Barracks unlocked','Barracks training queue 1'],
+   why:'Start building deliberately. Decide nothing about hero breadth yet — just get units moving.'},
+  {id:'bk1', lane:'bk', row:1, lv:'Barracks 1', cap:'T1 units', tag:'Verified',
+   sum:'Baseline training. Nothing here is a keeper.', list:['Highest unit tier: T1'],
+   why:'Move through it. Do not stockpile T1.'},
+  {id:'bk3', lane:'bk', row:2, lv:'Barracks 3', cap:'T2 units', tag:'Verified',
+   sum:'Early tier step.', list:['Highest unit tier: T2'], why:'Keep the queue running; spend nothing scarce here.'},
+  {id:'bk6', lane:'bk', row:3, lv:'Barracks 6', cap:'T3 units', tag:'Verified',
+   sum:'Last of the disposable tiers.', list:['Highest unit tier: T3'],
+   why:'Train enough to hold tiles and farm, no more. T4 is the first tier worth a stockpile.'},
+  {id:'mb10', lane:'mb', row:4, lv:'Military Base 10', cap:'Second Barracks + second Squad', tag:'Verified',
+   sum:'The first checkpoint that produces a real fighting march.',
+   list:['Barracks training queue 2','Squad 2 unlocked'],
+   why:'Establish your primary march here: one squad, five heroes, one troop type. The second squad exists — that does not mean it gets resources yet.'},
+  {id:'bk10', lane:'bk', row:4, lv:'Barracks 10', cap:'T4 units — first real breakpoint', tag:'Verified',
+   sum:'T4 is the first tier worth converting into field strength.', list:['Highest unit tier: T4'],
+   why:'Arrive with resources and training capacity banked. An unlocked tier you cannot field in volume is not a power gain.'},
+  {id:'mb11', lane:'mb', row:5, lv:'Military Base 11', cap:'Infantry Center', tag:'Verified',
+   sum:'Infantry Center becomes available — a direct combat building.',
+   list:['Infantry Center unlocked','Every level adds HP, ATK, DEF, and squad size to Infantry heroes'],
+   why:'If Infantry is your primary type, this Center becomes one of the highest-value investments on the account. If it is not, leave it low.'},
+  {id:'mb14', lane:'mb', row:6, lv:'Military Base 14', cap:'Tank Center', tag:'Verified',
+   sum:'Tank Center becomes available.',
+   list:['Tank Center unlocked','Every level adds HP, ATK, DEF, and squad size to Tank heroes'],
+   why:'Same rule: build the Center for your committed type, not all three.'},
+  {id:'bk14', lane:'bk', row:6, lv:'Barracks 14', cap:'T5 units', tag:'Verified',
+   sum:'Second combat breakpoint.', list:['Highest unit tier: T5'],
+   why:'Push here once T4 losses are being replaced comfortably.'},
+  {id:'mb15', lane:'mb', row:7, lv:'Military Base 15', cap:'Aircraft Center', tag:'Verified',
+   sum:'Aircraft Center becomes available.',
+   list:['Aircraft Center unlocked','Every level adds HP, ATK, DEF, and squad size to Aircraft heroes'],
+   why:'All three Centers now exist. Committing to one is the point of the whole guide.'},
+  {id:'mb17', lane:'mb', row:8, lv:'Military Base 17', cap:'Third Barracks queue', tag:'Verified',
+   sum:'Training throughput rises.', list:['Barracks training queue 3'],
+   why:'More throughput is only useful pointed at the highest tier you can field. Do not use it to mass-produce an obsolete tier.'},
+  {id:'bk17', lane:'bk', row:8, lv:'Barracks 17', cap:'T6 units', tag:'Verified',
+   sum:'Third combat breakpoint.', list:['Highest unit tier: T6'], why:'Stockpile before the unlock so the tier goes live the day it opens.'},
+  {id:'mb20', lane:'mb', row:9, lv:'Military Base 20', cap:'Third Squad + Wall of Honor access', tag:'Verified',
+   sum:'Squad 3 opens, and Lv. 20 type-Centers feed Wall of Honor requirements.',
+   list:['Squad 3 unlocked','Type Center Lv. 20 supports Wall of Honor requirements'],
+   why:'Still one primary march. Squad-specific combat tech goes to the squad you actually fight with, not evenly across the tabs.'},
+  {id:'bk20', lane:'bk', row:9, lv:'Barracks 20', cap:'T7 units', tag:'Verified',
+   sum:'Fourth combat breakpoint.', list:['Highest unit tier: T7'], why:'By now the primary march should be absorbing nearly all shards, medals, and gear materials.'},
+  {id:'mb22', lane:'mb', row:10, lv:'Military Base 22', cap:'The cost wall', tag:'Server-observed',
+   sum:'The direct upgrade runs about 266.2M total resources; the full path from a bare Lv. 21 can approach 477.5M.',
+   list:['≈114.1M Food','≈114.1M Iron','≈38M Coins','Up to ≈477.5M including prerequisites'],
+   why:'Do not drift into this. Pick the breakpoint, bank for it, and land it inside an event window that scores building power.'},
+  {id:'bk24', lane:'bk', row:11, lv:'Barracks 24', cap:'T8 units', tag:'Verified',
+   sum:'Fifth combat breakpoint.', list:['Highest unit tier: T8'], why:'Only now does a second combat march start deserving major investment — and only if the first one is genuinely strong.'},
+  {id:'bk27', lane:'bk', row:12, lv:'Barracks 27', cap:'T9 units', tag:'Verified',
+   sum:'Sixth combat breakpoint.', list:['Highest unit tier: T9'], why:'Keep combat research running continuously alongside this; the multipliers compound with everything else.'},
+  {id:'bk30', lane:'bk', row:13, lv:'Barracks 30 + unit tech', cap:'T10 units', tag:'Verified',
+   sum:'T10 needs the Barracks level and the corresponding unit technology completed.',
+   list:['Highest unit tier: T10','Requires the matching unit technology','Base Training Count 570 per Barracks at Lv. 30'],
+   why:'The endpoint of the unit lane. Type Centers reach +100 hero squad size at Lv. 30 — pair the two.'}
+];
+const ROWS = 13;
+const reached = new Set();
+let current = 'mb7';
+
+function buildLanes(){
+  const mb = document.getElementById('laneMB'), bk = document.getElementById('laneBK');
+  for(let r=1;r<=ROWS;r++){
+    ['mb','bk'].forEach(l=>{
+      const n = NODES.find(x=>x.lane===l && x.row===r);
+      const host = l==='mb'?mb:bk;
+      const b = document.createElement('button');
+      b.className = 'node' + (n?'':' spacer');
+      b.type='button';
+      if(!n){ b.innerHTML='<span class="dot"></span><span class="lv">&nbsp;</span><span class="cap">&nbsp;</span>'; b.setAttribute('aria-hidden','true'); b.tabIndex=-1; }
+      else{
+        b.dataset.id=n.id;
+        b.innerHTML='<span class="dot"></span><span class="lv">'+n.lv+'</span><span class="cap">'+n.cap+'</span>';
+        b.addEventListener('click',()=>select(n.id,true));
+      }
+      host.appendChild(b);
+    });
+  }
+}
+function select(id,userAction){
+  current=id;
+  const n = NODES.find(x=>x.id===id);
+  document.getElementById('dTitle').textContent=n.lv;
+  document.getElementById('dSummary').textContent=n.sum;
+  const tag=document.getElementById('dTag');
+  tag.textContent=n.tag;
+  tag.className='tag '+(n.tag==='Verified'?'verified':n.tag==='Server-observed'?'observed':'strategy');
+  const ul=document.getElementById('dList'); ul.innerHTML='';
+  n.list.forEach(t=>{const li=document.createElement('li');li.textContent=t;ul.appendChild(li);});
+  document.getElementById('dWhy').textContent=n.why;
+  paint();
+  if(userAction && window.matchMedia('(max-width:900px)').matches){
+    document.getElementById('detail').scrollIntoView({block:'start',behavior:'smooth'});
+  }
+}
+function paint(){
+  document.querySelectorAll('.node[data-id]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.id===current);
+    b.classList.toggle('reached', reached.has(b.dataset.id));
+  });
+  const btn=document.getElementById('dMark');
+  const on=reached.has(current);
+  btn.classList.toggle('on',on);
+  btn.textContent = on ? 'Reached' : 'Mark as reached';
+  btn.setAttribute('aria-pressed', on);
+  const pct = Math.round(reached.size/NODES.length*100);
+  document.getElementById('pBar').style.width = pct+'%';
+  document.getElementById('pTxt').textContent = reached.size+' of '+NODES.length+' checkpoints reached';
+}
+document.getElementById('dMark').addEventListener('click',()=>{
+  reached.has(current) ? reached.delete(current) : reached.add(current);
+  paint();
+});
+
+/* ---------------- priority stack ---------------- */
+const STACK=[
+ ['Primary 5-hero march','This is the force that must survive and kill. Concentrated strength beats five mediocre lineups.'],
+ ['Hero-type Center','Directly increases HP, ATK, DEF, and squad size for every hero of that type.'],
+ ['Unit tier / Barracks breakpoint','Higher unit tiers improve the actual army your heroes are carrying.'],
+ ['Combat research','Persistent multiplicative gains that compound with heroes, units, gear, and type bonuses.'],
+ ['Hero tier, skills, gear, Airship, Wall of Honor','Large direct combat gains, especially once the main march is established.'],
+ ['Squad-specific combat tech','Improves the march that uses that squad without requiring broad account investment.'],
+ ['Secondary march','Build only once the first march is strong enough to do its intended PvP job.'],
+ ['Utility, economy, secondary buildings','Important for growth, but they should not starve the primary combat path.']
+];
+const sl=document.getElementById('stackList');
+STACK.forEach((s,i)=>{
+  const d=document.createElement('details');
+  if(i===0) d.open=true;
+  d.innerHTML='<summary><span class="rank">'+(i+1)+'</span><span class="name">'+s[0]+'</span></summary><p>'+s[1]+'</p>';
+  sl.appendChild(d);
+});
+
+/* ---------------- counter triangle ---------------- */
+const T={
+ inf:{name:'Infantry',beats:'Aircraft',loses:'Tank',unlock:'Military Base 11',arrow:'aInf',beatId:'nAir',loseId:'nTank'},
+ tank:{name:'Tank',beats:'Infantry',loses:'Aircraft',unlock:'Military Base 14',arrow:'aTank',beatId:'nInf',loseId:'nAir'},
+ air:{name:'Aircraft',beats:'Tank',loses:'Infantry',unlock:'Military Base 15',arrow:'aAir',beatId:'nTank',loseId:'nInf'}
+};
+function pickType(k){
+  const t=T[k];
+  document.getElementById('tName').textContent=t.name;
+  document.getElementById('tBeat').textContent=t.beats;
+  document.getElementById('tLose').textContent=t.loses;
+  document.getElementById('tUnlock').textContent=t.unlock+' unlocks the '+t.name+' Center';
+  document.getElementById('tCap').textContent='+100 hero squad size at Center Lv. 30';
+  ['nInf','nTank','nAir'].forEach(id=>document.getElementById(id).classList.remove('sel','beats','loses'));
+  ['aInf','aTank','aAir'].forEach(id=>{
+    const a=document.getElementById(id);
+    a.classList.remove('lit');
+    a.setAttribute('marker-end','url(#h)');
+  });
+  document.getElementById(t.arrow).setAttribute('marker-end','url(#hl)');
+  document.getElementById({inf:'nInf',tank:'nTank',air:'nAir'}[k]).classList.add('sel');
+  document.getElementById(t.beatId).classList.add('beats');
+  document.getElementById(t.loseId).classList.add('loses');
+  document.getElementById(t.arrow).classList.add('lit');
+}
+document.querySelectorAll('svg.tri .tnode').forEach(g=>{
+  g.addEventListener('click',()=>pickType(g.dataset.type));
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pickType(g.dataset.type);}});
+});
+
+/* ---------------- formation calculator ---------------- */
+const TYPES=[{k:'inf',n:'Infantry',i:'▲'},{k:'tank',n:'Tank',i:'■'},{k:'air',n:'Aircraft',i:'◆'},{k:'',n:'Empty',i:'·'}];
+let squad=['inf','inf','inf','inf','inf'];
+const slotHost=document.getElementById('slots');
+squad.forEach((_,i)=>{
+  const b=document.createElement('button');
+  b.type='button'; b.className='slot'; b.dataset.i=i;
+  b.addEventListener('click',()=>{
+    const cur=TYPES.findIndex(t=>t.k===squad[i]);
+    squad[i]=TYPES[(cur+1)%TYPES.length].k;
+    drawSquad();
+  });
+  slotHost.appendChild(b);
+});
+function drawSquad(){
+  [...slotHost.children].forEach((b,i)=>{
+    const t=TYPES.find(x=>x.k===squad[i]);
+    b.className='slot'+(t.k?' f '+t.k:'');
+    b.innerHTML='<span class="ico">'+t.i+'</span>'+t.n;
+    b.setAttribute('aria-label','Slot '+(i+1)+': '+t.n+'. Activate to change.');
+  });
+  const counts={};
+  squad.filter(Boolean).forEach(k=>counts[k]=(counts[k]||0)+1);
+  const vals=Object.values(counts).sort((a,b)=>b-a);
+  let bonus=0,msg='';
+  if(vals[0]===5){bonus=20;msg='Five of one type. The default target for a primary march unless a specific skill interaction beats it.';}
+  else if(vals[0]===4){bonus=15;msg='Four of one type. One swap away from the full bonus.';}
+  else if(vals[0]===3&&vals[1]===2){bonus=10;msg='Three plus two. A reasonable stop on the way to a full same-type march.';}
+  else if(vals[0]===3){bonus=5;msg='Three of one type with the rest scattered. The weakest formation worth having.';}
+  else {bonus=0;msg='No matching group of three. This march is paying nothing for its composition.';}
+  document.getElementById('fBonus').textContent='+'+bonus+'%';
+  document.getElementById('fText').textContent=msg+' Applies to hero HP, ATK, and DEF.';
+}
+
+/* ---------------- barracks tier lookup ---------------- */
+const TIERS=[[30,'T10'],[27,'T9'],[24,'T8'],[20,'T7'],[17,'T6'],[14,'T5'],[10,'T4'],[6,'T3'],[3,'T2'],[1,'T1']];
+const rng=document.getElementById('bkRange');
+function drawTier(){
+  const v=+rng.value;
+  const row=TIERS.find(t=>v>=t[0]);
+  document.getElementById('bkVal').textContent=v;
+  document.getElementById('bkTier').textContent=row[1];
+  const next=TIERS.filter(t=>t[0]>v).sort((a,b)=>a[0]-b[0])[0];
+  let note = row[1]==='T10' ? 'T10 also requires the corresponding unit technology to be completed.'
+    : 'Next breakpoint: Barracks '+next[0]+' for '+next[1]+' — '+(next[0]-v)+' level'+((next[0]-v)===1?'':'s')+' away.';
+  if(v>=10 && row[1]!=='T10') note += ' Bank resources and training capacity before you unlock it.';
+  document.getElementById('bkNote').textContent=note;
+}
+rng.addEventListener('input',drawTier);
+
+/* ---------------- leveling loop ---------------- */
+const LOOP=[
+ 'Select the primary troop type and the primary five heroes.',
+ 'Push only the prerequisites needed for the next meaningful Military Base or combat breakpoint.',
+ 'Keep the primary type Center near the highest practical level.',
+ 'Push Barracks toward the next unit-tier breakpoint.',
+ 'Keep combat research running continuously, favouring the primary troop type and primary squad.',
+ 'Train and promote enough current-tier units to fill the primary march and replace realistic losses.',
+ 'Spend hero shards, skills, gear materials, and Airship resources on the primary march first.',
+ 'Refill from gathering, alliance income, events, raids, rallies, and city rewards toward the next planned breakpoint.',
+ 'Stack major upgrades with Alliance Duel or a comparable event when the delay does not hurt combat readiness.',
+ 'Only once the primary march is genuinely strong should the second combat march get major investment.'
+];
+const lh=document.getElementById('loopList');
+LOOP.forEach((t,i)=>{
+  const l=document.createElement('label');
+  l.innerHTML='<input type="checkbox"><span class="n">'+(i+1)+'</span><span class="t">'+t+'</span>';
+  lh.appendChild(l);
+});
+
+/* ---------------- init ---------------- */
+buildLanes();
+select('mb7');
+pickType('inf');
+drawSquad();
+drawTier();
+</script>
+</body>
+</html>
