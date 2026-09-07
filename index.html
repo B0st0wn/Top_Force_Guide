@@ -5,8 +5,8 @@ Script Name: top-force-guide.html
 Author: Paul Hanlon
 Date: 2026-09-06
 Description:
-  Single-file interactive web version of the Top Force Leveling & Combat Power
-  Guide (v0.1). Contains a clickable two-lane progression map (Military Base /
+  Single-file interactive web version of the Top Force Combat Power & Fighting Effectiveness
+  Guide (v0.4). Combat-power optimization guide. Contains a clickable two-lane progression map (Military Base /
   Barracks), a formation bonus calculator, a troop counter-triangle selector,
   a barracks tier lookup, and the full priority, resource, and doctrine content.
   No external dependencies except Google Fonts. All state is in-memory.
@@ -15,7 +15,7 @@ Description:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Top Force — Leveling &amp; Combat Power Map</title>
+<title>Top Force — Combat Power &amp; Fighting Effectiveness Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -192,6 +192,17 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
 .loop input:checked ~ .t{color:var(--muted);text-decoration:line-through}
 .loop .t{flex:1}
 
+
+/* ---- combat guide callouts ---- */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+@media(max-width:900px){.cards3{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+.card h3{font-size:18px;margin-bottom:8px}
+.card p{margin:0;color:#CFD8D2}
+.pill{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-bottom:10px;color:var(--amber)}
+.prioritytable td:first-child{font-family:Archivo;font-weight:700;color:var(--amber);white-space:nowrap}
+.warning{margin-top:22px;border-left:3px solid var(--rust);padding:10px 0 10px 16px;color:#E5CFC8;max-width:78ch}
+
 /* ---- gaps + sources ---- */
 .gaps{columns:2;column-gap:34px;margin-top:20px}
 @media(max-width:760px){.gaps{columns:1}}
@@ -207,24 +218,49 @@ footer li{margin-bottom:6px}
   <div class="wrap">
     <div class="brand">TOP <span>FORCE</span></div>
     <nav class="jump" aria-label="Sections">
-      <a href="#map">Map</a><a href="#stack">Priority</a><a href="#counters">Counters</a>
-      <a href="#formation">Formation</a><a href="#tiers">Tiers</a><a href="#resources">Resources</a>
-      <a href="#doctrine">Doctrine</a><a href="#loop">Loop</a><a href="#gaps">Gaps</a>
+      <a href="#realpower">Real Power</a><a href="#map">Progression</a><a href="#stack">Priority</a>
+      <a href="#counters">Counters</a><a href="#formation">Formation</a><a href="#tiers">Units</a>
+      <a href="#resources">Resources</a><a href="#heroes">Squad</a><a href="#research">Research</a>
+      <a href="#doctrine">PvP</a><a href="#loop">Loop</a><a href="#gaps">Advanced</a>
     </nav>
   </div>
 </header>
 
 <div class="wrap hero">
-  <h1>Leveling &amp;<br>combat power</h1>
-  <p class="sub">Displayed power is not fighting strength. This is a route for building marches that actually survive and kill, for players who cannot buy breadth.</p>
-  <p class="thesis">Build one genuinely dangerous primary march before trying to make every troop type, hero, building, and squad equally strong.</p>
-  <p class="meta">Version 0.1 · September 2026 · Community wiki data cross-checked against live-server observation</p>
+  <h1>Combat power &amp;<br>fighting effectiveness</h1>
+  <p class="sub">Displayed Power is only a score. Fighting effectiveness comes from the upgrades that actually change what your primary squad can survive, carry, mitigate and kill.</p>
+  <p class="thesis"><b>Build combat power, not displayed power.</b> Every major resource spend should unlock a combat breakpoint, strengthen the primary fighting squad, or improve a permanent combat multiplier.</p>
+  <p class="meta">Version 0.4 · September 2026 · PvP power optimization · Screenshot-verified live-server mechanics + community documentation</p>
 </div>
+
+<section id="realpower">
+  <div class="wrap">
+    <h2><span class="num">1</span>Real combat power vs displayed Power</h2>
+    <p class="lede">Top Force awards Power for many upgrades, but those upgrades do not all improve the same fight. Before spending, identify exactly what the upgrade affects.</p>
+    <div class="cards3">
+      <div class="card"><span class="pill">Highest value</span><h3>Breakpoints</h3><p>Military Base gates hero levels and buildings. Barracks 24, 27 and 30 unlock stronger unit tiers. These upgrades can change several combat systems at once.</p></div>
+      <div class="card"><span class="pill">Permanent</span><h3>Combat multipliers</h3><p>ATK, HP, DEF, Units Attack, damage-up effects, troop-type Centers and combat research continue working every fight they apply to.</p></div>
+      <div class="card"><span class="pill">Concentrated</span><h3>Primary squad</h3><p>Tier, skills and scarce gear matter most when they strengthen the five heroes and units you actually send into important fights.</p></div>
+    </div>
+    <table>
+      <thead><tr><th>Upgrade example</th><th>What it really does</th><th>Combat classification</th></tr></thead>
+      <tbody>
+        <tr><td>Units Attack III</td><td>Raises Units Attack</td><td><b>Direct field PvP</b></td></tr>
+        <tr><td>Infantry ATK / HP / DEF / Firepower</td><td>Raises stats or damage for Infantry heroes</td><td><b>Direct when Infantry is used</b></td></tr>
+        <tr><td>Guard HP</td><td>Raises HP only while guarding inside the base</td><td>Conditional base defense</td></tr>
+        <tr><td>Damage to Monsters</td><td>Raises PvE damage</td><td>PvE only</td></tr>
+        <tr><td>Resource Reaper</td><td>Raises gathering speed</td><td>Economy</td></tr>
+        <tr><td>Squad Capacity research</td><td>Raises load capacity, not troop count</td><td>Utility; misleading name</td></tr>
+      </tbody>
+    </table>
+    <p class="warning"><b>Decision rule:</b> if an upgrade raises Power but does not improve the fight you care about, treat the Power increase as bookkeeping—not fighting strength.</p>
+  </div>
+</section>
 
 <section id="map">
   <div class="wrap">
-    <h2><span class="num">1</span>Progression map</h2>
-    <p class="lede">Two lanes run in parallel: Military Base unlocks systems, Barracks unlocks the units those systems carry. Pick a node to see what it opens and what to do while you are there. Mark the ones you have cleared to see where you actually are.</p>
+    <h2><span class="num">2</span>Progression breakpoints</h2>
+    <p class="lede">Military Base and Barracks are not ordinary building upgrades. They create combat gates. Military Base raises hero caps and unlocks prerequisites; Barracks unlocks stronger unit tiers. Push them when the next level creates a meaningful breakpoint, not merely because the building can be upgraded.</p>
 
     <div class="mapwrap">
       <div>
@@ -260,16 +296,16 @@ footer li{margin-bottom:6px}
 
 <section id="stack">
   <div class="wrap">
-    <h2><span class="num">2</span>Where the next upgrade goes</h2>
-    <p class="lede">Use this order unless an event or a hard prerequisite forces a temporary deviation. Open any line for the reasoning.</p>
+    <h2><span class="num">3</span>Where the next upgrade goes</h2>
+    <p class="lede">Use this as a decision order, not a rigid recipe. A breakpoint that unlocks a new unit tier or hero cap can outrank a small percentage upgrade; otherwise keep resources concentrated on permanent combat gains and the primary squad.</p>
     <div class="stack" id="stackList"></div>
   </div>
 </section>
 
 <section id="counters">
   <div class="wrap">
-    <h2><span class="num">3</span>The counter triangle</h2>
-    <p class="lede">Three-way counters make troop type strategically important, but they do not justify splitting early resources across all three. Pick a type to see its matchups and its Center unlock.</p>
+    <h2><span class="num">4</span>The counter triangle</h2>
+    <p class="lede">Three-way counters matter, but a counter does not erase a large development gap. Use the type you can develop most deeply, then exploit favorable matchups rather than weakening all three types equally.</p>
     <div class="triwrap">
       <svg class="tri" viewBox="0 0 400 340" role="group" aria-label="Troop type counter triangle">
         <path class="arrow" id="aInf" d="M200 92 L318 232" marker-end="url(#h)"/>
@@ -299,7 +335,7 @@ footer li{margin-bottom:6px}
           <dt>Center unlock</dt><dd id="tUnlock"></dd>
           <dt>Center at 30</dt><dd id="tCap"></dd>
         </dl>
-        <p style="margin-top:16px;color:#CFD8D2">Choose the type where you have the strongest hero core and the best realistic access to shards, skills, and gear — then push it hard. A highly developed primary march is worth more than three underdeveloped counters.</p>
+        <p style="margin-top:16px;color:#CFD8D2">Choose the troop type your account can develop most deeply with its current roster, Center, research and scarce materials. The guide does not require specific heroes; the goal is one coherent, highly developed fighting squad.</p>
       </div>
     </div>
   </div>
@@ -307,8 +343,8 @@ footer li{margin-bottom:6px}
 
 <section id="formation">
   <div class="wrap">
-    <h2><span class="num">4</span>Formation bonus</h2>
-    <p class="lede">A squad carries five heroes and pays you for matching types. Tap a slot to cycle through Infantry, Tank, Aircraft, and empty.</p>
+    <h2><span class="num">5</span>Formation bonus</h2>
+    <p class="lede">A squad carries five heroes and rewards matching types. Use the bonus as part of the calculation—not as permission to replace a powerful synergistic hero with a weak same-type hero. Tap a slot to compare formations.</p>
     <div class="slots" id="slots"></div>
     <div class="readout">
       <div class="big" id="fBonus">+20%</div>
@@ -328,8 +364,8 @@ footer li{margin-bottom:6px}
 
 <section id="tiers">
   <div class="wrap">
-    <h2><span class="num">5</span>Unit tiers and training</h2>
-    <p class="lede">Barracks level sets the highest unit tier you can train. Treat T4 through T10 as combat breakpoints and arrive with the resources to actually field the new tier.</p>
+    <h2><span class="num">6</span>Unit tiers are combat breakpoints</h2>
+    <p class="lede">Barracks level sets the highest unit level you can train. The late breakpoints are large enough to be account-defining: Lv.24 unlocks Unit Lv.8, Lv.27 unlocks Lv.9, and Lv.30 plus Unit X research unlocks Lv.10.</p>
     <div class="tier">
       <label for="bkRange">Barracks level <b id="bkVal">30</b></label>
       <input type="range" id="bkRange" min="1" max="30" value="30" aria-describedby="bkNote">
@@ -338,8 +374,20 @@ footer li{margin-bottom:6px}
         <div class="note" id="bkNote"></div>
       </div>
     </div>
+    <h3 style="margin-top:30px;font-size:20px">Observed Infantry unit scaling</h3>
     <table>
-      <thead><tr><th>Queue</th><th>Unlocked by</th></tr></thead>
+      <thead><tr><th>Unit level</th><th>Power</th><th>Morale</th><th>Load</th><th>HP</th><th>ATK</th><th>DEF</th><th>Unlock</th></tr></thead>
+      <tbody>
+        <tr><td>Lv.7</td><td>687</td><td>370</td><td>1600</td><td>1097</td><td>10</td><td>2</td><td>Current example</td></tr>
+        <tr><td>Lv.8</td><td>1075</td><td>425</td><td>1800</td><td>1788</td><td>14</td><td>2</td><td>Barracks 24</td></tr>
+        <tr><td>Lv.9</td><td>1365</td><td>500</td><td>2000</td><td>2273</td><td>18</td><td>3</td><td>Barracks 27</td></tr>
+        <tr><td>Lv.10</td><td>1667</td><td>600</td><td>2200</td><td>2773</td><td>22</td><td>4</td><td>Barracks 30 + Unit X research</td></tr>
+      </tbody>
+    </table>
+    <p class="lede" style="margin-top:16px">In the observed Lv.7→Lv.8 jump, unit Power rises about 56%, HP about 63%, ATK 40%, and Morale about 15%. That is why a tier unlock can outrank several small percentage upgrades.</p>
+    <h3 style="margin-top:30px;font-size:20px">Training throughput and squad unlocks</h3>
+    <table>
+      <thead><tr><th>Queue / squad</th><th>Unlocked by</th></tr></thead>
       <tbody>
         <tr><td>Barracks queue 1</td><td>Military Base 7</td></tr>
         <tr><td>Barracks queue 2</td><td>Military Base 10</td></tr>
@@ -349,22 +397,23 @@ footer li{margin-bottom:6px}
         <tr><td>Squad 4</td><td>Super Monthly Pass</td></tr>
       </tbody>
     </table>
-    <p class="lede" style="margin-top:16px">At level 30 each Barracks has a base Training Count of 570. Throughput is valuable, but training more weak units is not a substitute for unlocking and supporting stronger tiers.</p>
+    <p class="lede" style="margin-top:16px">Throughput is useful only when it feeds useful units. Do not confuse training more obsolete troops with increasing fighting effectiveness.</p>
   </div>
 </section>
 
 <section id="resources">
   <div class="wrap">
-    <h2><span class="num">6</span>Resource discipline</h2>
-    <p class="lede">Late upgrades are expensive enough that bad sequencing becomes a combat problem. The direct Military Base 22 upgrade runs about 114.1M Food + 114.1M Iron + 38M Coins — 266.2M total. From a minimally prepared Lv. 21 account the full path can approach 477.5M. Commit resources to a defined breakpoint or event objective, not to whichever button is lit.</p>
+    <h2><span class="num">7</span>Resource discipline</h2>
+    <p class="lede">Resources become scarce enough that sequencing is part of combat strength. Bank toward defined breakpoints and permanent multipliers instead of spending because an upgrade button is available.</p>
+    <div class="card" style="margin-top:22px"><span class="pill">Observed breakpoint</span><h3>Military Base 23 → 24</h3><p>Raises the hero level cap from 115 to 120 and is required for Barracks 24, which unlocks Unit Lv.8. The observed upgrade also raises Military Base Hero HP from 9,000 to 9,500. One progression step therefore opens multiple combat gains.</p></div>
     <table>
       <thead><tr><th>Resource or item</th><th>Default use</th></tr></thead>
       <tbody>
-        <tr><td>Food / Iron / Coins</td><td>Military Base prerequisites, primary type Center, Barracks breakpoints, critical research.</td></tr>
+        <tr><td>Food / Iron / Coins</td><td>Fund the next combat breakpoint first: Military Base prerequisites, Barracks tier unlocks, primary-type Center and direct combat research.</td></tr>
         <tr><td>Speed-ups</td><td>Save for meaningful breakpoints and scoring events wherever practical.</td></tr>
-        <tr><td>Hero shards</td><td>Primary five-hero march first. Avoid a collection of half-built heroes.</td></tr>
-        <tr><td>Skill medals</td><td>Primary combat skills first.</td></tr>
-        <tr><td>Gear materials</td><td>Finish strong sets on primary heroes before spreading upgrades.</td></tr>
+        <tr><td>Hero shards</td><td>Concentrate on heroes that actually occupy the primary fighting squad or unlock a specific synergy. Do not spend merely to raise account Power.</td></tr>
+        <tr><td>Skill medals</td><td>Prioritize high-impact PvP skills: team buffs, enemy debuffs, carry damage and frontline mitigation.</td></tr>
+        <tr><td>Gear materials</td><td>Scarce. Concentrate them where the next upgrade creates the strongest tank, carry or team-wide breakpoint; do not level every slot evenly by habit.</td></tr>
         <tr><td>Training items</td><td>New unit tiers, combat preparation, and high-value event scoring.</td></tr>
         <tr><td>Diamonds</td><td>Avoid convenience spending that creates no permanent or strategic power.</td></tr>
       </tbody>
@@ -374,26 +423,79 @@ footer li{margin-bottom:6px}
   </div>
 </section>
 
+
+<section id="heroes">
+  <div class="wrap">
+    <h2><span class="num">8</span>Build the squad you have</h2>
+    <p class="lede"><b>This guide does not recommend specific heroes.</b> Hero availability, spending, events and roster luck vary too much for a universal shopping list. Use your best available roster to build one coherent primary fighting squad, then invest according to combat function.</p>
+    <div class="cards3">
+      <div class="card"><span class="pill">1 · Function</span><h3>Give every slot a job</h3><p>Build around survival, damage and support. Front-row heroes need to stay alive; damage dealers need enough protection to keep dealing damage; buffs and debuffs should improve the whole formation rather than exist only to raise Power.</p></div>
+      <div class="card"><span class="pill">2 · Scope</span><h3>Read the skill text</h3><p>Effects that work in general combat, protect the front row, buff the squad or weaken enemy heroes can improve PvP. Effects restricted to Monsters, gathering or guarding inside the base should not be counted as general field-PvP strength.</p></div>
+      <div class="card"><span class="pill">3 · Investment</span><h3>Concentrate before expanding</h3><p>Keep the primary five near the available level cap and direct scarce shards, skill materials and gear toward meaningful combat breakpoints. Build secondary heroes after the primary squad can do the job you need it to do.</p></div>
+    </div>
+    <table>
+      <thead><tr><th>Question</th><th>What to look for</th></tr></thead>
+      <tbody>
+        <tr><td>Does this skill work in PvP?</td><td>Look for general damage, mitigation, ATK/DEF/HP changes, team buffs, enemy debuffs, cooldown effects and other wording that is not restricted to Monsters, gathering or base defense.</td></tr>
+        <tr><td>Does it help the formation?</td><td>Whole-squad effects, front-row protection, carry protection and useful enemy debuffs can create more fighting value than a larger individual Power number.</td></tr>
+        <tr><td>What does the next tier/star unlock?</td><td>Prioritize breakpoints that materially change damage, mitigation, duration, target count, effect scope or passive combat stats.</td></tr>
+        <tr><td>Does the hero fit the troop-type plan?</td><td>Formation bonuses, troop-type Center investment, research and counters all matter. Do not force a hero solely because of rarity.</td></tr>
+        <tr><td>Should I invest now?</td><td>Only if the hero is part of the primary fighting plan or the investment unlocks a specific combat advantage. Account Power alone is not enough.</td></tr>
+      </tbody>
+    </table>
+    <p class="warning"><b>Hero rule:</b> the guide teaches how to evaluate the roster you already have. Rarity and displayed Power are inputs, not a prescription for which heroes to buy.</p>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <h2><span class="num">9</span>Research: rank the effect, not the Power reward</h2>
+    <p class="lede">Research is permanent, but the tree mixes field PvP, conditional defense, progression, economy and PvE. Rank the effect first; use the displayed Power reward only as a secondary number.</p>
+    <table>
+      <thead><tr><th>Example node</th><th>Actual effect</th><th>PvP value</th></tr></thead>
+      <tbody>
+        <tr><td>Units Attack III</td><td>+1% Units Attack per level, up to +5%</td><td><b>Direct field-combat upgrade.</b></td></tr>
+        <tr><td>Infantry Attack / HP / Defense</td><td>Direct Infantry Hero stat bonuses</td><td><b>Direct if Infantry is your main march.</b></td></tr>
+        <tr><td>Infantry Firepower</td><td>Increases damage caused by Infantry heroes</td><td><b>Direct damage multiplier.</b></td></tr>
+        <tr><td>Resource Reaper</td><td>Gathering speed for the squad</td><td>Economy only.</td></tr>
+        <tr><td>Squad Capacity</td><td>Load capacity, not troop count</td><td>Utility only; misleading name.</td></tr>
+        <tr><td>Damage to Monsters</td><td>PvE damage</td><td>No direct player-vs-player benefit.</td></tr>
+        <tr><td>Guard HP</td><td>Hero HP while guarding inside your base</td><td>Base defense only.</td></tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top:30px;font-size:20px">Research priority classes</h3>
+    <table>
+      <thead><tr><th>Class</th><th>Examples</th><th>Default priority</th></tr></thead>
+      <tbody>
+        <tr><td>A — Direct PvP</td><td>ATK, HP, DEF, Units Attack, troop-type damage, general combat modifiers</td><td><b>Highest outside major breakpoints</b></td></tr>
+        <tr><td>B — Conditional combat</td><td>Base guard stats, counter-specific effects, narrow damage resistance</td><td>High when the condition matches your actual fights</td></tr>
+        <tr><td>C — Progression / throughput</td><td>Prerequisites, training, construction/research speed, capacity unlocks</td><td>As needed to reach the next combat gate</td></tr>
+        <tr><td>D — Economy / PvE</td><td>Gathering, load, monster damage, resource bonuses</td><td>Fund combat growth; do not confuse with field PvP power</td></tr>
+      </tbody>
+    </table>
+    <p class="warning"><b>Rule:</b> classify every research node by effect before spending on it. A node can add thousands of displayed Power while doing nothing for the fight you are actually trying to win.</p>
+  </div>
+</section>
 <section id="doctrine">
   <div class="wrap">
-    <h2><span class="num">7</span>Fighting accounts richer than you</h2>
-    <p class="lede">You do not beat a whale by imitating one. Their advantage is purchased breadth, acceleration, and replacement capacity. The counter is to maximise the combat value of every resource and deny them favourable exchanges.</p>
+    <h2><span class="num">10</span>Fighting accounts richer than you</h2>
+    <p class="lede">A larger spender can buy breadth, acceleration and replacement capacity. The practical counter is efficiency: concentrate permanent combat gains, reach troop and hero breakpoints sooner, use counters intelligently, coordinate fights, and refuse bad exchanges.</p>
     <div class="doavoid">
       <div class="col do">
         <h3>Do</h3>
         <ul>
           <li>Concentrate five strong heroes into one primary formation.</li>
-          <li>Maintain the highest practical unit tier.</li>
-          <li>Use counters when the strength gap is manageable.</li>
+          <li>Maintain the highest practical unit tier; Barracks 24/27/30 are major power gates.</li>
+          <li>Use troop-type counters and damage-profile counters when the strength gap is manageable.</li>
           <li>Fight with alliance concentration, rallies, reinforcement, and timing.</li>
-          <li>Force the whale to spend teleports, stamina, healing, and time for limited gain.</li>
+          <li>Force the whale to spend teleports, stamina, healing, shields, time and replacement resources for limited gain.</li>
           <li>Preserve troops when the fight is unwinnable.</li>
         </ul>
       </div>
       <div class="col avoid">
         <h3>Avoid</h3>
         <ul>
-          <li>Leveling every hero because it raises account power.</li>
+          <li>Leveling every hero or research node because it raises displayed Power.</li>
           <li>Producing enormous numbers of obsolete troops.</li>
           <li>Attacking a whale only because your troop type counters theirs.</li>
           <li>Feeding individual marches into a stronger account.</li>
@@ -407,39 +509,39 @@ footer li{margin-bottom:6px}
 
 <section id="loop">
   <div class="wrap">
-    <h2><span class="num">8</span>The leveling loop</h2>
-    <p class="lede">Run this in order, then run it again. Tick items off as you go.</p>
+    <h2><span class="num">11</span>The combat-power loop</h2>
+    <p class="lede">Run this in order and repeat it. The loop is built to keep resources pointed at real PvP gains instead of account-padding upgrades.</p>
     <div class="loop" id="loopList"></div>
   </div>
 </section>
 
 <section id="gaps">
   <div class="wrap">
-    <h2><span class="num">9</span>Not yet documented</h2>
-    <p class="lede">Version 0.1 deliberately does not invent hero rankings or exact research-node priorities. These need verified game data or controlled testing before they go in.</p>
+    <h2><span class="num">12</span>Advanced systems still under testing</h2>
+    <p class="lede">The guide is usable without these systems. They remain advanced variables that need controlled testing before we turn them into exact investment or battle recommendations.</p>
     <ul class="gaps">
-      <li>Current hero roster, and which five-hero combinations beat simple same-type stacking.</li>
-      <li>Hero tier, star, and shard breakpoints — the real cost of taking a hero from usable to competitive.</li>
-      <li>Exact skill priority by hero role.</li>
-      <li>Gear stat priority and upgrade breakpoints.</li>
-      <li>Airship progression and component efficiency.</li>
-      <li>Detailed combat research path by troop type.</li>
-      <li>Hospital, wounded, and dead mechanics; minimising irreversible losses.</li>
-      <li>Rally and reinforcement mechanics for fighting accounts stronger than any single member.</li>
-      <li>PvP target selection based on march power rather than displayed account power.</li>
-      <li>Whale-response playbook for city wars, tiles, alliance events, and base attacks.</li>
+      <li>Exact rally stat inheritance and whether leader/member bonuses stack or remain independent.</li>
+      <li>Hospital, wounded, dead and overflow mechanics during PvP.</li>
+      <li>Exact value of Physical vs Energy resistance against common top-end hero compositions.</li>
+      <li>Gear stat priority and upgrade breakpoints by role.</li>
+      <li>Airship progression efficiency and which bonuses are worth chasing first.</li>
+      <li>Wall of Honor efficiency and where it belongs in the investment order.</li>
+      <li>Exact counter advantage magnitude: when type advantage overcomes raw stat disadvantage.</li>
+      <li>PvP target selection using march composition, troop tier, damage type and defensive profile.</li>
+      <li>Whale-response playbook for rallies, cities, reinforcements, tiles and base pressure.</li>
     </ul>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <p>Top Force is new and changes frequently, and official patch notes carry little mechanical detail. Numbers here come from the community Top Force Wiki, cross-checked against live-server observation where available.</p>
+    <p>Top Force changes quickly and official patch notes carry little mechanical detail. This guide combines community documentation with direct live-server observation and screenshot-verified mechanics. It is an optimization framework, not a hero-buying list; examples demonstrate mechanics rather than required purchases.</p>
     <ul>
       <li>Top Force Wiki — Squads: formation bonuses, squad unlocks, squad technology. Accessed September 2026.</li>
       <li>Top Force Wiki — Barracks: unit-tier unlocks, training queues, training bonuses. Accessed September 2026.</li>
       <li>Top Force Wiki — Infantry, Tank, and Aircraft Centers: type bonuses, squad size, counter triangle, Wall of Honor. Accessed September 2026.</li>
       <li>Top Force Wiki — Alliance Duel: event scoring and reward structure. Accessed September 2026.</li>
+      <li>Direct live-server screenshots: Infantry Center, Units/Hero/Squad research, Barracks troop-tier stats, and Military Base 23→24 requirements.</li>
       <li>Prior live-server progression analysis: Military Base 22 costs, city economy, resource constraints.</li>
     </ul>
     <p>Evidence labels — Verified: documented by the community wiki or official material. Server-observed: seen in live play, not documented well enough to call universal. Strategy: derived from the mechanics, not a rule imposed by the game.</p>
@@ -494,14 +596,26 @@ const NODES = [
    why:'Still one primary march. Squad-specific combat tech goes to the squad you actually fight with, not evenly across the tabs.'},
   {id:'bk20', lane:'bk', row:9, lv:'Barracks 20', cap:'T7 units', tag:'Verified',
    sum:'Fourth combat breakpoint.', list:['Highest unit tier: T7'], why:'By now the primary march should be absorbing nearly all shards, medals, and gear materials.'},
-  {id:'mb22', lane:'mb', row:10, lv:'Military Base 22', cap:'The cost wall', tag:'Server-observed',
+  {id:'mb22', lane:'mb', row:10, lv:'Military Base 22', cap:'Resource wall → prepare for MB24', tag:'Server-observed',
    sum:'The direct upgrade runs about 266.2M total resources; the full path from a bare Lv. 21 can approach 477.5M.',
    list:['≈114.1M Food','≈114.1M Iron','≈38M Coins','Up to ≈477.5M including prerequisites'],
-   why:'Do not drift into this. Pick the breakpoint, bank for it, and land it inside an event window that scores building power.'},
+   why:'Do not drift into this. MB22 is where resource planning for the MB24 → Barracks 24 → T8 combat chain should become deliberate. Bank toward the breakpoint and use scoring windows when practical.'},
+  {id:'mb24', lane:'mb', row:11, lv:'Military Base 24', cap:'Hero cap + Barracks 24 gate', tag:'Server-observed',
+   sum:'A multi-system combat breakpoint observed directly on the live account.',
+   list:['Hero level cap 115 → 120','Hero HP 9,000 → 9,500','Required for Barracks 24','Barracks 24 unlocks Unit Lv.8'],
+   why:'Prioritize the prerequisite chain when you are close enough to finish it. This breakpoint improves hero ceiling and opens a major unit-tier jump.'},
   {id:'bk24', lane:'bk', row:11, lv:'Barracks 24', cap:'T8 units', tag:'Verified',
    sum:'Fifth combat breakpoint.', list:['Highest unit tier: T8'], why:'Only now does a second combat march start deserving major investment — and only if the first one is genuinely strong.'},
+  {id:'mb27', lane:'mb', row:12, lv:'Military Base 27', cap:'Major combat gate → Barracks 27', tag:'Verified',
+   sum:'A major late-game progression breakpoint because Military Base 27 is the gate for Barracks 27 and the jump to Unit Lv.9.',
+   list:['Required progression gate for Barracks 27','Barracks 27 unlocks Unit Lv.9','Unit Lv.9 observed at 1,365 Power, 2,273 HP, 18 ATK, 3 DEF and 500 Morale'],
+   why:'Treat MB27 as a destination, not just another base level. Bank the prerequisite resources so Barracks 27 and T9 can follow as quickly as practical.'},
   {id:'bk27', lane:'bk', row:12, lv:'Barracks 27', cap:'T9 units', tag:'Verified',
    sum:'Sixth combat breakpoint.', list:['Highest unit tier: T9'], why:'Keep combat research running continuously alongside this; the multipliers compound with everything else.'},
+  {id:'mb30', lane:'mb', row:13, lv:'Military Base 30', cap:'Endgame combat gate → Barracks 30', tag:'Verified',
+   sum:'The final Military Base troop-tier gate. It enables the Barracks 30 path; T10 also requires the corresponding Unit X technology.',
+   list:['Required progression gate for Barracks 30','Barracks 30 + Unit X technology unlocks Unit Lv.10','Unit Lv.10 observed at 1,667 Power, 2,773 HP, 22 ATK, 4 DEF and 600 Morale'],
+   why:'Plan MB30, Barracks 30 and Unit X as one endgame combat project. Reaching MB30 without the resources and research to finish the T10 chain leaves much of the breakpoint unrealized.'},
   {id:'bk30', lane:'bk', row:13, lv:'Barracks 30 + unit tech', cap:'T10 units', tag:'Verified',
    sum:'T10 needs the Barracks level and the corresponding unit technology completed.',
    list:['Highest unit tier: T10','Requires the matching unit technology','Base Training Count 570 per Barracks at Lv. 30'],
@@ -567,14 +681,14 @@ document.getElementById('dMark').addEventListener('click',()=>{
 
 /* ---------------- priority stack ---------------- */
 const STACK=[
- ['Primary 5-hero march','This is the force that must survive and kill. Concentrated strength beats five mediocre lineups.'],
- ['Hero-type Center','Directly increases HP, ATK, DEF, and squad size for every hero of that type.'],
- ['Unit tier / Barracks breakpoint','Higher unit tiers improve the actual army your heroes are carrying.'],
- ['Combat research','Persistent multiplicative gains that compound with heroes, units, gear, and type bonuses.'],
- ['Hero tier, skills, gear, Airship, Wall of Honor','Large direct combat gains, especially once the main march is established.'],
- ['Squad-specific combat tech','Improves the march that uses that squad without requiring broad account investment.'],
- ['Secondary march','Build only once the first march is strong enough to do its intended PvP job.'],
- ['Utility, economy, secondary buildings','Important for growth, but they should not starve the primary combat path.']
+ ['Major progression breakpoint','If Military Base or a prerequisite is about to unlock a hero-cap increase, Barracks tier, squad, Center or critical technology, finish the gate first. Breakpoints can improve multiple combat systems at once.'],
+ ['Unit-tier breakpoint / Barracks','Barracks 24, 27 and 30 unlock Unit Lv.8, Lv.9 and Lv.10. Observed unit-stat jumps are large enough to outrank many small percentage upgrades.'],
+ ['Permanent direct combat research','Prioritize field-PvP ATK, HP, DEF, Units Attack, damage-up and similar modifiers when no larger breakpoint is immediately reachable.'],
+ ['Primary fighting squad','Keep the five heroes you actually fight with near the hero cap and develop coherent front-row, carry, support and debuff roles. Do not chase a specific purchased lineup.'],
+ ['Primary troop-type Center','The matching Center adds HP, ATK, DEF and hero squad size to every hero of that troop type. Keep it competitive when that type carries your primary squad.'],
+ ['Hero tier / skill breakpoint','Spend scarce tier and skill materials when the next breakpoint unlocks meaningful PvP effects: wider scope, stronger mitigation, team buffs, major damage or passive packages.'],
+ ['Scarce gear','Do not level all slots evenly. Concentrate materials where the next level most improves survival, carry output or a critical stat profile on the primary squad.'],
+ ['Secondary squads / economy','Only build breadth after the primary squad is dangerous enough for the fights you care about. Economy exists to fund combat growth, not to impersonate it.']
 ];
 const sl=document.getElementById('stackList');
 STACK.forEach((s,i)=>{
@@ -666,16 +780,17 @@ rng.addEventListener('input',drawTier);
 
 /* ---------------- leveling loop ---------------- */
 const LOOP=[
- 'Select the primary troop type and the primary five heroes.',
- 'Push only the prerequisites needed for the next meaningful Military Base or combat breakpoint.',
- 'Keep the primary type Center near the highest practical level.',
- 'Push Barracks toward the next unit-tier breakpoint.',
- 'Keep combat research running continuously, favouring the primary troop type and primary squad.',
- 'Train and promote enough current-tier units to fill the primary march and replace realistic losses.',
- 'Spend hero shards, skills, gear materials, and Airship resources on the primary march first.',
- 'Refill from gathering, alliance income, events, raids, rallies, and city rewards toward the next planned breakpoint.',
- 'Stack major upgrades with Alliance Duel or a comparable event when the delay does not hurt combat readiness.',
- 'Only once the primary march is genuinely strong should the second combat march get major investment.'
+ 'Identify the next major combat breakpoint: Military Base gate, Barracks unit tier, hero cap, Center gate or critical technology.',
+ 'Bank resources and prerequisites toward that breakpoint instead of spending on unrelated Power increases.',
+ 'Keep direct field-PvP research running whenever no more valuable breakpoint is blocking progress.',
+ 'Keep the primary five heroes near the current hero cap and assign clear combat roles: front-row survival, damage, support and debuffs.',
+ 'Keep the primary troop-type Center competitive because its bonuses apply across heroes of that type.',
+ 'Spend tier and skill materials toward meaningful PvP breakpoints, not evenly across the roster.',
+ 'Concentrate scarce gear on the primary squad and on the slots that create the strongest next combat gain.',
+ 'Train the highest practical unit tier and prepare resources before the next Barracks breakpoint opens.',
+ 'Classify every research/building/hero upgrade as direct PvP, conditional combat, progression, economy or PvE before spending.',
+ 'Use events to get extra return from upgrades when timing is safe, but never delay a critical combat breakpoint just to score points.',
+ 'Only after the primary squad is genuinely effective should major resources move into secondary squads or broad account Power.'
 ];
 const lh=document.getElementById('loopList');
 LOOP.forEach((t,i)=>{
