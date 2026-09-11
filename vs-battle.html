@@ -30,14 +30,14 @@
     <div class="vp-stat critical"><span>4</span><small>VP on Day 6 alone</small></div>
   </div>
   <p class="thesis"><b>Core rule:</b> never overspend just to make a daily score look good. The target is the cheapest path to 7+ Victory Points while still advancing the account.</p>
-  <p class="meta">Version 0.10 · September 2026 · Scoring values verified from in-game screenshots</p>
+  <p class="meta">Version 0.11 · September 2026 · Scoring values verified from in-game screenshots</p>
 </div>
 
 <section id="battleplan" class="soft-section">
   <div class="wrap">
     <div class="section-intro">
       <div><span class="section-kicker">THE WEEKLY PLAN</span><h2>Save what you can until you know which days we need</h2></div>
-      <p>Day 1 is cheap to surrender. Days 2–5 are useful two-point fights. Day 6 is the four-point SVS Kill Event. How much we spend should depend on the weekly score. Do not use more than we need to win a day. If the week is already won, save troops and resources for the next objective instead of fighting just because the event is open.</p>
+      <p>Day 1 is worth 1 point. Days 2–5 are worth 2 points each. Day 6 is the 4-point SVS Kill Event. How hard we push each day depends on the weekly score. If the week is already mathematically won before Day 6, we can shield and sit out KE to preserve troops and resources for Capitol. Otherwise, Day 6 is a fight day.</p>
     </div>
 
     <div class="battle-path">
@@ -47,7 +47,7 @@
       <div class="path-connector">→</div>
       <div class="path-card"><div class="path-vp">2 VP</div><h3>Day 5 · War Preparations</h3><p>Building, tech, training and radar all score on Day 5. Use what is needed to win the two points. If the day is already won, stop spending and save the rest for Day 6 or next week.</p></div>
       <div class="path-connector">→</div>
-      <div class="path-card critical"><div class="path-vp">4 VP</div><h3>Day 6 · SVS Kill Event</h3><p>Four points can decide the week. If we need the four points, use the truce option or the established kill-squad plan. If we already have enough Victory Points to win the week, shield and save troops for Capitol or the next fight.</p></div>
+      <div class="path-card critical"><div class="path-vp">4 VP</div><h3>Day 6 · SVS Kill Event</h3><p>Four points can decide the week. If Day 6 matters to the weekly result, we participate in KE using the established kill-squad plan. Before fighting, R4/R5 can ask the opposing alliance to agree to one rule: DON’T ZERO bases. If the week is already mathematically won before KE starts, we can shield and save troops for Capitol instead.</p></div>
     </div>
 
     <div class="decision-band">
@@ -96,13 +96,13 @@
 
     <div class="ke-command-grid">
       <div class="ke-card truce-card">
-        <span class="ke-step">OPTION 1 · DIPLOMACY</span>
-        <h3>Contact the opposing R4 / R5</h3>
-        <p>Before KE, our R4/R5 can contact the opposing alliance R4/R5 and offer a truce. If both sides agree, we shield, avoid attacking each other, and save troops and resources.</p>
-        <div class="ke-rule">R4 / R5 announces whether we have a truce or are fighting. Members follow that call.</div>
+        <span class="ke-step">BEFORE KE · R4/R5 CONTACT</span>
+        <h3>Offer a DON’T ZERO agreement</h3>
+        <p>Before KE, our R4/R5 can contact the opposing alliance R4/R5 and ask for a simple agreement: both sides may fight for troop-kill points, but neither side intentionally zeros bases. If both sides agree, FAM follows that rule.</p>
+        <div class="ke-rule">No agreement means we do not assume a truce. If the other side starts zeroing FAM bases, the agreement is off and we go full force.</div>
       </div>
       <div class="ke-card combat-card">
-        <span class="ke-step">OPTION 2 · COMBAT</span>
+        <span class="ke-step">KE COMBAT PLAN</span>
         <h3>Deploy 3–4 strike cells</h3>
         <p>Each cell travels together. The two strongest players attack while three capable support players remain shielded and protect the exposed attackers.</p>
         <div class="cell-line"><span class="defender">SHIELDED</span><span class="attacker">ATTACKER</span><span class="attacker">ATTACKER</span><span class="defender">SHIELDED</span><span class="defender">SHIELDED</span></div>
@@ -143,7 +143,7 @@
     <div class="resource-rule-grid">
       <div class="resource-rule"><span>SCORES ON ONE DAY</span><h3>Save it for that day</h3><p>Hero Shards, Skill Medals, Valor Badges and Airship Component Chests should be saved during the week and used on the day that gives VS points for them.</p></div>
       <div class="resource-rule flex"><span>SCORES ON MORE THAN ONE DAY</span><h3>Do not use it too early</h3><p>Building, tech and training speed-ups score on multiple days. Use them today only when we need the points; otherwise save them for a later day.</p></div>
-      <div class="resource-rule critical"><span>DAY 6</span><h3>Keep something left if KE may decide the week</h3><p>UR Trucks, UR Covert Ops, healing speed-ups and unused building, tech and training speed-ups can all score on Day 6. Save some when Day 6 may be needed. If the week is already won, there is no reason to burn them for VS.</p></div>
+      <div class="resource-rule critical"><span>DAY 6</span><h3>Keep something left if KE may decide the week</h3><p>UR Trucks, UR Covert Ops, healing speed-ups and unused building, tech and training speed-ups can all score on Day 6. Save some when Day 6 may be needed. If the weekly VS win is already mathematically secured before KE, we can shield and preserve those resources for Capitol instead of spending them on a day we no longer need.</p></div>
     </div>
 
     <div class="matrix-wrap">
@@ -192,11 +192,11 @@ const DAYS={
 5:{name:'War Preparations',vp:2,posture:'WAR PREPARATIONS',postureCopy:'Building, tech, training and radar all score on Day 5. Use the resources we saved during the week if we need these 2 Victory Points.',scores:[
  ['Complete 1 Radar Task',22500],['1 minute Building Speed-up',112.5],['Increase Building Power by 1',19.5],['1 minute Tech Speed-up',112.5],['Increase Tech Power by 1',19],['1 minute Train Speed-up',112.5],['Train 1 Lv.1 unit',38],['Train 1 Lv.2 unit',57],['Train 1 Lv.3 unit',76],['Train 1 Lv.4 unit',95],['Train 1 Lv.5 unit',114],['Train 1 Lv.6 unit',133],['Train 1 Lv.7 unit',152],['Train 1 Lv.8 unit',171],['Train 1 Lv.9 unit',190],['Train 1 Lv.10 unit',209],['Obtain 1 Diamond from pack purchases',30]],
  advice:['USE: Building, tech, training and radar all score on Day 5.','UPGRADE: When possible, use the event to complete upgrades you already need instead of upgrading only to raise the Power number.','STOP: Once Day 5 is won, stop using speed-ups. Save the rest for Day 6 if we still need the 4 VP, or for next week if we do not.']},
-6:{name:'Opposing Forces · SVS Kill Event',vp:4,posture:'SVS KILL EVENT',postureCopy:'Day 6 is the cross-server Kill Event and is worth four Victory Points. R4/R5 can offer the opposing alliance a truce; if there is no truce, fight in the established five-player kill squads. Score troop kills—do not zero bases for no scoring benefit.',scores:[
+6:{name:'Opposing Forces · SVS Kill Event',vp:4,posture:'SVS KILL EVENT',postureCopy:'Day 6 is the cross-server Kill Event and is worth four Victory Points. If Day 6 matters to the weekly result, we fight. Before KE, R4/R5 can ask the opposing alliance to agree that both sides will score troop kills without intentionally zeroing bases. If the other side zeros FAM bases, we go full force.',scores:[
  ['Escort 1 UR Trade Truck',175000],['Complete 1 UR Covert Ops',131250],['1 minute Building Speed-up',112.5],['1 minute Tech Speed-up',112.5],['1 minute Train Speed-up',112.5],['1 minute Heal Speed-up',112.5],
  ['Kill 1 Lv.1 enemy unit',3.8],['Kill 1 Lv.2 enemy unit',5.7],['Kill 1 Lv.3 enemy unit',7.6],['Kill 1 Lv.4 enemy unit',9.5],['Kill 1 Lv.5 enemy unit',11.4],['Kill 1 Lv.6 enemy unit',13.3],['Kill 1 Lv.7 enemy unit',15.2],['Kill 1 Lv.8 enemy unit',17.1],['Kill 1 Lv.9 enemy unit',19.0],['Kill 1 Lv.10 enemy unit',20.9],
  ['Lose 1 Lv.1 own unit',3.5],['Lose 1 Lv.2 own unit',5.3],['Lose 1 Lv.3 own unit',7.0],['Lose 1 Lv.4 own unit',8.8],['Lose 1 Lv.5 own unit',10.5],['Lose 1 Lv.6 own unit',12.3],['Lose 1 Lv.7 own unit',14.0],['Lose 1 Lv.8 own unit',15.8],['Lose 1 Lv.9 own unit',17.5],['Lose 1 Lv.10 own unit',19.3],['Obtain 1 Diamond from pack purchases',30]],
- advice:['TRUCE: R4/R5 can contact the opposing alliance R4/R5 before KE and offer a peaceful day.','IF WE FIGHT: Deploy 3–4 squads of five: 2 strong attackers + 3 shielded support. Keep strong attackers on standby to replace attackers who get zeroed.','DON’T ZERO: KE points come from troop kills. When troop-kill points stop showing, stop attacking that base and find another target.','IF THE WEEK IS WON: Shield for KE and save troops and resources for Capitol or the next fight.']}
+ advice:['DON’T ZERO AGREEMENT: Before KE, R4/R5 can ask the opposing alliance R4/R5 to agree that both sides may fight for troop-kill points but will not intentionally zero bases.','IF THEY ZERO US: The agreement is off. Go full force.','KILL SQUADS: Deploy 3–4 squads of five: 2 strong attackers + 3 shielded support. Keep strong attackers on standby to replace attackers who get zeroed.','SCORE TROOPS: KE points come from troop kills. When troop-kill points stop showing, stop attacking that base and find another target.','ONLY SIT OUT IF THE WEEK IS ALREADY WON: If the weekly VS result is mathematically secured before Day 6, shield and save troops and resources for Capitol. Otherwise, participate in KE.']}
 };
 const SHORT=['Radar','Base','Tech','Heroes','War Prep','Opposing'];
 const fmt=n=>n.toLocaleString(undefined,{maximumFractionDigits:1});
