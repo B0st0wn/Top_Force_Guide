@@ -1,272 +1,469 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Top Force — VS Battle Planner</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Top Force — VS Battle Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
 </head>
+
 <body class="vs-page">
-<header class="top">
-  <div class="wrap">
-    <div class="brand">TOP <span>FORCE</span></div>
-    <nav class="jump" aria-label="Sections">
-      <a href="#battleplan">Battle Plan</a><a href="#week">Days</a><a href="#ke-doctrine">KE Doctrine</a><a href="#matrix">Resources</a><a href="#calculator">Calculator</a>
-    </nav>
-    <div class="page-nav" aria-label="Guide pages"><a href="./index.html">Combat Guide</a><a class="active" href="./vs-battle.html">VS Battle Planner</a></div>
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">TOP <span>FORCE</span></div>
+      <nav class="jump" aria-label="Sections">
+        <a href="#planner">VS Planner</a><a href="#battleplan">Battle Plan</a><a href="#ke-doctrine">KE Doctrine</a><a
+          href="#matrix">Resources</a>
+      </nav>
+      <div class="page-nav" aria-label="Guide pages"><a href="./index.html">Combat Guide</a><a class="active"
+          href="./vs-battle.html">VS Planner</a></div>
+    </div>
+  </header>
+
+  <div class="wrap hero vs-hero">
+    <div class="hero-kicker">ALLIANCE DUEL · WEEKLY VS</div>
+    <h1>Win the week.<br>Not every day.</h1>
+    <p class="sub">The duel awards <b>13 Victory Points</b> across six days. Our goal is to win every day by using the
+      resources that score best each day, building strong leads efficiently, and carrying unused resources into the next
+      scoring opportunity.</p>
+    <div class="vp-hero-row">
+      <div class="vp-stat"><span>13</span><small>Total VP available</small></div>
+      <div class="vp-stat"><span>7</span><small>VP guarantees the week</small></div>
+      <div class="vp-stat critical"><span>4</span><small>VP on Day 6 alone</small></div>
+    </div>
+    <p class="thesis"><b>Core rule:</b> never overspend just to make a daily score look good. The target is the cheapest
+      path to 7+ Victory Points while still advancing the account.</p>
   </div>
-</header>
 
-<div class="wrap hero vs-hero">
-  <div class="hero-kicker">ALLIANCE DUEL · WEEKLY VS</div>
-  <h1>Win the week.<br>Not every day.</h1>
-  <p class="sub">The duel awards <b>13 Victory Points</b> across six days. Seven locks the weekly win. The strategy is therefore simple: spend enough to secure the days that matter, save resources that can score again later, and arrive at Day 6 with enough left if those four points are needed.</p>
-  <div class="vp-hero-row">
-    <div class="vp-stat"><span>13</span><small>Total VP available</small></div>
-    <div class="vp-stat"><span>7</span><small>VP guarantees the week</small></div>
-    <div class="vp-stat critical"><span>4</span><small>VP on Day 6 alone</small></div>
-  </div>
-  <p class="thesis"><b>Core rule:</b> never overspend just to make a daily score look good. The target is the cheapest path to 7+ Victory Points while still advancing the account.</p>
-  <p class="meta">Version 0.11 · September 2026 · Scoring values verified from in-game screenshots</p>
-</div>
-
-<section id="battleplan" class="soft-section">
-  <div class="wrap">
-    <div class="section-intro">
-      <div><span class="section-kicker">THE WEEKLY PLAN</span><h2>Save what you can until you know which days we need</h2></div>
-      <p>Day 1 is worth 1 point. Days 2–5 are worth 2 points each. Day 6 is the 4-point SVS Kill Event. How hard we push each day depends on the weekly score. If the week is already mathematically won before Day 6, we can shield and sit out KE to preserve troops and resources for Capitol. Otherwise, Day 6 is a fight day.</p>
-    </div>
-
-    <div class="battle-path">
-      <div class="path-card low"><div class="path-vp">1 VP</div><h3>Day 1 · 1 Point Day</h3><p>Score with stamina, radar and gathering. Do not use resources needed on later days just to chase a one-point day unless we need that point to win the week.</p></div>
-      <div class="path-connector">→</div>
-      <div class="path-card"><div class="path-vp">2 VP</div><h3>Days 2–4 · 2 Point Days</h3><p>Use the items that score on each day first. If an item also scores on a later day, save it unless we need it to win today.</p></div>
-      <div class="path-connector">→</div>
-      <div class="path-card"><div class="path-vp">2 VP</div><h3>Day 5 · War Preparations</h3><p>Building, tech, training and radar all score on Day 5. Use what is needed to win the two points. If the day is already won, stop spending and save the rest for Day 6 or next week.</p></div>
-      <div class="path-connector">→</div>
-      <div class="path-card critical"><div class="path-vp">4 VP</div><h3>Day 6 · SVS Kill Event</h3><p>Four points can decide the week. If Day 6 matters to the weekly result, we participate in KE using the established kill-squad plan. Before fighting, R4/R5 can ask the opposing alliance to agree to one rule: DON’T ZERO bases. If the week is already mathematically won before KE starts, we can shield and save troops for Capitol instead.</p></div>
-    </div>
-
-    <div class="decision-band">
-      <div><b>If ahead:</b><span> use only what we need to keep the lead. Save everything else.</span></div>
-      <div><b>If close:</b><span> use items that only score today first. Use items that also score on later days only if we need them to win today.</span></div>
-      <div><b>If badly behind:</b><span> do not use everything trying to save a 1- or 2-point day. Check whether saving those resources gives us a better chance to reach 7 VP later in the week.</span></div>
-    </div>
-
-    <div class="win-combos">
-      <h3>Useful paths to the weekly win</h3>
-      <div class="combo-row"><span class="combo-score">8 VP</span><span>Day 6 + any two 2-point days</span><small>Wins the week with room to spare</small></div>
-      <div class="combo-row"><span class="combo-score">7 VP</span><span>Day 6 + one 2-point day + Day 1</span><small>Exactly enough to guarantee the week</small></div>
-      <div class="combo-row"><span class="combo-score">7+ VP</span><span>No Day 6 win</span><small>Possible, but we must win enough points before KE</small></div>
-    </div>
-  </div>
-</section>
-
-<section id="week">
-  <div class="wrap">
-    <div class="section-intro compact">
-      <div><span class="section-kicker">DAY-BY-DAY</span><h2>What scores, and what to hold</h2></div>
-      <p>Pick a day. The card shows how many Victory Points the day is worth, what gives VS points, and what we should use or save.</p>
-    </div>
-    <div class="week-strip" id="dayTabs"></div>
-    <div class="vs-summary">
-      <div class="scorecard flowing-card">
-        <div class="day-head"><div><div class="eyebrow" id="dayLabel">Day 1</div><h3 id="dayName">Radar Special Training</h3></div><div class="vp-badge" id="dayVP">1 VP</div></div>
-        <div class="score-list" id="scoreList"></div>
+  <section id="battleplan" class="soft-section">
+    <div class="wrap">
+      <div class="section-intro">
+        <div><span class="section-kicker">THE WEEKLY PLAN</span>
+          <h2>Save what you can until you know which days we need</h2>
+        </div>
+        <p>Every day is a chance to add Victory Points. Push each day using the resources that score best, build the
+          lead efficiently, and keep enough available to stay strong through the rest of the week. Winning Days 1–5 can
+          secure the week before the Day 6 Kill Event.</p>
       </div>
-      <aside class="holdbox flowing-card">
-        <div class="posture-label" id="postureLabel">SAVE FOR THE WEEK</div>
-        <h3>What we should do</h3>
-        <p class="posture-copy" id="postureCopy"></p>
-        <div id="dayAdvice"></div>
-      </aside>
-    </div>
-  </div>
-</section>
 
-<section id="ke-doctrine" class="ke-section">
-  <div class="wrap">
-    <div class="section-intro">
-      <div><span class="section-kicker">DAY 6 · KILL EVENT</span><h2>Fight as cells. Score troops. DON’T ZERO.</h2></div>
-      <p>During Day 6 the matched servers can teleport across servers and attack bases. FAM uses coordinated five-player strike cells rather than sending players out alone.</p>
-    </div>
-
-    <div class="ke-command-grid">
-      <div class="ke-card truce-card">
-        <span class="ke-step">BEFORE KE · R4/R5 CONTACT</span>
-        <h3>Offer a DON’T ZERO agreement</h3>
-        <p>Before KE, our R4/R5 can contact the opposing alliance R4/R5 and ask for a simple agreement: both sides may fight for troop-kill points, but neither side intentionally zeros bases. If both sides agree, FAM follows that rule.</p>
-        <div class="ke-rule">No agreement means we do not assume a truce. If the other side starts zeroing FAM bases, the agreement is off and we go full force.</div>
+      <div class="battle-path">
+        <div class="path-card low">
+          <div class="path-vp">1 VP</div>
+          <h3>Day 1 · 1 Point Day</h3>
+          <p>Score with stamina, radar and gathering. Do not use resources needed on later days just to chase a
+            one-point day unless we need that point to win the week.</p>
+        </div>
+        <div class="path-connector">→</div>
+        <div class="path-card">
+          <div class="path-vp">2 VP</div>
+          <h3>Days 2–4 · 2 Point Days</h3>
+          <p>Use the items that score on each day first. If an item also scores on a later day, save it unless we need
+            it to win today.</p>
+        </div>
+        <div class="path-connector">→</div>
+        <div class="path-card">
+          <div class="path-vp">2 VP</div>
+          <h3>Day 5 · War Preparations</h3>
+          <p>Building, tech, training and radar all score on Day 5. Use what is needed to win the two points. If the day
+            is already won, stop spending and save the rest for Day 6 or next week.</p>
+        </div>
+        <div class="path-connector">→</div>
+        <div class="path-card critical">
+          <div class="path-vp">4 VP</div>
+          <h3>Day 6 · SVS Kill Event</h3>
+          <p>Four points can decide the week. If we need the four points, use the truce option or the established
+            kill-squad plan. If we already have enough Victory Points to win the week, shield and save troops for
+            Capitol or the next fight.</p>
+        </div>
       </div>
-      <div class="ke-card combat-card">
-        <span class="ke-step">KE COMBAT PLAN</span>
-        <h3>Deploy 3–4 strike cells</h3>
-        <p>Each cell travels together. The two strongest players attack while three capable support players remain shielded and protect the exposed attackers.</p>
-        <div class="cell-line"><span class="defender">SHIELDED</span><span class="attacker">ATTACKER</span><span class="attacker">ATTACKER</span><span class="defender">SHIELDED</span><span class="defender">SHIELDED</span></div>
+
+      <div class="decision-band">
+        <div><b>If ahead:</b><span> use only what we need to keep the lead. Save everything else.</span></div>
+        <div><b>If close:</b><span> use items that only score today first. Use items that also score on later days only
+            if we need them to win today.</span></div>
+        <div><b>If badly behind:</b><span> do not use everything trying to save a 1- or 2-point day. Check whether
+            saving those resources gives us a better chance to reach 7 VP later in the week.</span></div>
+      </div>
+
+      <div class="win-combos">
+        <h3>Useful paths to the weekly win</h3>
+        <div class="combo-row"><span class="combo-score">8 VP</span><span>Day 6 + any two 2-point days</span><small>Wins
+            the week with room to spare</small></div>
+        <div class="combo-row"><span class="combo-score">7 VP</span><span>Day 6 + one 2-point day + Day
+            1</span><small>Exactly enough to guarantee the week</small></div>
+        <div class="combo-row"><span class="combo-score">7+ VP</span><span>No Day 6 win</span><small>Possible, but we
+            must win enough points before KE</small></div>
       </div>
     </div>
+  </section>
 
-    <div class="ke-flow">
-      <div class="ke-flow-card"><b>1 · Deploy together</b><span>3–4 cells of five. Do not roam alone.</span></div>
-      <div class="ke-flow-arrow">→</div>
-      <div class="ke-flow-card"><b>2 · Attackers score</b><span>Attack for troop-kill points. The shielded three stay shielded and support the two attackers.</span></div>
-      <div class="ke-flow-arrow">→</div>
-      <div class="ke-flow-card"><b>3 · Rotate reserves</b><span>If an attacker is zeroed and randomly teleported away, a strong player on standby can port in and take that attacker spot.</span></div>
-      <div class="ke-flow-arrow">→</div>
-      <div class="ke-flow-card"><b>4 · Cell expires</b><span>If both attackers are gone and nobody is available to replace them, that squad is done and heads back.</span></div>
-    </div>
+  <section id="planner" class="planner-section">
+    <div class="wrap">
+      <div class="section-intro planner-intro">
+        <div><span class="section-kicker">VS DAY PLANNER</span>
+          <h2>Pick the day. See what scores. Plan what to spend.</h2>
+        </div>
+        <p>Select the current VS day once. The planner shows the scoring actions, what should be used now, what can
+          score again later, and the points from the amounts you enter.</p>
+      </div>
 
-    <div class="dont-zero">
-      <div class="dz-mark">DON’T ZERO</div>
-      <div><h3>Score troops, not bases.</h3><p>KE points come from troop kills. Watch the scoring during the attack. When the target stops producing troop-kill points, stop hitting it and move to another scoring target. Do not continue attacking simply to zero the base.</p></div>
-    </div>
+      <div class="planner-shell">
+        <div class="week-strip planner-tabs" id="dayTabs"></div>
 
-    <div class="ke-notes">
-      <div><b>Attackers</b><span>The two strongest players in the cell. They remain exposed while attacking.</span></div>
-      <div><b>Shielded support</b><span>Capable players whose job is to remain shielded and protect the attackers—not chase their own kills.</span></div>
-      <div><b>Standby</b><span>Keep strong attackers available to replace anyone who gets zeroed so a squad can keep fighting.</span></div>
-      <div><b>Zeroed attacker</b><span>The game randomly teleports the player away. If a strong replacement is available, they port in and take the open attacker spot.</span></div>
-    </div>
-  </div>
-</section>
+        <div class="planner-head">
+          <div>
+            <div class="eyebrow" id="dayLabel">Day 1</div>
+            <h3 id="dayName">Radar Special Training</h3>
+            <p id="postureCopy" class="planner-posture-copy"></p>
+          </div>
+          <div class="planner-vp-block">
+            <span class="vp-badge" id="dayVP">1 VP</span>
+            <span class="posture-label" id="postureLabel">DAY 1 · RADAR</span>
+          </div>
+        </div>
 
-<section id="matrix" class="soft-section">
-  <div class="wrap">
-    <div class="section-intro compact">
-      <div><span class="section-kicker">WHAT TO SAVE</span><h2>Know which days each resource scores</h2></div>
-      <p>Some items score on only one day. Others score again later in the week. Use the one-day items on their scoring day. Save multi-day items when possible until we know which day we need them to win.</p>
-    </div>
+        <div class="planner-layout">
+          <div class="planner-main">
+            <div class="planner-subhead">
+              <div><span class="section-kicker">WHAT SCORES TODAY</span>
+                <h3>Enter what you have available</h3>
+              </div>
+              <button class="planner-clear" id="plannerClear" type="button">Clear</button>
+            </div>
+            <div class="planner-fields" id="plannerFields"></div>
+          </div>
 
-    <div class="resource-rule-grid">
-      <div class="resource-rule"><span>SCORES ON ONE DAY</span><h3>Save it for that day</h3><p>Hero Shards, Skill Medals, Valor Badges and Airship Component Chests should be saved during the week and used on the day that gives VS points for them.</p></div>
-      <div class="resource-rule flex"><span>SCORES ON MORE THAN ONE DAY</span><h3>Do not use it too early</h3><p>Building, tech and training speed-ups score on multiple days. Use them today only when we need the points; otherwise save them for a later day.</p></div>
-      <div class="resource-rule critical"><span>DAY 6</span><h3>Keep something left if KE may decide the week</h3><p>UR Trucks, UR Covert Ops, healing speed-ups and unused building, tech and training speed-ups can all score on Day 6. Save some when Day 6 may be needed. If the weekly VS win is already mathematically secured before KE, we can shield and preserve those resources for Capitol instead of spending them on a day we no longer need.</p></div>
-    </div>
+          <aside class="planner-side">
+            <div class="planner-total-card">
+              <span>PLANNED VS POINTS</span>
+              <strong id="plannerTotal">0</strong>
+              <small>from the amounts entered</small>
+            </div>
 
-    <div class="matrix-wrap">
-      <div class="legend"><span><b class="ldedicated">● USE HERE</b> scores on this day only</span><span><b class="lscore">● ALSO SCORES</b> scores on this day and another day</span><span><b class="lreserve">◆ SAVE IF POSSIBLE</b> can score again on a later day</span></div>
-      <div style="overflow-x:auto">
-        <table class="matrix">
-          <thead><tr><th>Resource / action</th><th>D1<br><small>1 VP</small></th><th>D2<br><small>2 VP</small></th><th>D3<br><small>2 VP</small></th><th>D4<br><small>2 VP</small></th><th>D5<br><small>2 VP</small></th><th>D6<br><small>4 VP</small></th></tr></thead>
-          <tbody id="matrixBody"></tbody>
-        </table>
+            <div class="planner-target-card">
+              <label for="plannerTarget">Points we still need today <small>(optional)</small></label>
+              <input id="plannerTarget" type="number" min="0" step="1" placeholder="Example: 2,000,000">
+              <div class="planner-target-status" id="plannerTargetStatus">Enter a target to see when you have enough.
+              </div>
+            </div>
+
+            <div class="planner-advice-card">
+              <span class="section-kicker">TODAY'S PLAN</span>
+              <div id="dayAdvice"></div>
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="calculator">
-  <div class="wrap">
-    <div class="section-intro compact">
-      <div><span class="section-kicker">POINT CALCULATOR</span><h2>See how many VS points your saved items can score</h2></div>
-      <p>Enter the amount you have available for that day. The calculator shows the VS points those actions or items can produce. You still decide how much to use based on the weekly score.</p>
+  <section id="ke-doctrine" class="ke-section">
+    <div class="wrap">
+      <div class="section-intro">
+        <div><span class="section-kicker">DAY 6 · KILL EVENT</span>
+          <h2>Fight as cells. Score troops. DON’T ZERO.</h2>
+        </div>
+        <p>During Day 6 the matched servers can teleport across servers and attack bases. FAM uses coordinated
+          five-player strike cells rather than sending players out alone.</p>
+      </div>
+
+      <div class="ke-command-grid">
+        <div class="ke-card truce-card">
+          <span class="ke-step">OPTION 1 · DIPLOMACY</span>
+          <h3>Contact the opposing R4 / R5</h3>
+          <p>Before KE, our R4/R5 can contact the opposing alliance R4/R5 and offer a DON’T ZERO agreement. Both sides
+            may fight for troop-kill points, but neither side intentionally zeros bases.</p>
+          <div class="ke-rule">If both sides agree, FAM follows DON’T ZERO. If the other side starts zeroing FAM bases,
+            the agreement is off and we go full force.</div>
+        </div>
+        <div class="ke-card combat-card">
+          <span class="ke-step">OPTION 2 · COMBAT</span>
+          <h3>Deploy 3–4 strike cells</h3>
+          <p>Each cell travels together. The two strongest players attack while three capable support players remain
+            shielded and protect the exposed attackers.</p>
+          <div class="cell-line"><span class="defender">SHIELDED</span><span class="attacker">ATTACKER</span><span
+              class="attacker">ATTACKER</span><span class="defender">SHIELDED</span><span
+              class="defender">SHIELDED</span></div>
+        </div>
+      </div>
+
+      <div class="ke-flow">
+        <div class="ke-flow-card"><b>1 · Deploy together</b><span>3–4 cells of five. Do not roam alone.</span></div>
+        <div class="ke-flow-arrow">→</div>
+        <div class="ke-flow-card"><b>2 · Attackers score</b><span>Attack for troop-kill points. The shielded three stay
+            shielded and support the two attackers.</span></div>
+        <div class="ke-flow-arrow">→</div>
+        <div class="ke-flow-card"><b>3 · Rotate reserves</b><span>If an attacker is zeroed and randomly teleported away,
+            a strong player on standby can port in and take that attacker spot.</span></div>
+        <div class="ke-flow-arrow">→</div>
+        <div class="ke-flow-card"><b>4 · Cell expires</b><span>If both attackers are gone and nobody is available to
+            replace them, that squad is done and heads back.</span></div>
+      </div>
+
+      <div class="dont-zero">
+        <div class="dz-mark">DON’T ZERO</div>
+        <div>
+          <h3>Score troops, not bases.</h3>
+          <p>KE points come from troop kills. Watch the scoring during the attack. When the target stops producing
+            troop-kill points, stop hitting it and move to another scoring target. Do not continue attacking simply to
+            zero the base.</p>
+        </div>
+      </div>
+
+      <div class="ke-notes">
+        <div><b>Attackers</b><span>The two strongest players in the cell. They remain exposed while attacking.</span>
+        </div>
+        <div><b>Shielded support</b><span>Capable players whose job is to remain shielded and protect the attackers—not
+            chase their own kills.</span></div>
+        <div><b>Standby</b><span>Keep strong attackers available to replace anyone who gets zeroed so a squad can keep
+            fighting.</span></div>
+        <div><b>Zeroed attacker</b><span>The game randomly teleports the player away. If a strong replacement is
+            available, they port in and take the open attacker spot.</span></div>
+      </div>
     </div>
-    <div class="calculator-shell">
-      <div class="calc-top"><label for="calcDay">Calculate for</label><b id="calcDayName">Day 1 — Radar Special Training</b><span id="calcVP" class="mini-vp">1 VP day</span></div>
-      <input type="range" id="calcDay" min="1" max="6" value="1">
-      <div class="calc-grid" id="calcFields"></div>
-      <div class="calc-total"><div class="num" id="calcTotal">0</div><div><b>Estimated VS points</b><span>from the amounts entered above</span></div></div>
+  </section>
+
+  <section id="matrix" class="soft-section">
+    <div class="wrap">
+      <div class="section-intro compact">
+        <div><span class="section-kicker">WHAT TO SAVE</span>
+          <h2>Know which days each resource scores</h2>
+        </div>
+        <p>Some items score on only one day. Others score again later in the week. Use the one-day items on their
+          scoring day. Save multi-day items when possible until we know which day we need them to win.</p>
+      </div>
+
+      <div class="resource-rule-grid">
+        <div class="resource-rule"><span>SCORES ON ONE DAY</span>
+          <h3>Save it for that day</h3>
+          <p>Hero Shards, Skill Medals, Valor Badges and Airship Component Chests should be saved during the week and
+            used on the day that gives VS points for them.</p>
+        </div>
+        <div class="resource-rule flex"><span>SCORES ON MORE THAN ONE DAY</span>
+          <h3>Do not use it too early</h3>
+          <p>Building, tech and training speed-ups score on multiple days. Use them today only when we need the points;
+            otherwise save them for a later day.</p>
+        </div>
+        <div class="resource-rule critical"><span>DAY 6</span>
+          <h3>Keep something left if KE may decide the week</h3>
+          <p>UR Trucks, UR Covert Ops, healing speed-ups and unused building, tech and training speed-ups can all score
+            on Day 6. Save some when Day 6 may be needed. If the week is already won, there is no reason to burn them
+            for VS.</p>
+        </div>
+      </div>
+
+      <div class="matrix-wrap">
+        <div class="legend"><span><b class="ldedicated">● USE HERE</b> scores on this day only</span><span><b
+              class="lscore">● ALSO SCORES</b> scores on this day and another day</span><span><b class="lreserve">◆ SAVE
+              IF POSSIBLE</b> can score again on a later day</span></div>
+        <div style="overflow-x:auto">
+          <table class="matrix">
+            <thead>
+              <tr>
+                <th>Resource / action</th>
+                <th>D1<br><small>1 VP</small></th>
+                <th>D2<br><small>2 VP</small></th>
+                <th>D3<br><small>2 VP</small></th>
+                <th>D4<br><small>2 VP</small></th>
+                <th>D5<br><small>2 VP</small></th>
+                <th>D6<br><small>4 VP</small></th>
+              </tr>
+            </thead>
+            <tbody id="matrixBody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer><div class="wrap"><p>Scoring values are transcribed from live-server screenshots. Victory Point weighting is observed from the weekly duel screen. The plan should be adjusted each week based on which days FAM has won and how many Victory Points are still needed.</p></div></footer>
+  <footer>
+    <div class="wrap">
+      <p>Scoring values are transcribed from live-server screenshots. Victory Point weighting is observed from the
+        weekly duel screen. The plan should be adjusted each week based on which days FAM has won and how many Victory
+        Points are still needed.</p>
+    </div>
+  </footer>
 
-<script>
-const DAYS={
-1:{name:'Radar Special Training',vp:1,posture:'SAVE FOR THE WEEK',postureCopy:'Day 1 is worth only 1 Victory Point. Use stamina, radar tasks and gathering first. Do not use items needed on later days unless we need this point to win the week.',scores:[
- ['Use 1 Stamina',262.5],['Complete 1 Radar Task',22500],['Spend at least 660 Hero EXP at once',1.8],['Use 1 Airship EXP',5.3],['Use 1 Airship Part',4375],['Obtain 1 Diamond from pack purchases',30],['Gather 100 Food',35],['Gather 100 Iron',35],['Gather 60 Coins',35]],
- advice:['USE: Stamina, radar tasks and normal gathering.','SAVE: Hero Shards, Skill Medals, Specialist recruits and speed-ups for the days where they score.','DECIDE: If the other alliance is spending heavily for Day 1, R4/R5 can decide that the 1 VP is not worth chasing.']},
-2:{name:'Base Development',vp:2,posture:'2 VP DAY',postureCopy:'Use UR Trucks, UR Covert Ops and Specialist recruits first. Use building speed-ups if we need more points, but remember they also score on Days 5 and 6.',scores:[
- ['1 minute Building Speed-up',112.5],['Increase Building Power by 1',19.5],['Escort 1 UR Trade Truck',175000],['Complete 1 UR Covert Ops',131250],['Obtain 1 Diamond from pack purchases',30],['Recruit Specialists 1 time',2625]],
- advice:['USE: UR Trucks, UR Covert Ops and Specialist recruits you saved for Day 2.','BUILD: If you already planned a building upgrade, finishing it today adds VS points.','SAVE: Building speed-ups also score on Days 5 and 6. Do not use all of them unless we need them to win Day 2.']},
-3:{name:'Tech Advancements',vp:2,posture:'TECH DAY',postureCopy:'Use Valor Badges and Airship Component Chests on Day 3 because this is when they score. Tech speed-ups also score on Days 5 and 6, so save some if we do not need them today.',scores:[
- ['1 minute Tech Speed-up',112.5],['Increase Tech Power by 1',19],['Use 1 Valor Badge',525],['Complete 1 Radar Task',22500],['Obtain 1 Diamond from pack purchases',30],['Open 1 Lv.1 Airship Component Chest',1925],['Open 1 Lv.2 Airship Component Chest',5775],['Open 1 Lv.3 Airship Component Chest',17500],['Open 1 Lv.4 Airship Component Chest',52500],['Open 1 Lv.5 Airship Component Chest',157500],['Open 1 Lv.6 Airship Component Chest',472500]],
- advice:['USE: Valor Badges and Airship Component Chests saved during the week.','USE: Radar tasks if we need more Day 3 points.','SAVE: Tech speed-ups also score on Days 5 and 6. Lv.4–6 chests are listed by the event but have not been seen in normal inventory yet.']},
-4:{name:'Heroes Progression',vp:2,posture:'HERO DAY',postureCopy:'Save Hero Shards, Skill Medals and Hero recruitment during the week, then use them on Day 4 so the same upgrades also give VS points.',scores:[
- ['Recruit Heroes 1 time',3375],['Spend at least 660 Hero EXP at once',1.8],['Use 1 UR Hero Shard',17500],['Use 1 SSR Hero Shard',6125],['Use 1 SR Hero Shard',1750],['Use 1 Skill Medal',17.5],['Obtain 1 Diamond from pack purchases',30]],
- advice:['USE: UR, SSR and SR Hero Shards plus Skill Medals saved for Day 4.','USE: Hero recruitment items on Day 4 whenever possible.','SAVE DURING THE WEEK: Avoid using Hero Shards before Day 4 unless you need an upgrade immediately for combat.']},
-5:{name:'War Preparations',vp:2,posture:'WAR PREPARATIONS',postureCopy:'Building, tech, training and radar all score on Day 5. Use the resources we saved during the week if we need these 2 Victory Points.',scores:[
- ['Complete 1 Radar Task',22500],['1 minute Building Speed-up',112.5],['Increase Building Power by 1',19.5],['1 minute Tech Speed-up',112.5],['Increase Tech Power by 1',19],['1 minute Train Speed-up',112.5],['Train 1 Lv.1 unit',38],['Train 1 Lv.2 unit',57],['Train 1 Lv.3 unit',76],['Train 1 Lv.4 unit',95],['Train 1 Lv.5 unit',114],['Train 1 Lv.6 unit',133],['Train 1 Lv.7 unit',152],['Train 1 Lv.8 unit',171],['Train 1 Lv.9 unit',190],['Train 1 Lv.10 unit',209],['Obtain 1 Diamond from pack purchases',30]],
- advice:['USE: Building, tech, training and radar all score on Day 5.','UPGRADE: When possible, use the event to complete upgrades you already need instead of upgrading only to raise the Power number.','STOP: Once Day 5 is won, stop using speed-ups. Save the rest for Day 6 if we still need the 4 VP, or for next week if we do not.']},
-6:{name:'Opposing Forces · SVS Kill Event',vp:4,posture:'SVS KILL EVENT',postureCopy:'Day 6 is the cross-server Kill Event and is worth four Victory Points. If Day 6 matters to the weekly result, we fight. Before KE, R4/R5 can ask the opposing alliance to agree that both sides will score troop kills without intentionally zeroing bases. If the other side zeros FAM bases, we go full force.',scores:[
- ['Escort 1 UR Trade Truck',175000],['Complete 1 UR Covert Ops',131250],['1 minute Building Speed-up',112.5],['1 minute Tech Speed-up',112.5],['1 minute Train Speed-up',112.5],['1 minute Heal Speed-up',112.5],
- ['Kill 1 Lv.1 enemy unit',3.8],['Kill 1 Lv.2 enemy unit',5.7],['Kill 1 Lv.3 enemy unit',7.6],['Kill 1 Lv.4 enemy unit',9.5],['Kill 1 Lv.5 enemy unit',11.4],['Kill 1 Lv.6 enemy unit',13.3],['Kill 1 Lv.7 enemy unit',15.2],['Kill 1 Lv.8 enemy unit',17.1],['Kill 1 Lv.9 enemy unit',19.0],['Kill 1 Lv.10 enemy unit',20.9],
- ['Lose 1 Lv.1 own unit',3.5],['Lose 1 Lv.2 own unit',5.3],['Lose 1 Lv.3 own unit',7.0],['Lose 1 Lv.4 own unit',8.8],['Lose 1 Lv.5 own unit',10.5],['Lose 1 Lv.6 own unit',12.3],['Lose 1 Lv.7 own unit',14.0],['Lose 1 Lv.8 own unit',15.8],['Lose 1 Lv.9 own unit',17.5],['Lose 1 Lv.10 own unit',19.3],['Obtain 1 Diamond from pack purchases',30]],
- advice:['DON’T ZERO AGREEMENT: Before KE, R4/R5 can ask the opposing alliance R4/R5 to agree that both sides may fight for troop-kill points but will not intentionally zero bases.','IF THEY ZERO US: The agreement is off. Go full force.','KILL SQUADS: Deploy 3–4 squads of five: 2 strong attackers + 3 shielded support. Keep strong attackers on standby to replace attackers who get zeroed.','SCORE TROOPS: KE points come from troop kills. When troop-kill points stop showing, stop attacking that base and find another target.','ONLY SIT OUT IF THE WEEK IS ALREADY WON: If the weekly VS result is mathematically secured before Day 6, shield and save troops and resources for Capitol. Otherwise, participate in KE.']}
-};
-const SHORT=['Radar','Base','Tech','Heroes','War Prep','Opposing'];
-const fmt=n=>n.toLocaleString(undefined,{maximumFractionDigits:1});
-const tabs=document.getElementById('dayTabs');
-for(let d=1;d<=6;d++){
- const b=document.createElement('button'); b.className='week-day'; b.dataset.day=d;
- b.innerHTML='<span class="day-num">DAY '+d+'</span><strong>'+SHORT[d-1]+'</strong><span class="day-vp">'+DAYS[d].vp+' VP</span>';
- b.addEventListener('click',()=>showDay(d)); tabs.appendChild(b);
-}
-function showDay(d){
- document.querySelectorAll('.week-day').forEach(b=>b.classList.toggle('active',+b.dataset.day===d));
- const x=DAYS[d];
- document.getElementById('dayLabel').textContent='Day '+d;
- document.getElementById('dayName').textContent=x.name;
- document.getElementById('dayVP').textContent=x.vp+' VP';
- document.getElementById('dayVP').classList.toggle('critical',x.vp===4);
- document.getElementById('postureLabel').textContent=x.posture;
- document.getElementById('postureLabel').classList.toggle('critical',x.vp===4);
- document.getElementById('postureCopy').textContent=x.postureCopy;
- document.getElementById('scoreList').innerHTML=x.scores.map(s=>'<div class="score-row"><span>'+s[0]+'</span><span class="pts">+'+fmt(s[1])+'</span></div>').join('');
- document.getElementById('dayAdvice').innerHTML='<div class="advice-stack">'+x.advice.map(a=>{const p=a.split(':');return '<div class="advice-item"><b>'+p[0]+'</b><span>'+p.slice(1).join(':')+'</span></div>'}).join('')+'</div>';
-}
-showDay(1);
+  <script>
+    const DAYS = {
+      1: {
+        name: 'Radar Special Training', vp: 1, posture: 'DAY 1 · RADAR', postureCopy: 'Start the week strong. Complete Radar Tasks, use Stamina, upgrade your Airship, gather resources, and use the scoring opportunities available to build the lead.', scores: [
+          {label: 'Use 1 Stamina', rate: 262.5, status: 'USE TODAY', tone: 'use', note: 'Day 1 only'},
+          {label: 'Complete 1 Radar Task', rate: 22500, status: 'USE AS NEEDED', tone: 'flex', note: 'Also scores Day 3 and Day 5'},
+          {label: 'Spend Hero EXP', rate: 1.8, status: 'SAVE FOR DAY 4', tone: 'save', note: 'Spend at least 660 at once; same rate on Hero Day'},
+          {label: 'Use 1 Airship EXP', rate: 5.3, status: 'USE TODAY', tone: 'use', note: 'Day 1 only'},
+          {label: 'Use 1 Airship Part', rate: 4375, status: 'USE TODAY', tone: 'use', note: 'Day 1 only'},
+          {label: 'Obtain 1 Diamond from pack purchases', rate: 30, status: 'IF BUYING', tone: 'neutral', note: 'Do not buy just for VS points'},
+          {label: 'Gather 100 Food', rate: 35, status: 'USE TODAY', tone: 'use', note: 'Normal gathering'},
+          {label: 'Gather 100 Iron', rate: 35, status: 'USE TODAY', tone: 'use', note: 'Normal gathering'},
+          {label: 'Gather 60 Coins', rate: 35, status: 'USE TODAY', tone: 'use', note: 'Normal gathering'}],
+        advice: ['AIRSHIP: Airship EXP and Parts are strong Day 1 scoring resources.', 'RADAR: Use Radar Tasks for points and keep your task-bank cap in mind so new tasks are not wasted. Radar also scores later in the week.', 'HERO EXP: Scores today and again on Hero Day, giving you another scoring opportunity later in the week.']
+      },
+      2: {
+        name: 'Base Development', vp: 2, posture: '2 VP DAY', postureCopy: 'Use the items that naturally belong on Day 2 first. Building speed-ups can score again on Day 5 and Day 6, so do not burn them unless we need the points.', scores: [
+          {label: '1 minute Building Speed-up', rate: 112.5, status: 'SAVE IF POSSIBLE', tone: 'save', note: 'Also scores Day 5 and Day 6'},
+          {label: 'Increase Building Power by 1', rate: 19.5, status: 'USE WITH UPGRADES', tone: 'flex', note: 'Also scores Day 5'},
+          {label: 'Escort 1 UR Trade Truck', rate: 175000, status: 'USE TODAY', tone: 'use', note: 'Also scores Day 6'},
+          {label: 'Complete 1 UR Covert Ops', rate: 131250, status: 'USE TODAY', tone: 'use', note: 'Also scores Day 6'},
+          {label: 'Obtain 1 Diamond from pack purchases', rate: 30, status: 'IF BUYING', tone: 'neutral', note: 'Do not buy just for VS points'},
+          {label: 'Recruit Specialists 1 time', rate: 2625, status: 'USE TODAY', tone: 'use', note: 'Day 2 scoring'}],
+        advice: ['USE: UR Trucks, UR Covert Ops and Specialist recruits saved for Day 2.', 'BUILD: Complete upgrades you already need.', 'SAVE: Building speed-ups if the day is secure; they score again later.']
+      },
+      3: {
+        name: 'Tech Advancements', vp: 2, posture: 'TECH DAY', postureCopy: 'Valor Badges and Airship Component Chests belong here. Tech speed-ups score again on Day 5 and Day 6, so use only what we need.', scores: [
+          {label: '1 minute Tech Speed-up', rate: 112.5, status: 'SAVE IF POSSIBLE', tone: 'save', note: 'Also scores Day 5 and Day 6'},
+          {label: 'Increase Tech Power by 1', rate: 19, status: 'USE WITH UPGRADES', tone: 'flex', note: 'Also scores Day 5'},
+          {label: 'Use 1 Valor Badge', rate: 525, status: 'USE TODAY', tone: 'use', note: 'Day 3 only'},
+          {label: 'Complete 1 Radar Task', rate: 22500, status: 'USE AS NEEDED', tone: 'flex', note: 'Also scores Day 5'},
+          {label: 'Obtain 1 Diamond from pack purchases', rate: 30, status: 'IF BUYING', tone: 'neutral', note: 'Do not buy just for VS points'},
+          {label: 'Open 1 Lv.1 Airship Component Chest', rate: 1925, status: 'USE TODAY', tone: 'use', note: 'Day 3 only'},
+          {label: 'Open 1 Lv.2 Airship Component Chest', rate: 5775, status: 'USE TODAY', tone: 'use', note: 'Day 3 only'},
+          {label: 'Open 1 Lv.3 Airship Component Chest', rate: 17500, status: 'USE TODAY', tone: 'use', note: 'Day 3 only'},
+          {label: 'Open 1 Lv.4 Airship Component Chest', rate: 52500, status: 'EVENT LISTED', tone: 'neutral', note: 'Not yet seen in normal inventory'},
+          {label: 'Open 1 Lv.5 Airship Component Chest', rate: 157500, status: 'EVENT LISTED', tone: 'neutral', note: 'Not yet seen in normal inventory'},
+          {label: 'Open 1 Lv.6 Airship Component Chest', rate: 472500, status: 'EVENT LISTED', tone: 'neutral', note: 'Not yet seen in normal inventory'}],
+        advice: ['USE: Valor Badges and Airship Component Chests.', 'RADAR: Use if needed, but it also scores Day 5.', 'SAVE: Tech speed-ups if the day is secure because they score again on Days 5 and 6.']
+      },
+      4: {
+        name: 'Heroes Progression', vp: 2, posture: 'HERO DAY', postureCopy: 'This is where the Hero resources saved during the week should be used. Hero recruiting, shards, medals and Hero EXP all score here.', scores: [
+          {label: 'Recruit Heroes 1 time', rate: 3375, status: 'USE TODAY', tone: 'use', note: 'Hero Day'},
+          {label: 'Spend Hero EXP', rate: 1.8, status: 'USE TODAY', tone: 'use', note: 'Spend at least 660 at once'},
+          {label: 'Use 1 UR Hero Shard', rate: 17500, status: 'USE TODAY', tone: 'use', note: 'Hero Day'},
+          {label: 'Use 1 SSR Hero Shard', rate: 6125, status: 'USE TODAY', tone: 'use', note: 'Hero Day'},
+          {label: 'Use 1 SR Hero Shard', rate: 1750, status: 'USE TODAY', tone: 'use', note: 'Hero Day'},
+          {label: 'Use 1 Skill Medal', rate: 17.5, status: 'USE TODAY', tone: 'use', note: 'Hero Day'},
+          {label: 'Obtain 1 Diamond from pack purchases', rate: 30, status: 'IF BUYING', tone: 'neutral', note: 'Do not buy just for VS points'}],
+        advice: ['USE: Hero Shards, Skill Medals and Hero recruitment saved during the week.', 'USE: Hero EXP here whenever possible.', 'STOP: Once the day is secure, save remaining Hero resources for next week.']
+      },
+      5: {
+        name: 'War Preparations', vp: 2, posture: 'WAR PREPARATIONS', postureCopy: 'Building, tech, training and Radar all score on Day 5. This is a broad scoring day, so use what we need and stop once the day is secure.', scores: [
+          {label: 'Complete 1 Radar Task', rate: 22500, status: 'USE TODAY', tone: 'use', note: 'Last VS scoring day this week for Radar'},
+          {label: '1 minute Building Speed-up', rate: 112.5, status: 'USE AS NEEDED', tone: 'flex', note: 'Also scores Day 6'},
+          {label: 'Increase Building Power by 1', rate: 19.5, status: 'USE TODAY', tone: 'use', note: 'Building scoring'},
+          {label: '1 minute Tech Speed-up', rate: 112.5, status: 'USE AS NEEDED', tone: 'flex', note: 'Also scores Day 6'},
+          {label: 'Increase Tech Power by 1', rate: 19, status: 'USE TODAY', tone: 'use', note: 'Tech scoring'},
+          {label: '1 minute Train Speed-up', rate: 112.5, status: 'USE AS NEEDED', tone: 'flex', note: 'Also scores Day 6'},
+          {label: 'Train 1 Lv.1 unit', rate: 38, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Train 1 Lv.2 unit', rate: 57, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Train 1 Lv.3 unit', rate: 76, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Train 1 Lv.4 unit', rate: 95, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Train 1 Lv.5 unit', rate: 114, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Train 1 Lv.6 unit', rate: 133, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Train 1 Lv.7 unit', rate: 152, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Train 1 Lv.8 unit', rate: 171, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Train 1 Lv.9 unit', rate: 190, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Train 1 Lv.10 unit', rate: 209, status: 'USE TODAY', tone: 'use', note: 'Training score'},
+          {label: 'Obtain 1 Diamond from pack purchases', rate: 30, status: 'IF BUYING', tone: 'neutral', note: 'Do not buy just for VS points'}],
+        advice: ['USE: Building, tech, training and Radar as needed.', 'UPGRADE: Use the event to complete upgrades you already want.', 'STOP: Once Day 5 is won, keep remaining speed-ups for Day 6 if needed or next week.']
+      },
+      6: {
+        name: 'Opposing Forces · SVS Kill Event', vp: 4, posture: 'SVS KILL EVENT', postureCopy: 'Day 6 is worth four Victory Points. If the week still depends on it, fight using the established plan. If the week is already mathematically won, shield and preserve troops for Capitol.', scores: [
+          {label: 'Escort 1 UR Trade Truck', rate: 175000, status: 'USE TODAY', tone: 'use', note: 'Day 6 scoring'},
+          {label: 'Complete 1 UR Covert Ops', rate: 131250, status: 'USE TODAY', tone: 'use', note: 'Day 6 scoring'},
+          {label: '1 minute Building Speed-up', rate: 112.5, status: 'USE IF NEEDED', tone: 'flex', note: 'Use only if Day 6 points matter'},
+          {label: '1 minute Tech Speed-up', rate: 112.5, status: 'USE IF NEEDED', tone: 'flex', note: 'Use only if Day 6 points matter'},
+          {label: '1 minute Train Speed-up', rate: 112.5, status: 'USE IF NEEDED', tone: 'flex', note: 'Use only if Day 6 points matter'},
+          {label: '1 minute Heal Speed-up', rate: 112.5, status: 'USE IF FIGHTING', tone: 'flex', note: 'Combat recovery'},
+          {label: 'Kill 1 Lv.1 enemy unit', rate: 3.8, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Kill 1 Lv.2 enemy unit', rate: 5.7, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Kill 1 Lv.3 enemy unit', rate: 7.6, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Kill 1 Lv.4 enemy unit', rate: 9.5, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Kill 1 Lv.5 enemy unit', rate: 11.4, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Kill 1 Lv.6 enemy unit', rate: 13.3, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Kill 1 Lv.7 enemy unit', rate: 15.2, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Kill 1 Lv.8 enemy unit', rate: 17.1, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Kill 1 Lv.9 enemy unit', rate: 19, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Kill 1 Lv.10 enemy unit', rate: 20.9, status: 'KE SCORE', tone: 'combat', note: 'Troop kill'},
+          {label: 'Lose 1 Lv.1 own unit', rate: 3.5, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Lose 1 Lv.2 own unit', rate: 5.3, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Lose 1 Lv.3 own unit', rate: 7, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Lose 1 Lv.4 own unit', rate: 8.8, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Lose 1 Lv.5 own unit', rate: 10.5, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Lose 1 Lv.6 own unit', rate: 12.3, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Lose 1 Lv.7 own unit', rate: 14, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Lose 1 Lv.8 own unit', rate: 15.8, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Lose 1 Lv.9 own unit', rate: 17.5, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Lose 1 Lv.10 own unit', rate: 19.3, status: 'KE SCORE', tone: 'combat', note: 'Own troop loss also scores'},
+          {label: 'Obtain 1 Diamond from pack purchases', rate: 30, status: 'IF BUYING', tone: 'neutral', note: 'Do not buy just for VS points'}],
+        advice: ['DON’T ZERO: R4/R5 can ask the opposing alliance to fight for troop-kill points without intentionally zeroing bases.', 'IF THEY ZERO US: The agreement is off and FAM goes full force.', 'KILL SQUADS: Use the established 3–4 squads of five with 2 attackers and 3 shielded support.', 'IF WEEK IS WON: Shield and preserve troops/resources for Capitol instead.']
+      }
+    };
+    const SHORT = ['Radar', 'Base', 'Tech', 'Heroes', 'War Prep', 'Opposing'];
+    const fmt = n => Number(n).toLocaleString(undefined, {maximumFractionDigits: 1});
+    const tabs = document.getElementById('dayTabs');
+    let activeDay = 1;
+    for (let d = 1; d <= 6; d++) {
+      const b = document.createElement('button'); b.className = 'week-day'; b.dataset.day = d;
+      b.innerHTML = '<span class="day-num">DAY ' + d + '</span><strong>' + SHORT[d - 1] + '</strong><span class="day-vp">' + DAYS[d].vp + ' VP</span>';
+      b.addEventListener('click', () => showDay(d)); tabs.appendChild(b);
+    }
+    function fieldMarkup(s, i) {
+      return '<div class="planner-field ' + s.tone + '">' +
+        '<div class="planner-field-copy"><div class="planner-field-title"><b>' + s.label + '</b><span class="planner-tag ' + s.tone + '">' + s.status + '</span></div>' +
+        '<small>' + fmt(s.rate) + ' pts each · ' + s.note + '</small></div>' +
+        '<div class="planner-field-entry"><input type="number" min="0" step="1" value="0" data-rate="' + s.rate + '" data-index="' + i + '" aria-label="' + s.label + ' amount"><span class="planner-field-points">0 pts</span></div></div>';
+    }
+    function showDay(d) {
+      activeDay = d;
+      document.querySelectorAll('.week-day').forEach(b => b.classList.toggle('active', +b.dataset.day === d));
+      const x = DAYS[d];
+      document.getElementById('dayLabel').textContent = 'Day ' + d;
+      document.getElementById('dayName').textContent = x.name;
+      document.getElementById('dayVP').textContent = x.vp + ' VP';
+      document.getElementById('dayVP').classList.toggle('critical', x.vp === 4);
+      document.getElementById('postureLabel').textContent = x.posture;
+      document.getElementById('postureLabel').classList.toggle('critical', x.vp === 4);
+      document.getElementById('postureCopy').textContent = x.postureCopy;
+      document.getElementById('plannerFields').innerHTML = x.scores.map(fieldMarkup).join('');
+      document.getElementById('dayAdvice').innerHTML = '<div class="advice-stack">' + x.advice.map(a => {const p = a.split(':'); return '<div class="advice-item"><b>' + p[0] + '</b><span>' + p.slice(1).join(':') + '</span></div>'}).join('') + '</div>';
+      document.querySelectorAll('#plannerFields input').forEach(i => i.addEventListener('input', calcPlanner));
+      calcPlanner();
+    }
+    function calcPlanner() {
+      let total = 0;
+      document.querySelectorAll('#plannerFields input').forEach(i => {
+        const pts = (+i.value || 0) * (+i.dataset.rate || 0); total += pts;
+        i.closest('.planner-field-entry').querySelector('.planner-field-points').textContent = Math.round(pts).toLocaleString() + ' pts';
+      });
+      document.getElementById('plannerTotal').textContent = Math.round(total).toLocaleString();
+      updateTarget(total);
+    }
+    function updateTarget(total) {
+      const target = +document.getElementById('plannerTarget').value || 0;
+      const status = document.getElementById('plannerTargetStatus');
+      status.classList.remove('enough', 'short');
+      if (!target) {status.textContent = 'Enter a target to see when you have enough.'; return;}
+      const diff = target - total;
+      if (diff <= 0) {status.textContent = 'Target reached. Keep watching the score and use additional resources if the lead needs support.'; status.classList.add('enough');}
+      else {status.textContent = Math.round(diff).toLocaleString() + ' more VS points needed.'; status.classList.add('short');}
+    }
+    document.getElementById('plannerTarget').addEventListener('input', calcPlanner);
+    document.getElementById('plannerClear').addEventListener('click', () => {document.querySelectorAll('#plannerFields input').forEach(i => i.value = 0); calcPlanner();});
+    showDay(1);
 
-const MATRIX=[
- ['Radar Tasks',[1,3,5]],
- ['Building Speed-ups',[2,5,6]],
- ['Building Power',[2,5]],
- ['Tech Speed-ups',[3,5,6]],
- ['Tech Power',[3,5]],
- ['Train Speed-ups',[5,6]],
- ['Heal Speed-ups',[6]],
- ['UR Trade Trucks',[2,6]],
- ['UR Covert Ops',[2,6]],
- ['Hero Shards',[4]],
- ['Skill Medals',[4]],
- ['Hero Recruitment',[4]],
- ['Valor Badges',[3]],
- ['Airship Component Chests',[3]],
- ['Stamina',[1]],
- ['Gathering',[1]]
-];
-document.getElementById('matrixBody').innerHTML=MATRIX.map(r=>{
- const last=Math.max(...r[1]);
- const oneDay=r[1].length===1;
- const label=oneDay?'scores one day':'scores multiple days';
- return '<tr><td><b>'+r[0]+'</b><small class="rowtype '+(oneDay?'dedicated':'flex')+'">'+label+'</small></td>'+[1,2,3,4,5,6].map(d=>{
-   if(!r[1].includes(d)) return '<td class="no">—</td>';
-   if(oneDay) return '<td class="best">●</td>';
-   if(d<last) return '<td class="reserve">◆</td>';
-   return '<td class="yes">●</td>';
- }).join('')+'</tr>';
-}).join('');
-
-const calcDay=document.getElementById('calcDay');
-function buildCalc(){
- const d=+calcDay.value,x=DAYS[d];
- document.getElementById('calcDayName').textContent='Day '+d+' — '+x.name;
- document.getElementById('calcVP').textContent=x.vp+' VP day';
- document.getElementById('calcVP').classList.toggle('critical',x.vp===4);
- const host=document.getElementById('calcFields'); host.innerHTML='';
- x.scores.forEach(s=>{
-   const f=document.createElement('div');f.className='calc-field';
-   f.innerHTML='<label>'+s[0]+' <span>('+fmt(s[1])+' ea.)</span></label><input type="number" min="0" step="1" value="0" data-rate="'+s[1]+'" aria-label="'+s[0]+'">';
-   host.appendChild(f);
- });
- host.querySelectorAll('input').forEach(i=>i.addEventListener('input',calc)); calc();
-}
-function calc(){let t=0;document.querySelectorAll('#calcFields input').forEach(i=>t+=(+i.value||0)*(+i.dataset.rate));document.getElementById('calcTotal').textContent=Math.round(t).toLocaleString();}
-calcDay.addEventListener('input',buildCalc);buildCalc();
-</script>
+    const MATRIX = [
+      ['Radar Tasks', [1, 3, 5]], ['Airship EXP', [1]], ['Airship Parts', [1]], ['Hero EXP', [1, 4]],
+      ['Building Speed-ups', [2, 5, 6]], ['Building Power', [2, 5]], ['Tech Speed-ups', [3, 5, 6]], ['Tech Power', [3, 5]],
+      ['Train Speed-ups', [5, 6]], ['Heal Speed-ups', [6]], ['UR Trade Trucks', [2, 6]], ['UR Covert Ops', [2, 6]],
+      ['Hero Shards', [4]], ['Skill Medals', [4]], ['Hero Recruitment', [4]], ['Specialist Recruitment', [2]],
+      ['Valor Badges', [3]], ['Airship Component Chests', [3]], ['Stamina', [1]], ['Gathering', [1]]
+    ];
+    document.getElementById('matrixBody').innerHTML = MATRIX.map(r => {
+      const last = Math.max(...r[1]); const oneDay = r[1].length === 1; const label = oneDay ? 'scores one day' : 'scores multiple days';
+      return '<tr><td><b>' + r[0] + '</b><small class="rowtype ' + (oneDay ? 'dedicated' : 'flex') + '">' + label + '</small></td>' + [1, 2, 3, 4, 5, 6].map(d => {
+        if (!r[1].includes(d)) return '<td class="no">—</td>';
+        if (oneDay) return '<td class="best">●</td>';
+        if (d < last) return '<td class="reserve">◆</td>';
+        return '<td class="yes">●</td>';
+      }).join('') + '</tr>';
+    }).join('');
+  </script>
 </body>
+
 </html>
