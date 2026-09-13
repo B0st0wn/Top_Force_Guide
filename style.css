@@ -548,3 +548,11 @@ nav.jump a{font-size:13px}
 .week-day.server-today{position:relative;border-color:var(--teal)}
 .week-day.server-today::after{content:attr(data-today);position:absolute;top:6px;right:6px;font-size:.58rem;font-weight:900;letter-spacing:.08em;color:var(--void);background:var(--teal);padding:2px 5px;border-radius:999px}
 @media (max-width:700px){.server-day-status{align-items:flex-start;flex-direction:column;gap:6px}.server-day-status small{text-align:left}}
+
+/* v0.18: make current server day unmistakable */
+.server-day-status{padding:20px 22px;margin-bottom:18px;border-width:2px;background:rgba(87,176,166,.12);box-shadow:0 0 0 1px rgba(87,176,166,.06),0 10px 28px rgba(0,0,0,.16)}
+.server-day-status>div{gap:14px}
+.server-day-kicker{font-size:.78rem;letter-spacing:.14em}
+.server-day-status strong{font-size:1.42rem;font-weight:900;letter-spacing:-.015em}
+.server-day-status small{font-size:.92rem;font-weight:600}
+@media (max-width:700px){.server-day-status strong{font-size:1.18rem}.server-day-status{padding:16px}}
