@@ -1,9 +1,21 @@
 <!doctype html>
+<!--
+Editor: Visual Studio Code
+Script Name: index.html
+Author: Paul Hanlon
+Date: 2026-09-06
+Description:
+  Single-file interactive web version of the Top Force Combat Power & Fighting Effectiveness
+  Guide. Combat-power optimization guide. Contains a clickable two-lane progression map (Military Base /
+  Barracks), a formation bonus calculator, a troop counter-triangle selector,
+  a barracks tier lookup, and the full priority, resource, and doctrine content.
+  Static HTML/CSS/JavaScript. GitHub Pages compatible. Google Fonts are the only external asset.
+-->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Top Force — VS Battle Planner</title>
+<title>Top Force — Combat Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -25,417 +37,604 @@
 @media (max-width:800px) { .hero-logo { display:none; } .combat-hero > h1, .combat-hero > .sub, .combat-hero > .thesis, .vs-hero > .hero-kicker, .vs-hero > h1, .vs-hero > .sub, .vs-hero > .vp-hero-row, .vs-hero > .thesis { max-width:none; } }
 </style>
 </head>
-<body class="vs-page">
+<body>
+
 <header class="top">
   <div class="wrap">
     <div class="brand">TOP <span>FORCE</span></div>
     <nav class="jump" aria-label="Sections">
-      <a href="#planner">VS Planner</a><a href="#battleplan">Battle Plan</a><a href="#ke-doctrine">KE Doctrine</a><a href="#matrix">Resources</a>
+      <a href="#realpower">Real Power</a><a href="#map">Progression</a><a href="#stack">Priority</a>
+      <a href="#counters">Counters</a><a href="#formation">Formation</a><a href="#tiers">Units</a>
+      <a href="#resources">Resources</a><a href="#heroes">Heroes</a><a href="#research">Research</a>
+      <a href="#doctrine">PvP</a><a href="#loop">Loop</a><a href="#gaps">Advanced</a>
     </nav>
-    <div class="page-nav" aria-label="Guide pages"><a href="./index.html">Combat Guide</a><a class="active" href="./vs-battle.html">VS Planner</a></div>
+    <div class="page-nav" aria-label="Guide pages"><a class="active" href="./index.html">Combat Guide</a><a href="./vs-battle.html">VS Battle Planner</a></div>
   </div>
 </header>
 
-<div class="wrap hero vs-hero">
+<div class="wrap hero combat-hero">
   <div class="hero-logo" aria-hidden="true"><img src="./favicon.png" alt=""></div>
-  <div class="hero-kicker">ALLIANCE DUEL · WEEKLY VS</div>
-  <h1>Win the week.<br>Not every day.</h1>
-  <p class="sub">The duel awards <b>13 Victory Points</b> across six days. Our goal is to win every day by using the resources that score best each day, building strong leads efficiently, and carrying unused resources into the next scoring opportunity.</p>
-  <div class="vp-hero-row">
-    <div class="vp-stat"><span>13</span><small>Total VP available</small></div>
-    <div class="vp-stat"><span>7</span><small>VP guarantees the week</small></div>
-    <div class="vp-stat critical"><span>4</span><small>VP on Day 6 alone</small></div>
-  </div>
-  <p class="thesis"><b>Core rule:</b> try to win every day. Use the resources that score well that day, build the lead efficiently, and stop only when the day is secure enough to protect what remains for the rest of the week.</p>
+  <h1>Combat power &amp;<br>fighting effectiveness</h1>
+  <p class="sub">Displayed Power is only a score. Fighting effectiveness comes from the upgrades that actually change what your primary squad can survive, carry, mitigate and kill.</p>
+  <p class="thesis"><b>Build combat power, not displayed power.</b> Every major resource spend should unlock a combat breakpoint, strengthen the primary fighting squad, or improve a permanent combat multiplier.</p>
 </div>
 
-<section id="battleplan" class="soft-section">
+<div class="wrap guide-flow" aria-label="How to use the guide">
+  <div class="flow-step"><span>1</span><div><b>Pick the next breakpoint</b><small>Know what actually changes combat.</small></div></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step"><span>2</span><div><b>Concentrate the main march</b><small>Tier, heroes, research and Center.</small></div></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step"><span>3</span><div><b>Time the spend</b><small>Use the VS window when practical.</small></div></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step"><span>4</span><div><b>Reassess</b><small>Repeat from the next meaningful gate.</small></div></div>
+</div>
+
+<section id="realpower">
   <div class="wrap">
-    <div class="section-intro">
-      <div><span class="section-kicker">THE WEEKLY PLAN</span><h2>Push every day smart and build the week early</h2></div>
-      <p>Every day is a chance to add Victory Points. Push each day using the resources that score best, build the lead efficiently, and keep enough available to stay strong through the rest of the week. Winning Days 1–5 can secure the week before the Day 6 Kill Event.</p>
+    <h2><span class="num">1</span>Real combat power vs displayed Power</h2>
+    <p class="lede">Top Force awards Power for many upgrades, but those upgrades do not all improve the same fight. Before spending, identify exactly what the upgrade affects.</p>
+    <div class="cards3">
+      <div class="card"><span class="pill">Highest value</span><h3>Breakpoints</h3><p>Military Base gates hero levels and buildings. Barracks 24, 27 and 30 unlock stronger unit tiers. These upgrades can change several combat systems at once.</p></div>
+      <div class="card"><span class="pill">Permanent</span><h3>Combat multipliers</h3><p>ATK, HP, DEF, Units Attack, damage-up effects, troop-type Centers and combat research continue working every fight they apply to.</p></div>
+      <div class="card"><span class="pill">Concentrated</span><h3>Primary squad</h3><p>Tier, skills and scarce gear matter most when they strengthen the five heroes and units you actually send into important fights.</p></div>
     </div>
-
-    <div class="battle-path">
-      <div class="path-card low"><div class="path-vp">1 VP</div><h3>Day 1 · Radar Special Training</h3><p>Start the week strong with Radar Tasks, Stamina, Airship EXP and Parts, Hero EXP, and gathering. Build the lead with the resources available today.</p></div>
-      <div class="path-connector">→</div>
-      <div class="path-card"><div class="path-vp">2 VP</div><h3>Days 2–4 · Build the Lead</h3><p>Use the actions and resources that score for each day and keep pressure on the matchup. Items that score again later are still useful today when they help secure the win.</p></div>
-      <div class="path-connector">→</div>
-      <div class="path-card"><div class="path-vp">2 VP</div><h3>Day 5 · War Preparations</h3><p>Building, tech, training and radar all score on Day 5. Use the mix that gives the alliance the strongest, easiest path to another daily win.</p></div>
-      <div class="path-connector">→</div>
-      <div class="path-card critical"><div class="path-vp">4 VP</div><h3>Day 6 · SVS Kill Event</h3><p>Four points can decide the week. If we need the four points, use the truce option or the established kill-squad plan. If we already have enough Victory Points to win the week, shield and save troops for Capitol or the next fight.</p></div>
-    </div>
-
-    <div class="decision-band">
-      <div><b>If ahead:</b><span> keep enough pressure on the score to hold the lead and preserve what is not needed yet.</span></div>
-      <div><b>If close:</b><span> use the strongest scoring options available for that day and keep building until the lead is comfortable.</span></div>
-      <div><b>If behind:</b><span> focus on the highest-value scoring actions first and coordinate the push so everyone contributes where it matters most.</span></div>
-    </div>
-
-    <div class="win-combos">
-      <h3>Useful paths to the weekly win</h3>
-      <div class="combo-row"><span class="combo-score">8 VP</span><span>Day 6 + any two 2-point days</span><small>Wins the week with room to spare</small></div>
-      <div class="combo-row"><span class="combo-score">7 VP</span><span>Day 6 + one 2-point day + Day 1</span><small>Exactly enough to guarantee the week</small></div>
-      <div class="combo-row"><span class="combo-score">7+ VP</span><span>No Day 6 win</span><small>Possible, but we must win enough points before KE</small></div>
-    </div>
+    <table>
+      <thead><tr><th>Upgrade example</th><th>What it really does</th><th>Combat classification</th></tr></thead>
+      <tbody>
+        <tr><td>Units Attack III</td><td>Raises Units Attack</td><td><b>Direct field PvP</b></td></tr>
+        <tr><td>Infantry ATK / HP / DEF / Firepower</td><td>Raises stats or damage for Infantry heroes</td><td><b>Direct when Infantry is used</b></td></tr>
+        <tr><td>Guard HP</td><td>Raises HP only while guarding inside the base</td><td>Conditional base defense</td></tr>
+        <tr><td>Damage to Monsters</td><td>Raises PvE damage</td><td>PvE only</td></tr>
+        <tr><td>Resource Reaper</td><td>Raises gathering speed</td><td>Economy</td></tr>
+        <tr><td>Squad Capacity research</td><td>Raises load capacity, not troop count</td><td>Utility; misleading name</td></tr>
+      </tbody>
+    </table>
+    <p class="warning"><b>Decision rule:</b> if an upgrade raises Power but does not improve the fight you care about, treat the Power increase as bookkeeping—not fighting strength.</p>
   </div>
 </section>
 
-<section id="planner" class="planner-section">
+<section id="map">
   <div class="wrap">
-    <div class="section-intro planner-intro">
-      <div><span class="section-kicker">VS DAY PLANNER</span><h2>Pick the day. See what scores. Plan what to spend.</h2></div>
-      <p>Select the current VS day once. The planner shows the scoring actions, what should be used now, what can score again later, and the points from the amounts you enter.</p>
-    </div>
+    <h2><span class="num">2</span>Progression breakpoints</h2>
+    <p class="lede">Military Base and Barracks are not ordinary building upgrades. They create combat gates. Military Base raises hero caps and unlocks prerequisites; Barracks unlocks stronger unit tiers. Push them when the next level creates a meaningful breakpoint, not merely because the building can be upgraded.</p>
 
-    <div class="planner-shell">
-      <div class="server-day-status" id="serverDayStatus">
-        <div><span class="server-day-kicker">CURRENT SERVER DAY</span><strong id="serverDayText">Checking...</strong></div>
-        <small id="serverResetText"></small>
-      </div>
-      <div class="week-strip planner-tabs" id="dayTabs"></div>
-
-      <div class="planner-head">
-        <div>
-          <div class="eyebrow" id="dayLabel">Day 1</div>
-          <h3 id="dayName">Radar Special Training</h3>
-          <p id="postureCopy" class="planner-posture-copy"></p>
-        </div>
-        <div class="planner-vp-block">
-          <span class="vp-badge" id="dayVP">1 VP</span>
-          <span class="posture-label" id="postureLabel">DAY 1 · RADAR</span>
+    <div class="mapwrap">
+      <div>
+        <div class="lanes">
+          <div>
+            <div class="lanehead">Military Base</div>
+            <div class="lane" id="laneMB"></div>
+          </div>
+          <div>
+            <div class="lanehead">Barracks</div>
+            <div class="lane" id="laneBK"></div>
+          </div>
         </div>
       </div>
 
-      <div class="planner-layout">
-        <div class="planner-main">
-          <div class="planner-subhead">
-            <div><span class="section-kicker">WHAT SCORES TODAY</span><h3>Enter what you have available</h3></div>
-            <span class="planner-save-note">Saved automatically on this device</span>
-            <button class="planner-clear" id="plannerClear" type="button">Clear</button>
-          </div>
-          <div class="planner-fields" id="plannerFields"></div>
+      <div class="detail" id="detail" aria-live="polite">
+        <span class="tag" id="dTag">Verified</span>
+        <h3 id="dTitle">Military Base 7</h3>
+        <p id="dSummary"></p>
+        <ul id="dList"></ul>
+        <div class="why"><b>What to do here.</b> <span id="dWhy"></span></div>
+        <div class="mark">
+          <button class="btn" id="dMark" type="button">Mark as reached</button>
         </div>
-
-        <aside class="planner-side">
-          <div class="planner-total-card">
-            <span>PLANNED VS POINTS</span>
-            <strong id="plannerTotal">0</strong>
-            <small>from the amounts entered</small>
-          </div>
-
-          <div class="planner-target-card">
-            <label for="plannerTarget">Points we still need today <small>(optional)</small></label>
-            <input id="plannerTarget" type="number" min="0" step="1" placeholder="Example: 2,000,000">
-            <div class="planner-target-status" id="plannerTargetStatus">Enter a target to see when you have enough.</div>
-          </div>
-
-          <div class="planner-advice-card">
-            <span class="section-kicker">TODAY'S PLAN</span>
-            <div id="dayAdvice"></div>
-          </div>
-        </aside>
+        <div class="progress">
+          <div class="bar"><i id="pBar"></i></div>
+          <p id="pTxt">0 of 13 checkpoints reached</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="matrix" class="soft-section">
+<section id="stack">
   <div class="wrap">
-    <div class="section-intro compact">
-      <div><span class="section-kicker">WHAT TO SAVE</span><h2>Know which days each resource scores</h2></div>
-      <p>Some items score on only one day. Others score again later in the week. Use the one-day items on their scoring day. Save multi-day items when possible until we know which day we need them to win.</p>
-    </div>
-
-    <div class="resource-rule-grid">
-      <div class="resource-rule"><span>SCORES ON ONE DAY</span><h3>Save it for that day</h3><p>Hero Shards, Skill Medals, Valor Badges and Airship Component Chests should be saved during the week and used on the day that gives VS points for them.</p></div>
-      <div class="resource-rule flex"><span>SCORES ON MORE THAN ONE DAY</span><h3>Do not use it too early</h3><p>Building, tech and training speed-ups score on multiple days. Use them today only when we need the points; otherwise save them for a later day.</p></div>
-      <div class="resource-rule critical"><span>DAY 6</span><h3>Keep something left if KE may decide the week</h3><p>UR Trucks, UR Covert Ops, healing speed-ups and unused building, tech and training speed-ups can all score on Day 6. Save some when Day 6 may be needed. If the week is already won, there is no reason to burn them for VS.</p></div>
-    </div>
-
-    <div class="matrix-wrap">
-      <div class="legend"><span><b class="ldedicated">● USE HERE</b> scores on this day only</span><span><b class="lscore">● ALSO SCORES</b> scores on this day and another day</span><span><b class="lreserve">◆ SAVE IF POSSIBLE</b> can score again on a later day</span></div>
-      <div style="overflow-x:auto">
-        <table class="matrix">
-          <thead><tr><th>Resource / action</th><th>D1<br><small>1 VP</small></th><th>D2<br><small>2 VP</small></th><th>D3<br><small>2 VP</small></th><th>D4<br><small>2 VP</small></th><th>D5<br><small>2 VP</small></th><th>D6<br><small>4 VP</small></th></tr></thead>
-          <tbody id="matrixBody"></tbody>
-        </table>
-      </div>
-    </div>
+    <h2><span class="num">3</span>Where the next upgrade goes</h2>
+    <p class="lede">Use this as a decision order, not a rigid recipe. A breakpoint that unlocks a new unit tier or hero cap can outrank a small percentage upgrade; otherwise keep resources concentrated on permanent combat gains and the primary squad.</p>
+    <div class="stack" id="stackList"></div>
   </div>
 </section>
 
-
-<section id="ke-doctrine" class="ke-section">
+<section id="counters">
   <div class="wrap">
-    <div class="section-intro">
-      <div><span class="section-kicker">DAY 6 · KILL EVENT</span><h2>Fight as cells. Score troops. DON’T ZERO.</h2></div>
-      <p>During Day 6 the matched servers can teleport across servers and attack bases. FAM uses coordinated five-player strike cells rather than sending players out alone.</p>
-    </div>
-
-    <div class="ke-command-grid">
-      <div class="ke-card truce-card">
-        <span class="ke-step">OPTION 1 · DIPLOMACY</span>
-        <h3>Contact the opposing R4 / R5</h3>
-        <p>Before KE, our R4/R5 can contact the opposing alliance R4/R5 and offer a DON’T ZERO agreement. Both sides may fight for troop-kill points, but neither side intentionally zeros bases.</p>
-        <div class="ke-rule">If both sides agree, FAM follows DON’T ZERO. If the other side starts zeroing FAM bases, the agreement is off and we go full force.</div>
+    <h2><span class="num">4</span>The counter triangle</h2>
+    <p class="lede">Three-way counters matter, but a counter does not erase a large development gap. Use the type you can develop most deeply, then exploit favorable matchups rather than weakening all three types equally.</p>
+    <div class="triwrap">
+      <svg class="tri" viewBox="0 0 400 340" role="group" aria-label="Troop type counter triangle">
+        <path class="arrow" id="aInf" d="M200 92 L318 232" marker-end="url(#h)"/>
+        <path class="arrow" id="aAir" d="M300 250 L110 250" marker-end="url(#h)"/>
+        <path class="arrow" id="aTank" d="M82 232 L182 92" marker-end="url(#h)"/>
+        <defs>
+          <marker id="h" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+            <path d="M0 0 L9 4.5 L0 9 z" fill="#1F454C"/></marker>
+          <marker id="hl" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+            <path d="M0 0 L9 4.5 L0 9 z" fill="#57B0A6"/></marker>
+        </defs>
+        <g class="tnode" id="nInf" data-type="inf" tabindex="0" role="button" aria-label="Infantry">
+          <circle class="ring" cx="200" cy="62" r="46"/><text x="200" y="68" text-anchor="middle">Infantry</text>
+        </g>
+        <g class="tnode" id="nTank" data-type="tank" tabindex="0" role="button" aria-label="Tank">
+          <circle class="ring" cx="62" cy="272" r="46"/><text x="62" y="278" text-anchor="middle">Tank</text>
+        </g>
+        <g class="tnode" id="nAir" data-type="air" tabindex="0" role="button" aria-label="Aircraft">
+          <circle class="ring" cx="338" cy="272" r="46"/><text x="338" y="278" text-anchor="middle">Aircraft</text>
+        </g>
+      </svg>
+      <div class="triinfo">
+        <h3 id="tName">Infantry</h3>
+        <dl>
+          <dt>Beats</dt><dd id="tBeat"></dd>
+          <dt>Loses to</dt><dd id="tLose"></dd>
+          <dt>Center unlock</dt><dd id="tUnlock"></dd>
+          <dt>Center at 30</dt><dd id="tCap"></dd>
+        </dl>
+        <p style="margin-top:16px;color:#CFD8D2">Choose the troop type your account can develop most deeply with its current roster, Center, research and scarce materials. The guide does not require specific heroes; the goal is one coherent, highly developed fighting squad.</p>
       </div>
-      <div class="ke-card combat-card">
-        <span class="ke-step">OPTION 2 · COMBAT</span>
-        <h3>Deploy 3–4 strike cells</h3>
-        <p>Each cell travels together. The two strongest players attack while three capable support players remain shielded and protect the exposed attackers.</p>
-        <div class="cell-line"><span class="defender">SHIELDED</span><span class="attacker">ATTACKER</span><span class="attacker">ATTACKER</span><span class="defender">SHIELDED</span><span class="defender">SHIELDED</span></div>
-      </div>
-    </div>
-
-    <div class="ke-flow">
-      <div class="ke-flow-card"><b>1 · Deploy together</b><span>3–4 cells of five. Do not roam alone.</span></div>
-      <div class="ke-flow-arrow">→</div>
-      <div class="ke-flow-card"><b>2 · Attackers score</b><span>Attack for troop-kill points. The shielded three stay shielded and support the two attackers.</span></div>
-      <div class="ke-flow-arrow">→</div>
-      <div class="ke-flow-card"><b>3 · Rotate reserves</b><span>If an attacker is zeroed and randomly teleported away, a strong player on standby can port in and take that attacker spot.</span></div>
-      <div class="ke-flow-arrow">→</div>
-      <div class="ke-flow-card"><b>4 · Cell expires</b><span>If both attackers are gone and nobody is available to replace them, that squad is done and heads back.</span></div>
-    </div>
-
-    <div class="dont-zero">
-      <div class="dz-mark">DON’T ZERO</div>
-      <div><h3>Score troops, not bases.</h3><p>KE points come from troop kills. Watch the scoring during the attack. When the target stops producing troop-kill points, stop hitting it and move to another scoring target. Do not continue attacking simply to zero the base.</p></div>
-    </div>
-
-    <div class="ke-notes">
-      <div><b>Attackers</b><span>The two strongest players in the cell. They remain exposed while attacking.</span></div>
-      <div><b>Shielded support</b><span>Capable players whose job is to remain shielded and protect the attackers—not chase their own kills.</span></div>
-      <div><b>Standby</b><span>Keep strong attackers available to replace anyone who gets zeroed so a squad can keep fighting.</span></div>
-      <div><b>Zeroed attacker</b><span>The game randomly teleports the player away. If a strong replacement is available, they port in and take the open attacker spot.</span></div>
     </div>
   </div>
 </section>
 
-<footer><div class="wrap"><p>Scoring values are transcribed from live-server screenshots. Victory Point weighting is observed from the weekly duel screen. The plan should be adjusted each week based on which days FAM has won and how many Victory Points are still needed.</p></div></footer>
+<section id="formation">
+  <div class="wrap">
+    <h2><span class="num">5</span>Formation bonus</h2>
+    <p class="lede">A squad carries five heroes and rewards matching types. Use the bonus as part of the calculation—not as permission to replace a powerful synergistic hero with a weak same-type hero. Tap a slot to compare formations.</p>
+    <div class="slots" id="slots"></div>
+    <div class="readout">
+      <div class="big" id="fBonus">+20%</div>
+      <div class="txt" id="fText"></div>
+    </div>
+    <table>
+      <thead><tr><th>Formation</th><th>HP / ATK / DEF bonus</th></tr></thead>
+      <tbody>
+        <tr><td>3 heroes of one type</td><td>+5%</td></tr>
+        <tr><td>3 of one type + 2 of another</td><td>+10%</td></tr>
+        <tr><td>4 heroes of one type</td><td>+15%</td></tr>
+        <tr><td>5 heroes of one type</td><td>+20%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="tiers">
+  <div class="wrap">
+    <h2><span class="num">6</span>Unit tiers are combat breakpoints</h2>
+    <p class="lede">Barracks level sets the highest unit level you can train. The late breakpoints are large enough to be account-defining: Lv.24 unlocks Unit Lv.8, Lv.27 unlocks Lv.9, and Lv.30 plus Unit X research unlocks Lv.10.</p>
+    <div class="tier">
+      <label for="bkRange">Barracks level <b id="bkVal">30</b></label>
+      <input type="range" id="bkRange" min="1" max="30" value="30" aria-describedby="bkNote">
+      <div class="tierout" style="margin-top:14px">
+        <div class="t" id="bkTier">T10</div>
+        <div class="note" id="bkNote"></div>
+      </div>
+    </div>
+    <h3 style="margin-top:30px;font-size:20px">Observed Infantry unit scaling</h3>
+    <table>
+      <thead><tr><th>Unit level</th><th>Power</th><th>Morale</th><th>Load</th><th>HP</th><th>ATK</th><th>DEF</th><th>Unlock</th></tr></thead>
+      <tbody>
+        <tr><td>Lv.7</td><td>687</td><td>370</td><td>1600</td><td>1097</td><td>10</td><td>2</td><td>Current example</td></tr>
+        <tr><td>Lv.8</td><td>1075</td><td>425</td><td>1800</td><td>1788</td><td>14</td><td>2</td><td>Barracks 24</td></tr>
+        <tr><td>Lv.9</td><td>1365</td><td>500</td><td>2000</td><td>2273</td><td>18</td><td>3</td><td>Barracks 27</td></tr>
+        <tr><td>Lv.10</td><td>1667</td><td>600</td><td>2200</td><td>2773</td><td>22</td><td>4</td><td>Barracks 30 + Unit X research</td></tr>
+      </tbody>
+    </table>
+    <p class="lede" style="margin-top:16px">In the observed Lv.7→Lv.8 jump, unit Power rises about 56%, HP about 63%, ATK 40%, and Morale about 15%. That is why a tier unlock can outrank several small percentage upgrades.</p>
+    <h3 style="margin-top:30px;font-size:20px">Training throughput and squad unlocks</h3>
+    <table>
+      <thead><tr><th>Queue / squad</th><th>Unlocked by</th></tr></thead>
+      <tbody>
+        <tr><td>Barracks queue 1</td><td>Military Base 7</td></tr>
+        <tr><td>Barracks queue 2</td><td>Military Base 10</td></tr>
+        <tr><td>Barracks queue 3</td><td>Military Base 17</td></tr>
+        <tr><td>Barracks queue 4</td><td>Extra Barracks Development technology</td></tr>
+        <tr><td>Squad 2 / Squad 3</td><td>Military Base 10 / Military Base 20</td></tr>
+        <tr><td>Squad 4</td><td>Super Monthly Pass</td></tr>
+      </tbody>
+    </table>
+    <p class="lede" style="margin-top:16px">Throughput is useful only when it feeds useful units. Do not confuse training more obsolete troops with increasing fighting effectiveness.</p>
+  </div>
+</section>
+
+<section id="resources">
+  <div class="wrap">
+    <h2><span class="num">7</span>Resource discipline</h2>
+    <p class="lede">Resources become scarce enough that sequencing is part of combat strength. Bank toward defined breakpoints and permanent multipliers instead of spending because an upgrade button is available.</p>
+    <div class="card" style="margin-top:22px"><span class="pill">Observed breakpoint</span><h3>Military Base 23 → 24</h3><p>Raises the hero level cap from 115 to 120 and is required for Barracks 24, which unlocks Unit Lv.8. The observed upgrade also raises Military Base Hero HP from 9,000 to 9,500. One progression step therefore opens multiple combat gains.</p></div>
+    <table>
+      <thead><tr><th>Resource or item</th><th>Default use</th></tr></thead>
+      <tbody>
+        <tr><td>Food / Iron / Coins</td><td>Fund the next combat breakpoint first: Military Base prerequisites, Barracks tier unlocks, primary-type Center and direct combat research.</td></tr>
+        <tr><td>Speed-ups</td><td>Save for meaningful breakpoints and scoring events wherever practical.</td></tr>
+        <tr><td>Hero shards</td><td>Concentrate on heroes that actually occupy the primary fighting squad or unlock a specific synergy. Do not spend merely to raise account Power.</td></tr>
+        <tr><td>Skill medals</td><td>Prioritize high-impact PvP skills: team buffs, enemy debuffs, carry damage and frontline mitigation.</td></tr>
+        <tr><td>Gear materials</td><td>Scarce. Concentrate them where the next upgrade creates the strongest tank, carry or team-wide breakpoint; do not level every slot evenly by habit.</td></tr>
+        <tr><td>Training items</td><td>New unit tiers, combat preparation, and high-value event scoring.</td></tr>
+        <tr><td>Diamonds</td><td>Avoid convenience spending that creates no permanent or strategic power.</td></tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top:34px;font-size:20px">Get paid twice for the same upgrade</h3>
+    <p class="lede">Alliance Duel scores research power and research speed-ups on Tech day; hero shards, skill medals, and Hero EXP on Hero day; building power, research power, training, and several speed-up types on War Preparations. Where timing allows, spend inside the window that rewards that exact action — without delaying critical combat progression indefinitely.</p>
+  </div>
+</section>
+
+
+<section id="heroes">
+  <div class="wrap">
+    <h2><span class="num">8</span>Evaluate heroes by combat function</h2>
+    <p class="lede"><b>This is not a hero-buying guide.</b> The heroes shown here are examples used to expose mechanics. Apply the same questions to whatever roster you have.</p>
+    <div class="cards3">
+      <div class="card"><span class="pill">1 · Role</span><h3>What job does the hero perform?</h3><p>Front-row tank, carry, team amplifier, enemy debuffer, damage-type counter, or PvE/economy specialist. A useful PvP hero should have a clear job in the squad.</p></div>
+      <div class="card"><span class="pill">2 · Scope</span><h3>Who receives the effect?</h3><p>Self only, two front-row heroes, whole squad, highest-ATK ally, random enemies, all enemies, monsters only, or base defense only. Scope changes value dramatically.</p></div>
+      <div class="card"><span class="pill">3 · Breakpoint</span><h3>What unlocks at the next star/tier?</h3><p>Tier can unlock larger damage coefficients, longer durations, whole-squad effects and passive stat packages. Spend toward meaningful breakpoints, not arbitrary levels.</p></div>
+    </div>
+    <table>
+      <thead><tr><th>Observed example</th><th>What it teaches</th></tr></thead>
+      <tbody>
+        <tr><td>Cameron (UR)</td><td>Physical damage plus front-row all-damage mitigation and Physical Damage Taken Down. Example of a tank/support that still contributes damage.</td></tr>
+        <tr><td>Logan (UR)</td><td>Self mitigation plus DEF for the front row. Example of a defensive enabler whose value is not captured by his Power number alone.</td></tr>
+        <tr><td>Rasim (UR)</td><td>Team ATK/CRIT support, cooldown reduction and protection for the highest-ATK ally. Example of a team amplifier.</td></tr>
+        <tr><td>Natalie (UR)</td><td>Dedicated Energy DPS with a large multi-hit skill. Example of a carry that benefits from protection and team buffs.</td></tr>
+        <tr><td>Alexander (SSR)</td><td>Front-row Physical damage and enemy ATK reduction. Example of an SSR with real PvP utility.</td></tr>
+        <tr><td>Cassia (SSR)</td><td>Several bonuses are monster/resource focused. Example of displayed Power that does not translate cleanly into PvP effectiveness.</td></tr>
+        <tr><td>Victor (SSR)</td><td>Observed >1,000% ATK Physical skill coefficient. Example of why lower displayed Power or lower rarity does not automatically mean poor damage output.</td></tr>
+      </tbody>
+    </table>
+    <p class="warning"><b>Hero rule:</b> never recommend, buy or invest in a hero from rarity or Power alone. Read the skill text, identify the PvP scope, determine the role, then check what the next tier/star actually unlocks.</p>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <h2><span class="num">9</span>Research: rank the effect, not the Power reward</h2>
+    <p class="lede">Research is permanent, but the tree mixes field PvP, conditional defense, progression, economy and PvE. Rank the effect first; use the displayed Power reward only as a secondary number.</p>
+    <table>
+      <thead><tr><th>Example node</th><th>Actual effect</th><th>PvP value</th></tr></thead>
+      <tbody>
+        <tr><td>Units Attack III</td><td>+1% Units Attack per level, up to +5%</td><td><b>Direct field-combat upgrade.</b></td></tr>
+        <tr><td>Infantry Attack / HP / Defense</td><td>Direct Infantry Hero stat bonuses</td><td><b>Direct if Infantry is your main march.</b></td></tr>
+        <tr><td>Infantry Firepower</td><td>Increases damage caused by Infantry heroes</td><td><b>Direct damage multiplier.</b></td></tr>
+        <tr><td>Resource Reaper</td><td>Gathering speed for the squad</td><td>Economy only.</td></tr>
+        <tr><td>Squad Capacity</td><td>Load capacity, not troop count</td><td>Utility only; misleading name.</td></tr>
+        <tr><td>Damage to Monsters</td><td>PvE damage</td><td>No direct player-vs-player benefit.</td></tr>
+        <tr><td>Guard HP</td><td>Hero HP while guarding inside your base</td><td>Base defense only.</td></tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top:30px;font-size:20px">Research priority classes</h3>
+    <table>
+      <thead><tr><th>Class</th><th>Examples</th><th>Default priority</th></tr></thead>
+      <tbody>
+        <tr><td>A — Direct PvP</td><td>ATK, HP, DEF, Units Attack, troop-type damage, general combat modifiers</td><td><b>Highest outside major breakpoints</b></td></tr>
+        <tr><td>B — Conditional combat</td><td>Base guard stats, counter-specific effects, narrow damage resistance</td><td>High when the condition matches your actual fights</td></tr>
+        <tr><td>C — Progression / throughput</td><td>Prerequisites, training, construction/research speed, capacity unlocks</td><td>As needed to reach the next combat gate</td></tr>
+        <tr><td>D — Economy / PvE</td><td>Gathering, load, monster damage, resource bonuses</td><td>Fund combat growth; do not confuse with field PvP power</td></tr>
+      </tbody>
+    </table>
+    <p class="warning"><b>Rule:</b> classify every research node by effect before spending on it. A node can add thousands of displayed Power while doing nothing for the fight you are actually trying to win.</p>
+  </div>
+</section>
+<section id="doctrine">
+  <div class="wrap">
+    <h2><span class="num">10</span>Fighting accounts richer than you</h2>
+    <p class="lede">A larger spender can buy breadth, acceleration and replacement capacity. The practical counter is efficiency: concentrate permanent combat gains, reach troop and hero breakpoints sooner, use counters intelligently, coordinate fights, and refuse bad exchanges.</p>
+    <div class="doavoid">
+      <div class="col do">
+        <h3>Do</h3>
+        <ul>
+          <li>Concentrate five strong heroes into one primary formation.</li>
+          <li>Maintain the highest practical unit tier; Barracks 24/27/30 are major power gates.</li>
+          <li>Use troop-type counters and damage-profile counters when the strength gap is manageable.</li>
+          <li>Fight with alliance concentration, rallies, reinforcement, and timing.</li>
+          <li>Force the whale to spend teleports, stamina, healing, shields, time and replacement resources for limited gain.</li>
+          <li>Preserve troops when the fight is unwinnable.</li>
+        </ul>
+      </div>
+      <div class="col avoid">
+        <h3>Avoid</h3>
+        <ul>
+          <li>Leveling every hero or research node because it raises displayed Power.</li>
+          <li>Producing enormous numbers of obsolete troops.</li>
+          <li>Attacking a whale only because your troop type counters theirs.</li>
+          <li>Feeding individual marches into a stronger account.</li>
+          <li>Giving repeatable easy kills or undefended objectives.</li>
+          <li>Treating every attack as a mandatory stand-and-fight.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="loop">
+  <div class="wrap">
+    <h2><span class="num">11</span>The combat-power loop</h2>
+    <p class="lede">Run this in order and repeat it. The loop is built to keep resources pointed at real PvP gains instead of account-padding upgrades.</p>
+    <div class="loop" id="loopList"></div>
+  </div>
+</section>
+
+<section id="gaps">
+  <div class="wrap">
+    <h2><span class="num">12</span>Advanced systems still under testing</h2>
+    <p class="lede">The guide is usable without these systems. They remain advanced variables that need controlled testing before we turn them into exact investment or battle recommendations.</p>
+    <ul class="gaps">
+      <li>Exact rally stat inheritance and whether leader/member bonuses stack or remain independent.</li>
+      <li>Hospital, wounded, dead and overflow mechanics during PvP.</li>
+      <li>Exact value of Physical vs Energy resistance against common top-end hero compositions.</li>
+      <li>Gear stat priority and upgrade breakpoints by role.</li>
+      <li>Airship progression efficiency and which bonuses are worth chasing first.</li>
+      <li>Wall of Honor efficiency and where it belongs in the investment order.</li>
+      <li>Exact counter advantage magnitude: when type advantage overcomes raw stat disadvantage.</li>
+      <li>PvP target selection using march composition, troop tier, damage type and defensive profile.</li>
+      <li>Whale-response playbook for rallies, cities, reinforcements, tiles and base pressure.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Top Force changes quickly and official patch notes carry little mechanical detail. This guide combines community documentation with direct live-server observation and screenshot-verified mechanics. It is an optimization framework, not a hero-buying list; examples demonstrate mechanics rather than required purchases.</p>
+    <ul>
+      <li>Top Force Wiki — Squads: formation bonuses, squad unlocks, squad technology. Accessed September 2026.</li>
+      <li>Top Force Wiki — Barracks: unit-tier unlocks, training queues, training bonuses. Accessed September 2026.</li>
+      <li>Top Force Wiki — Infantry, Tank, and Aircraft Centers: type bonuses, squad size, counter triangle, Wall of Honor. Accessed September 2026.</li>
+      <li>Top Force Wiki — Alliance Duel: event scoring and reward structure. Accessed September 2026.</li>
+      <li>Direct live-server screenshots: hero skills, hero stat sources, Infantry Center, Units/Hero/Squad research, Barracks troop-tier stats, and Military Base 23→24 requirements.</li>
+      <li>Prior live-server progression analysis: Military Base 22 costs, city economy, resource constraints.</li>
+    </ul>
+    <p>Evidence labels — Verified: documented by the community wiki or official material. Server-observed: seen in live play, not documented well enough to call universal. Strategy: derived from the mechanics, not a rule imposed by the game.</p>
+  </div>
+</footer>
 
 <script>
-const DAYS={
-1:{name:'Radar Special Training',vp:1,posture:'DAY 1 · RADAR',postureCopy:'Start the week strong. Complete Radar Tasks, use Stamina, upgrade your Airship, gather resources, and use the scoring opportunities available to build the lead.',scores:[
- {label:'Use 1 Stamina',rate:262.5,status:'USE TODAY',tone:'use',note:'Day 1 only'},
- {label:'Complete 1 Radar Task',rate:22500,status:'USE AS NEEDED',tone:'flex',note:'Also scores Day 3 and Day 5'},
- {label:'Spend Hero EXP',rate:1.8,status:'SAVE FOR DAY 4',tone:'save',note:'Spend at least 660 at once; same rate on Hero Day'},
- {label:'Use 1 Airship EXP',rate:5.3,status:'USE TODAY',tone:'use',note:'Day 1 only'},
- {label:'Use 1 Airship Part',rate:4375,status:'USE TODAY',tone:'use',note:'Day 1 only'},
- {label:'Obtain 1 Diamond from pack purchases',rate:30,status:'IF BUYING',tone:'neutral',note:'Do not buy just for VS points'},
- {label:'Gather Food',rate:35,divisor:100,rateText:'35 PTS / 100 FOOD',status:'USE TODAY',tone:'use',note:'Enter the actual amount of Food gathered'},
- {label:'Gather Iron',rate:35,divisor:100,rateText:'35 PTS / 100 IRON',status:'USE TODAY',tone:'use',note:'Enter the actual amount of Iron gathered'},
- {label:'Gather Coins',rate:35,divisor:60,rateText:'35 PTS / 60 COINS',status:'USE TODAY',tone:'use',note:'Enter the actual amount of Coins gathered'}],
- advice:['AIRSHIP: Airship EXP and Parts are strong Day 1 scoring resources.','RADAR: Use Radar Tasks for points and keep your task-bank cap in mind so new tasks are not wasted. Radar also scores later in the week.','HERO EXP: Scores today and again on Hero Day, giving you another scoring opportunity later in the week.']},
-2:{name:'Base Development',vp:2,posture:'2 VP DAY',postureCopy:'Use the items that naturally belong on Day 2 first. Building speed-ups can score again on Day 5 and Day 6, so do not burn them unless we need the points.',scores:[
- {label:'1 minute Building Speed-up',rate:112.5,status:'SAVE IF POSSIBLE',tone:'save',note:'Also scores Day 5 and Day 6'},
- {label:'Increase Building Power by 1',rate:19.5,status:'USE WITH UPGRADES',tone:'flex',note:'Also scores Day 5'},
- {label:'Escort 1 UR Trade Truck',rate:175000,status:'USE TODAY',tone:'use',note:'Also scores Day 6'},
- {label:'Complete 1 UR Covert Ops',rate:131250,status:'USE TODAY',tone:'use',note:'Also scores Day 6'},
- {label:'Obtain 1 Diamond from pack purchases',rate:30,status:'IF BUYING',tone:'neutral',note:'Do not buy just for VS points'},
- {label:'Recruit Specialists 1 time',rate:2625,status:'USE TODAY',tone:'use',note:'Day 2 scoring'}],
- advice:['USE: UR Trucks, UR Covert Ops and Specialist recruits saved for Day 2.','BUILD: Complete upgrades you already need.','SAVE: Building speed-ups if the day is secure; they score again later.']},
-3:{name:'Tech Advancements',vp:2,posture:'TECH DAY',postureCopy:'Valor Badges and Airship Component Chests belong here. Tech speed-ups score again on Day 5 and Day 6, so use only what we need.',scores:[
- {label:'1 minute Tech Speed-up',rate:112.5,status:'SAVE IF POSSIBLE',tone:'save',note:'Also scores Day 5 and Day 6'},
- {label:'Increase Tech Power by 1',rate:19,status:'USE WITH UPGRADES',tone:'flex',note:'Also scores Day 5'},
- {label:'Use 1 Valor Badge',rate:525,status:'USE TODAY',tone:'use',note:'Day 3 only'},
- {label:'Complete 1 Radar Task',rate:22500,status:'USE AS NEEDED',tone:'flex',note:'Also scores Day 5'},
- {label:'Obtain 1 Diamond from pack purchases',rate:30,status:'IF BUYING',tone:'neutral',note:'Do not buy just for VS points'},
- {label:'Open 1 Lv.1 Airship Component Chest',rate:1925,status:'USE TODAY',tone:'use',note:'Day 3 only'},
- {label:'Open 1 Lv.2 Airship Component Chest',rate:5775,status:'USE TODAY',tone:'use',note:'Day 3 only'},
- {label:'Open 1 Lv.3 Airship Component Chest',rate:17500,status:'USE TODAY',tone:'use',note:'Day 3 only'},
- {label:'Open 1 Lv.4 Airship Component Chest',rate:52500,status:'EVENT LISTED',tone:'neutral',note:'Not yet seen in normal inventory'},
- {label:'Open 1 Lv.5 Airship Component Chest',rate:157500,status:'EVENT LISTED',tone:'neutral',note:'Not yet seen in normal inventory'},
- {label:'Open 1 Lv.6 Airship Component Chest',rate:472500,status:'EVENT LISTED',tone:'neutral',note:'Not yet seen in normal inventory'}],
- advice:['USE: Valor Badges and Airship Component Chests.','RADAR: Use if needed, but it also scores Day 5.','SAVE: Tech speed-ups if the day is secure because they score again on Days 5 and 6.']},
-4:{name:'Heroes Progression',vp:2,posture:'HERO DAY',postureCopy:'This is where the Hero resources saved during the week should be used. Hero recruiting, shards, medals and Hero EXP all score here.',scores:[
- {label:'Recruit Heroes 1 time',rate:3375,status:'USE TODAY',tone:'use',note:'Hero Day'},
- {label:'Spend Hero EXP',rate:1.8,status:'USE TODAY',tone:'use',note:'Spend at least 660 at once'},
- {label:'Use 1 UR Hero Shard',rate:17500,status:'USE TODAY',tone:'use',note:'Hero Day'},
- {label:'Use 1 SSR Hero Shard',rate:6125,status:'USE TODAY',tone:'use',note:'Hero Day'},
- {label:'Use 1 SR Hero Shard',rate:1750,status:'USE TODAY',tone:'use',note:'Hero Day'},
- {label:'Use 1 Skill Medal',rate:17.5,status:'USE TODAY',tone:'use',note:'Hero Day'},
- {label:'Obtain 1 Diamond from pack purchases',rate:30,status:'IF BUYING',tone:'neutral',note:'Do not buy just for VS points'}],
- advice:['USE: Hero Shards, Skill Medals and Hero recruitment saved during the week.','USE: Hero EXP here whenever possible.','STOP: Once the day is secure, save remaining Hero resources for next week.']},
-5:{name:'War Preparations',vp:2,posture:'WAR PREPARATIONS',postureCopy:'Building, tech, training and Radar all score on Day 5. This is a broad scoring day, so use what we need and stop once the day is secure.',scores:[
- {label:'Complete 1 Radar Task',rate:22500,status:'USE TODAY',tone:'use',note:'Last VS scoring day this week for Radar'},
- {label:'1 minute Building Speed-up',rate:112.5,status:'USE AS NEEDED',tone:'flex',note:'Also scores Day 6'},
- {label:'Increase Building Power by 1',rate:19.5,status:'USE TODAY',tone:'use',note:'Building scoring'},
- {label:'1 minute Tech Speed-up',rate:112.5,status:'USE AS NEEDED',tone:'flex',note:'Also scores Day 6'},
- {label:'Increase Tech Power by 1',rate:19,status:'USE TODAY',tone:'use',note:'Tech scoring'},
- {label:'1 minute Train Speed-up',rate:112.5,status:'USE AS NEEDED',tone:'flex',note:'Also scores Day 6'},
- {label:'Train 1 Lv.1 unit',rate:38,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Train 1 Lv.2 unit',rate:57,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Train 1 Lv.3 unit',rate:76,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Train 1 Lv.4 unit',rate:95,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Train 1 Lv.5 unit',rate:114,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Train 1 Lv.6 unit',rate:133,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Train 1 Lv.7 unit',rate:152,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Train 1 Lv.8 unit',rate:171,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Train 1 Lv.9 unit',rate:190,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Train 1 Lv.10 unit',rate:209,status:'USE TODAY',tone:'use',note:'Training score'},
- {label:'Obtain 1 Diamond from pack purchases',rate:30,status:'IF BUYING',tone:'neutral',note:'Do not buy just for VS points'}],
- advice:['USE: Building, tech, training and Radar as needed.','UPGRADE: Use the event to complete upgrades you already want.','STOP: Once Day 5 is won, keep remaining speed-ups for Day 6 if needed or next week.']},
-6:{name:'Opposing Forces · SVS Kill Event',vp:4,posture:'SVS KILL EVENT',postureCopy:'Day 6 is worth four Victory Points. If the week still depends on it, fight using the established plan. If the week is already mathematically won, shield and preserve troops for Capitol.',scores:[
- {label:'Escort 1 UR Trade Truck',rate:175000,status:'USE TODAY',tone:'use',note:'Day 6 scoring'},
- {label:'Complete 1 UR Covert Ops',rate:131250,status:'USE TODAY',tone:'use',note:'Day 6 scoring'},
- {label:'1 minute Building Speed-up',rate:112.5,status:'USE IF NEEDED',tone:'flex',note:'Use only if Day 6 points matter'},
- {label:'1 minute Tech Speed-up',rate:112.5,status:'USE IF NEEDED',tone:'flex',note:'Use only if Day 6 points matter'},
- {label:'1 minute Train Speed-up',rate:112.5,status:'USE IF NEEDED',tone:'flex',note:'Use only if Day 6 points matter'},
- {label:'1 minute Heal Speed-up',rate:112.5,status:'USE IF FIGHTING',tone:'flex',note:'Combat recovery'},
- {label:'Kill 1 Lv.1 enemy unit',rate:3.8,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Kill 1 Lv.2 enemy unit',rate:5.7,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Kill 1 Lv.3 enemy unit',rate:7.6,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Kill 1 Lv.4 enemy unit',rate:9.5,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Kill 1 Lv.5 enemy unit',rate:11.4,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Kill 1 Lv.6 enemy unit',rate:13.3,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Kill 1 Lv.7 enemy unit',rate:15.2,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Kill 1 Lv.8 enemy unit',rate:17.1,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Kill 1 Lv.9 enemy unit',rate:19,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Kill 1 Lv.10 enemy unit',rate:20.9,status:'KE SCORE',tone:'combat',note:'Troop kill'},
- {label:'Lose 1 Lv.1 own unit',rate:3.5,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Lose 1 Lv.2 own unit',rate:5.3,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Lose 1 Lv.3 own unit',rate:7,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Lose 1 Lv.4 own unit',rate:8.8,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Lose 1 Lv.5 own unit',rate:10.5,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Lose 1 Lv.6 own unit',rate:12.3,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Lose 1 Lv.7 own unit',rate:14,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Lose 1 Lv.8 own unit',rate:15.8,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Lose 1 Lv.9 own unit',rate:17.5,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Lose 1 Lv.10 own unit',rate:19.3,status:'KE SCORE',tone:'combat',note:'Own troop loss also scores'},
- {label:'Obtain 1 Diamond from pack purchases',rate:30,status:'IF BUYING',tone:'neutral',note:'Do not buy just for VS points'}],
- advice:['DON’T ZERO: R4/R5 can ask the opposing alliance to fight for troop-kill points without intentionally zeroing bases.','IF THEY ZERO US: The agreement is off and FAM goes full force.','KILL SQUADS: Use the established 3–4 squads of five with 2 attackers and 3 shielded support.','IF WEEK IS WON: Shield and preserve troops/resources for Capitol instead.']}
-};
-const SHORT=['Radar','Base','Tech','Heroes','War Prep','Opposing'];
-const fmt=n=>Number(n).toLocaleString(undefined,{maximumFractionDigits:1});
-const tabs=document.getElementById('dayTabs');
-const STORAGE_KEY='topForceVsPlannerV1';
-let plannerState={activeDay:1,values:{},targets:{}};
-try{
- const saved=localStorage.getItem(STORAGE_KEY);
- if(saved) plannerState={...plannerState,...JSON.parse(saved)};
-}catch(e){}
-function getServerVsDay(){
- // Server reset is 02:00 UTC (10 PM Eastern while daylight saving time is active).
- // Shift UTC back two hours so midnight in the shifted date equals server reset.
- const now=new Date();
- const serverDate=new Date(now.getTime()-(2*60*60*1000));
- const dow=serverDate.getUTCDay(); // Sun=0, Mon=1 ... Sat=6
- return dow>=1 && dow<=6 ? dow : 0;
-}
-function getNextReset(){
- const now=new Date();
- const y=now.getUTCFullYear(),m=now.getUTCMonth(),d=now.getUTCDate();
- let reset=new Date(Date.UTC(y,m,d,2,0,0,0));
- if(reset<=now) reset=new Date(reset.getTime()+24*60*60*1000);
- return reset;
-}
-const detectedServerDay=getServerVsDay();
-let activeDay=detectedServerDay || 1;
-function savePlannerState(){
- plannerState.activeDay=activeDay;
- try{localStorage.setItem(STORAGE_KEY,JSON.stringify(plannerState));}catch(e){}
-}
-function getDayValues(d){return plannerState.values[String(d)]||{};}
-function setDayValue(d,label,value){
- const key=String(d);
- if(!plannerState.values[key]) plannerState.values[key]={};
- if(value==='' || Number(value)===0) delete plannerState.values[key][label];
- else plannerState.values[key][label]=value;
- savePlannerState();
-}
-for(let d=1;d<=6;d++){
- const b=document.createElement('button'); b.className='week-day'; b.dataset.day=d;
- b.innerHTML='<span class="day-num">DAY '+d+'</span><strong>'+SHORT[d-1]+'</strong><span class="day-vp">'+DAYS[d].vp+' VP</span>';
- if(detectedServerDay===d){ b.classList.add('server-today'); b.setAttribute('data-today','TODAY'); }
- b.addEventListener('click',()=>showDay(d)); tabs.appendChild(b);
-}
-function updateServerDayStatus(){
- const reset=getNextReset();
- const resetText=reset.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
- if(detectedServerDay){
-   document.getElementById('serverDayText').textContent='Day '+detectedServerDay+' · '+DAYS[detectedServerDay].name;
-   document.getElementById('serverResetText').textContent='Next server reset: '+resetText+' your local time';
- }else{
-   document.getElementById('serverDayText').textContent='VS week complete · Next up: Day 1';
-   document.getElementById('serverResetText').textContent='Day 1 begins at the next server reset: '+resetText+' your local time';
- }
-}
-updateServerDayStatus();
-function fieldMarkup(s,i){
- const saved=getDayValues(activeDay)[s.label] ?? 0;
- return '<div class="planner-field '+s.tone+'">'+
-   '<div class="planner-field-copy"><div class="planner-field-title"><b>'+s.label+'</b><span class="planner-tag '+s.tone+'">'+s.status+'</span><span class="planner-rate">'+(s.rateText||fmt(s.rate)+' PTS EACH')+'</span></div>'+
-   '<small>'+s.note+'</small></div>'+
-   '<div class="planner-field-entry"><input type="number" min="0" step="1" value="'+saved+'" data-rate="'+s.rate+'" data-divisor="'+(s.divisor||1)+'" data-index="'+i+'" data-label="'+s.label.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" aria-label="'+s.label+' amount"><span class="planner-field-points">0 pts</span></div></div>';
-}
-function showDay(d){
- activeDay=d;
- document.querySelectorAll('.week-day').forEach(b=>b.classList.toggle('active',+b.dataset.day===d));
- const x=DAYS[d];
- document.getElementById('dayLabel').textContent='Day '+d;
- document.getElementById('dayName').textContent=x.name;
- document.getElementById('dayVP').textContent=x.vp+' VP';
- document.getElementById('dayVP').classList.toggle('critical',x.vp===4);
- document.getElementById('postureLabel').textContent=x.posture;
- document.getElementById('postureLabel').classList.toggle('critical',x.vp===4);
- document.getElementById('postureCopy').textContent=x.postureCopy;
- document.getElementById('plannerFields').innerHTML=x.scores.map(fieldMarkup).join('');
- document.getElementById('dayAdvice').innerHTML='<div class="advice-stack">'+x.advice.map(a=>{const p=a.split(':');return '<div class="advice-item"><b>'+p[0]+'</b><span>'+p.slice(1).join(':')+'</span></div>'}).join('')+'</div>';
- document.getElementById('plannerTarget').value=plannerState.targets[String(d)] ?? '';
- document.querySelectorAll('#plannerFields input').forEach(i=>i.addEventListener('input',()=>{setDayValue(activeDay,i.dataset.label,i.value);calcPlanner();}));
- savePlannerState();
- calcPlanner();
-}
-function calcPlanner(){
- let total=0;
- document.querySelectorAll('#plannerFields input').forEach(i=>{
-   const pts=((+i.value||0)/(+i.dataset.divisor||1))*(+i.dataset.rate||0); total+=pts;
-   i.closest('.planner-field-entry').querySelector('.planner-field-points').textContent=Math.round(pts).toLocaleString()+' pts';
- });
- document.getElementById('plannerTotal').textContent=Math.round(total).toLocaleString();
- updateTarget(total);
-}
-function updateTarget(total){
- const target=+document.getElementById('plannerTarget').value||0;
- const status=document.getElementById('plannerTargetStatus');
- status.classList.remove('enough','short');
- if(!target){status.textContent='Enter a target to see when you have enough.';return;}
- const diff=target-total;
- if(diff<=0){status.textContent='Target reached. Keep watching the score and use additional resources if the lead needs support.';status.classList.add('enough');}
- else{status.textContent=Math.round(diff).toLocaleString()+' more VS points needed.';status.classList.add('short');}
-}
-document.getElementById('plannerTarget').addEventListener('input',e=>{
- const key=String(activeDay);
- if(e.target.value==='') delete plannerState.targets[key];
- else plannerState.targets[key]=e.target.value;
- savePlannerState();
- calcPlanner();
-});
-document.getElementById('plannerClear').addEventListener('click',()=>{
- delete plannerState.values[String(activeDay)];
- document.querySelectorAll('#plannerFields input').forEach(i=>i.value=0);
- savePlannerState();
- calcPlanner();
-});
-showDay(activeDay);
-
-const MATRIX=[
- ['Radar Tasks',[1,3,5]],['Airship EXP',[1]],['Airship Parts',[1]],['Hero EXP',[1,4]],
- ['Building Speed-ups',[2,5,6]],['Building Power',[2,5]],['Tech Speed-ups',[3,5,6]],['Tech Power',[3,5]],
- ['Train Speed-ups',[5,6]],['Heal Speed-ups',[6]],['UR Trade Trucks',[2,6]],['UR Covert Ops',[2,6]],
- ['Hero Shards',[4]],['Skill Medals',[4]],['Hero Recruitment',[4]],['Specialist Recruitment',[2]],
- ['Valor Badges',[3]],['Airship Component Chests',[3]],['Stamina',[1]],['Gathering',[1]]
+/* ---------------- progression map ---------------- */
+const NODES = [
+  {id:'mb7', lane:'mb', row:1, lv:'Military Base 7', cap:'First Barracks queue',
+   tag:'Verified', sum:'The Barracks opens and unit development becomes a real decision instead of a default.',
+   list:['Barracks unlocked','Barracks training queue 1'],
+   why:'Start building deliberately. Decide nothing about hero breadth yet — just get units moving.'},
+  {id:'bk1', lane:'bk', row:1, lv:'Barracks 1', cap:'T1 units', tag:'Verified',
+   sum:'Baseline training. Nothing here is a keeper.', list:['Highest unit tier: T1'],
+   why:'Move through it. Do not stockpile T1.'},
+  {id:'bk3', lane:'bk', row:2, lv:'Barracks 3', cap:'T2 units', tag:'Verified',
+   sum:'Early tier step.', list:['Highest unit tier: T2'], why:'Keep the queue running; spend nothing scarce here.'},
+  {id:'bk6', lane:'bk', row:3, lv:'Barracks 6', cap:'T3 units', tag:'Verified',
+   sum:'Last of the disposable tiers.', list:['Highest unit tier: T3'],
+   why:'Train enough to hold tiles and farm, no more. T4 is the first tier worth a stockpile.'},
+  {id:'mb10', lane:'mb', row:4, lv:'Military Base 10', cap:'Second Barracks + second Squad', tag:'Verified',
+   sum:'The first checkpoint that produces a real fighting march.',
+   list:['Barracks training queue 2','Squad 2 unlocked'],
+   why:'Establish your primary march here: one squad, five heroes, one troop type. The second squad exists — that does not mean it gets resources yet.'},
+  {id:'bk10', lane:'bk', row:4, lv:'Barracks 10', cap:'T4 units — first real breakpoint', tag:'Verified',
+   sum:'T4 is the first tier worth converting into field strength.', list:['Highest unit tier: T4'],
+   why:'Arrive with resources and training capacity banked. An unlocked tier you cannot field in volume is not a power gain.'},
+  {id:'mb11', lane:'mb', row:5, lv:'Military Base 11', cap:'Infantry Center', tag:'Verified',
+   sum:'Infantry Center becomes available — a direct combat building.',
+   list:['Infantry Center unlocked','Every level adds HP, ATK, DEF, and squad size to Infantry heroes'],
+   why:'If Infantry is your primary type, this Center becomes one of the highest-value investments on the account. If it is not, leave it low.'},
+  {id:'mb14', lane:'mb', row:6, lv:'Military Base 14', cap:'Tank Center', tag:'Verified',
+   sum:'Tank Center becomes available.',
+   list:['Tank Center unlocked','Every level adds HP, ATK, DEF, and squad size to Tank heroes'],
+   why:'Same rule: build the Center for your committed type, not all three.'},
+  {id:'bk14', lane:'bk', row:6, lv:'Barracks 14', cap:'T5 units', tag:'Verified',
+   sum:'Second combat breakpoint.', list:['Highest unit tier: T5'],
+   why:'Push here once T4 losses are being replaced comfortably.'},
+  {id:'mb15', lane:'mb', row:7, lv:'Military Base 15', cap:'Aircraft Center', tag:'Verified',
+   sum:'Aircraft Center becomes available.',
+   list:['Aircraft Center unlocked','Every level adds HP, ATK, DEF, and squad size to Aircraft heroes'],
+   why:'All three Centers now exist. Committing to one is the point of the whole guide.'},
+  {id:'mb17', lane:'mb', row:8, lv:'Military Base 17', cap:'Third Barracks queue', tag:'Verified',
+   sum:'Training throughput rises.', list:['Barracks training queue 3'],
+   why:'More throughput is only useful pointed at the highest tier you can field. Do not use it to mass-produce an obsolete tier.'},
+  {id:'bk17', lane:'bk', row:8, lv:'Barracks 17', cap:'T6 units', tag:'Verified',
+   sum:'Third combat breakpoint.', list:['Highest unit tier: T6'], why:'Stockpile before the unlock so the tier goes live the day it opens.'},
+  {id:'mb20', lane:'mb', row:9, lv:'Military Base 20', cap:'Third Squad + Wall of Honor access', tag:'Verified',
+   sum:'Squad 3 opens, and Lv. 20 type-Centers feed Wall of Honor requirements.',
+   list:['Squad 3 unlocked','Type Center Lv. 20 supports Wall of Honor requirements'],
+   why:'Still one primary march. Squad-specific combat tech goes to the squad you actually fight with, not evenly across the tabs.'},
+  {id:'bk20', lane:'bk', row:9, lv:'Barracks 20', cap:'T7 units', tag:'Verified',
+   sum:'Fourth combat breakpoint.', list:['Highest unit tier: T7'], why:'By now the primary march should be absorbing nearly all shards, medals, and gear materials.'},
+  {id:'mb22', lane:'mb', row:10, lv:'Military Base 22', cap:'The cost wall', tag:'Server-observed',
+   sum:'The direct upgrade runs about 266.2M total resources; the full path from a bare Lv. 21 can approach 477.5M.',
+   list:['≈114.1M Food','≈114.1M Iron','≈38M Coins','Up to ≈477.5M including prerequisites'],
+   why:'Do not drift into this. Pick the breakpoint, bank for it, and land it inside an event window that scores building power.'},
+  {id:'mb24', lane:'mb', row:11, lv:'Military Base 24', cap:'Hero cap + Barracks 24 gate', tag:'Server-observed',
+   sum:'A multi-system combat breakpoint observed directly on the live account.',
+   list:['Hero level cap 115 → 120','Hero HP 9,000 → 9,500','Required for Barracks 24','Barracks 24 unlocks Unit Lv.8'],
+   why:'Prioritize the prerequisite chain when you are close enough to finish it. This breakpoint improves hero ceiling and opens a major unit-tier jump.'},
+  {id:'bk24', lane:'bk', row:11, lv:'Barracks 24', cap:'T8 units', tag:'Verified',
+   sum:'Fifth combat breakpoint.', list:['Highest unit tier: T8'], why:'Only now does a second combat march start deserving major investment — and only if the first one is genuinely strong.'},
+  {id:'bk27', lane:'bk', row:12, lv:'Barracks 27', cap:'T9 units', tag:'Verified',
+   sum:'Sixth combat breakpoint.', list:['Highest unit tier: T9'], why:'Keep combat research running continuously alongside this; the multipliers compound with everything else.'},
+  {id:'bk30', lane:'bk', row:13, lv:'Barracks 30 + unit tech', cap:'T10 units', tag:'Verified',
+   sum:'T10 needs the Barracks level and the corresponding unit technology completed.',
+   list:['Highest unit tier: T10','Requires the matching unit technology','Base Training Count 570 per Barracks at Lv. 30'],
+   why:'The endpoint of the unit lane. Type Centers reach +100 hero squad size at Lv. 30 — pair the two.'}
 ];
-document.getElementById('matrixBody').innerHTML=MATRIX.map(r=>{
- const last=Math.max(...r[1]); const oneDay=r[1].length===1; const label=oneDay?'scores one day':'scores multiple days';
- return '<tr><td><b>'+r[0]+'</b><small class="rowtype '+(oneDay?'dedicated':'flex')+'">'+label+'</small></td>'+[1,2,3,4,5,6].map(d=>{
-   if(!r[1].includes(d)) return '<td class="no">—</td>';
-   if(oneDay) return '<td class="best">●</td>';
-   if(d<last) return '<td class="reserve">◆</td>';
-   return '<td class="yes">●</td>';
- }).join('')+'</tr>';
-}).join('');
+const ROWS = 13;
+const reached = new Set();
+let current = 'mb7';
+
+function buildLanes(){
+  const mb = document.getElementById('laneMB'), bk = document.getElementById('laneBK');
+  for(let r=1;r<=ROWS;r++){
+    ['mb','bk'].forEach(l=>{
+      const n = NODES.find(x=>x.lane===l && x.row===r);
+      const host = l==='mb'?mb:bk;
+      const b = document.createElement('button');
+      b.className = 'node' + (n?'':' spacer');
+      b.type='button';
+      if(!n){ b.innerHTML='<span class="dot"></span><span class="lv">&nbsp;</span><span class="cap">&nbsp;</span>'; b.setAttribute('aria-hidden','true'); b.tabIndex=-1; }
+      else{
+        b.dataset.id=n.id;
+        b.innerHTML='<span class="dot"></span><span class="lv">'+n.lv+'</span><span class="cap">'+n.cap+'</span>';
+        b.addEventListener('click',()=>select(n.id,true));
+      }
+      host.appendChild(b);
+    });
+  }
+}
+function select(id,userAction){
+  current=id;
+  const n = NODES.find(x=>x.id===id);
+  document.getElementById('dTitle').textContent=n.lv;
+  document.getElementById('dSummary').textContent=n.sum;
+  const tag=document.getElementById('dTag');
+  tag.textContent=n.tag;
+  tag.className='tag '+(n.tag==='Verified'?'verified':n.tag==='Server-observed'?'observed':'strategy');
+  const ul=document.getElementById('dList'); ul.innerHTML='';
+  n.list.forEach(t=>{const li=document.createElement('li');li.textContent=t;ul.appendChild(li);});
+  document.getElementById('dWhy').textContent=n.why;
+  paint();
+  if(userAction && window.matchMedia('(max-width:900px)').matches){
+    document.getElementById('detail').scrollIntoView({block:'start',behavior:'smooth'});
+  }
+}
+function paint(){
+  document.querySelectorAll('.node[data-id]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.id===current);
+    b.classList.toggle('reached', reached.has(b.dataset.id));
+  });
+  const btn=document.getElementById('dMark');
+  const on=reached.has(current);
+  btn.classList.toggle('on',on);
+  btn.textContent = on ? 'Reached' : 'Mark as reached';
+  btn.setAttribute('aria-pressed', on);
+  const pct = Math.round(reached.size/NODES.length*100);
+  document.getElementById('pBar').style.width = pct+'%';
+  document.getElementById('pTxt').textContent = reached.size+' of '+NODES.length+' checkpoints reached';
+}
+document.getElementById('dMark').addEventListener('click',()=>{
+  reached.has(current) ? reached.delete(current) : reached.add(current);
+  paint();
+});
+
+/* ---------------- priority stack ---------------- */
+const STACK=[
+ ['Major progression breakpoint','If Military Base or a prerequisite is about to unlock a hero-cap increase, Barracks tier, squad, Center or critical technology, finish the gate first. Breakpoints can improve multiple combat systems at once.'],
+ ['Unit-tier breakpoint / Barracks','Barracks 24, 27 and 30 unlock Unit Lv.8, Lv.9 and Lv.10. Observed unit-stat jumps are large enough to outrank many small percentage upgrades.'],
+ ['Permanent direct combat research','Prioritize field-PvP ATK, HP, DEF, Units Attack, damage-up and similar modifiers when no larger breakpoint is immediately reachable.'],
+ ['Primary fighting squad','Keep the five heroes you actually fight with near the hero cap and develop coherent front-row, carry, support and debuff roles. Do not chase a specific purchased lineup.'],
+ ['Primary troop-type Center','The matching Center adds HP, ATK, DEF and hero squad size to every hero of that troop type. Keep it competitive when that type carries your primary squad.'],
+ ['Hero tier / skill breakpoint','Spend scarce tier and skill materials when the next breakpoint unlocks meaningful PvP effects: wider scope, stronger mitigation, team buffs, major damage or passive packages.'],
+ ['Scarce gear','Do not level all slots evenly. Concentrate materials where the next level most improves survival, carry output or a critical stat profile on the primary squad.'],
+ ['Secondary squads / economy','Only build breadth after the primary squad is dangerous enough for the fights you care about. Economy exists to fund combat growth, not to impersonate it.']
+];
+const sl=document.getElementById('stackList');
+STACK.forEach((s,i)=>{
+  const d=document.createElement('details');
+  if(i===0) d.open=true;
+  d.innerHTML='<summary><span class="rank">'+(i+1)+'</span><span class="name">'+s[0]+'</span></summary><p>'+s[1]+'</p>';
+  sl.appendChild(d);
+});
+
+/* ---------------- counter triangle ---------------- */
+const T={
+ inf:{name:'Infantry',beats:'Aircraft',loses:'Tank',unlock:'Military Base 11',arrow:'aInf',beatId:'nAir',loseId:'nTank'},
+ tank:{name:'Tank',beats:'Infantry',loses:'Aircraft',unlock:'Military Base 14',arrow:'aTank',beatId:'nInf',loseId:'nAir'},
+ air:{name:'Aircraft',beats:'Tank',loses:'Infantry',unlock:'Military Base 15',arrow:'aAir',beatId:'nTank',loseId:'nInf'}
+};
+function pickType(k){
+  const t=T[k];
+  document.getElementById('tName').textContent=t.name;
+  document.getElementById('tBeat').textContent=t.beats;
+  document.getElementById('tLose').textContent=t.loses;
+  document.getElementById('tUnlock').textContent=t.unlock+' unlocks the '+t.name+' Center';
+  document.getElementById('tCap').textContent='+100 hero squad size at Center Lv. 30';
+  ['nInf','nTank','nAir'].forEach(id=>document.getElementById(id).classList.remove('sel','beats','loses'));
+  ['aInf','aTank','aAir'].forEach(id=>{
+    const a=document.getElementById(id);
+    a.classList.remove('lit');
+    a.setAttribute('marker-end','url(#h)');
+  });
+  document.getElementById(t.arrow).setAttribute('marker-end','url(#hl)');
+  document.getElementById({inf:'nInf',tank:'nTank',air:'nAir'}[k]).classList.add('sel');
+  document.getElementById(t.beatId).classList.add('beats');
+  document.getElementById(t.loseId).classList.add('loses');
+  document.getElementById(t.arrow).classList.add('lit');
+}
+document.querySelectorAll('svg.tri .tnode').forEach(g=>{
+  g.addEventListener('click',()=>pickType(g.dataset.type));
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pickType(g.dataset.type);}});
+});
+
+/* ---------------- formation calculator ---------------- */
+const TYPES=[{k:'inf',n:'Infantry',i:'▲'},{k:'tank',n:'Tank',i:'■'},{k:'air',n:'Aircraft',i:'◆'},{k:'',n:'Empty',i:'·'}];
+let squad=['inf','inf','inf','inf','inf'];
+const slotHost=document.getElementById('slots');
+squad.forEach((_,i)=>{
+  const b=document.createElement('button');
+  b.type='button'; b.className='slot'; b.dataset.i=i;
+  b.addEventListener('click',()=>{
+    const cur=TYPES.findIndex(t=>t.k===squad[i]);
+    squad[i]=TYPES[(cur+1)%TYPES.length].k;
+    drawSquad();
+  });
+  slotHost.appendChild(b);
+});
+function drawSquad(){
+  [...slotHost.children].forEach((b,i)=>{
+    const t=TYPES.find(x=>x.k===squad[i]);
+    b.className='slot'+(t.k?' f '+t.k:'');
+    b.innerHTML='<span class="ico">'+t.i+'</span>'+t.n;
+    b.setAttribute('aria-label','Slot '+(i+1)+': '+t.n+'. Activate to change.');
+  });
+  const counts={};
+  squad.filter(Boolean).forEach(k=>counts[k]=(counts[k]||0)+1);
+  const vals=Object.values(counts).sort((a,b)=>b-a);
+  let bonus=0,msg='';
+  if(vals[0]===5){bonus=20;msg='Five of one type. The default target for a primary march unless a specific skill interaction beats it.';}
+  else if(vals[0]===4){bonus=15;msg='Four of one type. One swap away from the full bonus.';}
+  else if(vals[0]===3&&vals[1]===2){bonus=10;msg='Three plus two. A reasonable stop on the way to a full same-type march.';}
+  else if(vals[0]===3){bonus=5;msg='Three of one type with the rest scattered. The weakest formation worth having.';}
+  else {bonus=0;msg='No matching group of three. This march is paying nothing for its composition.';}
+  document.getElementById('fBonus').textContent='+'+bonus+'%';
+  document.getElementById('fText').textContent=msg+' Applies to hero HP, ATK, and DEF.';
+}
+
+/* ---------------- barracks tier lookup ---------------- */
+const TIERS=[[30,'T10'],[27,'T9'],[24,'T8'],[20,'T7'],[17,'T6'],[14,'T5'],[10,'T4'],[6,'T3'],[3,'T2'],[1,'T1']];
+const rng=document.getElementById('bkRange');
+function drawTier(){
+  const v=+rng.value;
+  const row=TIERS.find(t=>v>=t[0]);
+  document.getElementById('bkVal').textContent=v;
+  document.getElementById('bkTier').textContent=row[1];
+  const next=TIERS.filter(t=>t[0]>v).sort((a,b)=>a[0]-b[0])[0];
+  let note = row[1]==='T10' ? 'T10 also requires the corresponding unit technology to be completed.'
+    : 'Next breakpoint: Barracks '+next[0]+' for '+next[1]+' — '+(next[0]-v)+' level'+((next[0]-v)===1?'':'s')+' away.';
+  if(v>=10 && row[1]!=='T10') note += ' Bank resources and training capacity before you unlock it.';
+  document.getElementById('bkNote').textContent=note;
+}
+rng.addEventListener('input',drawTier);
+
+/* ---------------- leveling loop ---------------- */
+const LOOP=[
+ 'Identify the next major combat breakpoint: Military Base gate, Barracks unit tier, hero cap, Center gate or critical technology.',
+ 'Bank resources and prerequisites toward that breakpoint instead of spending on unrelated Power increases.',
+ 'Keep direct field-PvP research running whenever no more valuable breakpoint is blocking progress.',
+ 'Keep the primary five heroes near the current hero cap and assign clear combat roles: front-row survival, damage, support and debuffs.',
+ 'Keep the primary troop-type Center competitive because its bonuses apply across heroes of that type.',
+ 'Spend tier and skill materials toward meaningful PvP breakpoints, not evenly across the roster.',
+ 'Concentrate scarce gear on the primary squad and on the slots that create the strongest next combat gain.',
+ 'Train the highest practical unit tier and prepare resources before the next Barracks breakpoint opens.',
+ 'Classify every research/building/hero upgrade as direct PvP, conditional combat, progression, economy or PvE before spending.',
+ 'Use events to get extra return from upgrades when timing is safe, but never delay a critical combat breakpoint just to score points.',
+ 'Only after the primary squad is genuinely effective should major resources move into secondary squads or broad account Power.'
+];
+const lh=document.getElementById('loopList');
+LOOP.forEach((t,i)=>{
+  const l=document.createElement('label');
+  l.innerHTML='<input type="checkbox"><span class="n">'+(i+1)+'</span><span class="t">'+t+'</span>';
+  lh.appendChild(l);
+});
+
+/* ---------------- init ---------------- */
+buildLanes();
+select('mb7');
+pickType('inf');
+drawSquad();
+drawTier();
 </script>
 </body>
 </html>
