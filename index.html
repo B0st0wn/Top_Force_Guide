@@ -219,7 +219,7 @@ const DAYS={
 1:{name:'Radar Special Training',vp:1,posture:'DAY 1 · RADAR',postureCopy:'Start the week strong. Complete Radar Tasks, use Stamina, upgrade your Airship, gather resources, and use the scoring opportunities available to build the lead.',scores:[
  {label:'Use 1 Stamina',rate:262.5,status:'USE TODAY',tone:'use',note:'Day 1 only'},
  {label:'Complete 1 Radar Task',rate:22500,status:'USE AS NEEDED',tone:'flex',note:'Also scores Day 3 and Day 5'},
- {label:'Spend Hero EXP',rate:1.8,status:'SAVE FOR DAY 4',tone:'save',note:'Spend at least 660 at once; same rate on Hero Day'},
+ {label:'Spend Hero EXP',rate:1.8,divisor:660,rateText:'1.8 PTS / 660 HERO EXP',status:'SAVE FOR DAY 4',tone:'save',note:'Enter the actual amount of Hero EXP spent; also scores on Hero Day'},
  {label:'Use 1 Airship EXP',rate:5.3,status:'USE TODAY',tone:'use',note:'Day 1 only'},
  {label:'Use 1 Airship Part',rate:4375,status:'USE TODAY',tone:'use',note:'Day 1 only'},
  {label:'Obtain 1 Diamond from pack purchases',rate:30,status:'IF BUYING',tone:'neutral',note:'Do not buy just for VS points'},
@@ -250,7 +250,7 @@ const DAYS={
  advice:['USE: Valor Badges and Airship Component Chests.','RADAR: Use if needed, but it also scores Day 5.','SAVE: Tech speed-ups if the day is secure because they score again on Days 5 and 6.']},
 4:{name:'Heroes Progression',vp:2,posture:'HERO DAY',postureCopy:'This is where the Hero resources saved during the week should be used. Hero recruiting, shards, medals and Hero EXP all score here.',scores:[
  {label:'Recruit Heroes 1 time',rate:3375,status:'USE TODAY',tone:'use',note:'Hero Day'},
- {label:'Spend Hero EXP',rate:1.8,status:'USE TODAY',tone:'use',note:'Spend at least 660 at once'},
+ {label:'Spend Hero EXP',rate:1.8,divisor:660,rateText:'1.8 PTS / 660 HERO EXP',status:'USE TODAY',tone:'use',note:'Enter the actual amount of Hero EXP spent'},
  {label:'Use 1 UR Hero Shard',rate:17500,status:'USE TODAY',tone:'use',note:'Hero Day'},
  {label:'Use 1 SSR Hero Shard',rate:6125,status:'USE TODAY',tone:'use',note:'Hero Day'},
  {label:'Use 1 SR Hero Shard',rate:1750,status:'USE TODAY',tone:'use',note:'Hero Day'},
