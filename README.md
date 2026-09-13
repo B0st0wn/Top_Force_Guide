@@ -13,5 +13,5 @@ Files:
 - `.nojekyll` — disables Jekyll processing
 
 
-## v0.12 prototype
-Combined the VS day selector and point calculator into a single day planner near the top of the VS page.
+
+- VS planner automatically detects the current VS day from the 02:00 UTC server reset and shows the next reset in the viewer's local time.

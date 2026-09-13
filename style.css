@@ -537,3 +537,13 @@ nav.jump a{font-size:13px}
 .planner-advice-card .advice-stack{margin-top:12px}
 @media(max-width:900px){.planner-layout{grid-template-columns:1fr}.planner-main{border-right:0;border-bottom:1px solid var(--softline)}.planner-vp-block{align-items:flex-start}.planner-head{flex-direction:column;gap:14px}.planner-tabs{padding:0 14px}}
 @media(max-width:620px){.planner-head,.planner-main,.planner-side{padding-left:18px;padding-right:18px}.planner-field{grid-template-columns:1fr;gap:10px}.planner-field-entry{grid-template-columns:110px 1fr}.planner-subhead{align-items:center}.planner-head h3{font-size:25px}}
+
+/* Server-aware VS day indicator */
+.server-day-status{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 16px;margin-bottom:14px;border:1px solid var(--line);border-radius:14px;background:rgba(87,176,166,.08)}
+.server-day-status>div{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.server-day-kicker{font-size:.72rem;font-weight:800;letter-spacing:.12em;color:var(--teal)}
+.server-day-status strong{font-size:1rem;color:var(--parch)}
+.server-day-status small{color:var(--muted);text-align:right}
+.week-day.server-today{position:relative;border-color:var(--teal)}
+.week-day.server-today::after{content:attr(data-today);position:absolute;top:6px;right:6px;font-size:.58rem;font-weight:900;letter-spacing:.08em;color:var(--void);background:var(--teal);padding:2px 5px;border-radius:999px}
+@media (max-width:700px){.server-day-status{align-items:flex-start;flex-direction:column;gap:6px}.server-day-status small{text-align:left}}
