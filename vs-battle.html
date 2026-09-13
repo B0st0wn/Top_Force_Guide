@@ -4,11 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Top Force — VS Battle Planner</title>
-<link rel="icon" type="image/png" href="./favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./style.css">
+<link rel="icon" type="image/png" sizes="512x512" href="./favicon.png">
+<link rel="shortcut icon" href="./favicon.png">
+<style>
+.hero { position: relative; }
+.hero-logo { position:absolute; right:3%; top:50%; transform:translateY(-50%); width:min(34%,420px); display:flex; align-items:center; justify-content:center; pointer-events:none; }
+.hero-logo img {
+    display: block;
+    width: 280px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    filter: drop-shadow(0 14px 32px rgba(0,0,0,.38));
+}
+.combat-hero > h1, .combat-hero > .sub, .combat-hero > .thesis, .vs-hero > .hero-kicker, .vs-hero > h1, .vs-hero > .sub, .vs-hero > .vp-hero-row, .vs-hero > .thesis { max-width:66%; }
+@media (max-width:800px) { .hero-logo { display:none; } .combat-hero > h1, .combat-hero > .sub, .combat-hero > .thesis, .vs-hero > .hero-kicker, .vs-hero > h1, .vs-hero > .sub, .vs-hero > .vp-hero-row, .vs-hero > .thesis { max-width:none; } }
+</style>
 </head>
 <body class="vs-page">
 <header class="top">
@@ -17,11 +32,12 @@
     <nav class="jump" aria-label="Sections">
       <a href="#planner">VS Planner</a><a href="#battleplan">Battle Plan</a><a href="#ke-doctrine">KE Doctrine</a><a href="#matrix">Resources</a>
     </nav>
-    <div class="page-nav" aria-label="Guide pages"><a href="./index.html">Combat Guide</a><a class="active" href="./vs-battle.html">VS Battle Planner</a></div>
+    <div class="page-nav" aria-label="Guide pages"><a href="./index.html">Combat Guide</a><a class="active" href="./vs-battle.html">VS Planner</a></div>
   </div>
 </header>
 
 <div class="wrap hero vs-hero">
+  <div class="hero-logo" aria-hidden="true"><img src="./favicon.png" alt=""></div>
   <div class="hero-kicker">ALLIANCE DUEL · WEEKLY VS</div>
   <h1>Win the week.<br>Not every day.</h1>
   <p class="sub">The duel awards <b>13 Victory Points</b> across six days. Our goal is to win every day by using the resources that score best each day, building strong leads efficiently, and carrying unused resources into the next scoring opportunity.</p>

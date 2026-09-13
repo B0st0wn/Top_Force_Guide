@@ -17,10 +17,25 @@ Description:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Top Force — Combat Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="icon" type="image/png" href="./favicon.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./style.css">
+<link rel="icon" type="image/png" sizes="512x512" href="./favicon.png">
+<link rel="shortcut icon" href="./favicon.png">
+<style>
+.hero { position: relative; }
+.hero-logo { position:absolute; right:3%; top:50%; transform:translateY(-50%); width:min(34%,420px); display:flex; align-items:center; justify-content:center; pointer-events:none; }
+.hero-logo img {
+    display: block;
+    width: 280px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    filter: drop-shadow(0 14px 32px rgba(0,0,0,.38));
+}
+.combat-hero > h1, .combat-hero > .sub, .combat-hero > .thesis, .vs-hero > .hero-kicker, .vs-hero > h1, .vs-hero > .sub, .vs-hero > .vp-hero-row, .vs-hero > .thesis { max-width:66%; }
+@media (max-width:800px) { .hero-logo { display:none; } .combat-hero > h1, .combat-hero > .sub, .combat-hero > .thesis, .vs-hero > .hero-kicker, .vs-hero > h1, .vs-hero > .sub, .vs-hero > .vp-hero-row, .vs-hero > .thesis { max-width:none; } }
+</style>
 </head>
 <body>
 
@@ -38,6 +53,7 @@ Description:
 </header>
 
 <div class="wrap hero combat-hero">
+  <div class="hero-logo" aria-hidden="true"><img src="./favicon.png" alt=""></div>
   <h1>Combat power &amp;<br>fighting effectiveness</h1>
   <p class="sub">Displayed Power is only a score. Fighting effectiveness comes from the upgrades that actually change what your primary squad can survive, carry, mitigate and kill.</p>
   <p class="thesis"><b>Build combat power, not displayed power.</b> Every major resource spend should unlock a combat breakpoint, strengthen the primary fighting squad, or improve a permanent combat multiplier.</p>
