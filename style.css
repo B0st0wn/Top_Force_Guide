@@ -514,6 +514,7 @@ nav.jump a{font-size:13px}
 .planner-field.flex{border-left:3px solid rgba(87,176,166,.55)}
 .planner-field-title{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .planner-field-title b{font-size:14px}
+.planner-rate{font-family:Archivo,sans-serif;font-size:14px;font-weight:800;letter-spacing:.035em;color:#62ff8d;text-shadow:0 0 8px rgba(98,255,141,.32)}
 .planner-field-copy small{display:block;margin-top:4px;color:var(--muted);font-size:11px}
 .planner-tag{font-family:Archivo;font-size:9px;letter-spacing:.06em;border-radius:999px;padding:4px 6px;border:1px solid var(--line);color:var(--muted)}
 .planner-tag.use{color:var(--teal);border-color:rgba(87,176,166,.4)}

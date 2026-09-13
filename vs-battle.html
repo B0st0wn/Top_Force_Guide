@@ -205,9 +205,9 @@ const DAYS={
  {label:'Use 1 Airship EXP',rate:5.3,status:'USE TODAY',tone:'use',note:'Day 1 only'},
  {label:'Use 1 Airship Part',rate:4375,status:'USE TODAY',tone:'use',note:'Day 1 only'},
  {label:'Obtain 1 Diamond from pack purchases',rate:30,status:'IF BUYING',tone:'neutral',note:'Do not buy just for VS points'},
- {label:'Gather 100 Food',rate:35,status:'USE TODAY',tone:'use',note:'Normal gathering'},
- {label:'Gather 100 Iron',rate:35,status:'USE TODAY',tone:'use',note:'Normal gathering'},
- {label:'Gather 60 Coins',rate:35,status:'USE TODAY',tone:'use',note:'Normal gathering'}],
+ {label:'Gather Food',rate:35,divisor:100,rateText:'35 PTS / 100 FOOD',status:'USE TODAY',tone:'use',note:'Enter the actual amount of Food gathered'},
+ {label:'Gather Iron',rate:35,divisor:100,rateText:'35 PTS / 100 IRON',status:'USE TODAY',tone:'use',note:'Enter the actual amount of Iron gathered'},
+ {label:'Gather Coins',rate:35,divisor:60,rateText:'35 PTS / 60 COINS',status:'USE TODAY',tone:'use',note:'Enter the actual amount of Coins gathered'}],
  advice:['AIRSHIP: Airship EXP and Parts are strong Day 1 scoring resources.','RADAR: Use Radar Tasks for points and keep your task-bank cap in mind so new tasks are not wasted. Radar also scores later in the week.','HERO EXP: Scores today and again on Hero Day, giving you another scoring opportunity later in the week.']},
 2:{name:'Base Development',vp:2,posture:'2 VP DAY',postureCopy:'Use the items that naturally belong on Day 2 first. Building speed-ups can score again on Day 5 and Day 6, so do not burn them unless we need the points.',scores:[
  {label:'1 minute Building Speed-up',rate:112.5,status:'SAVE IF POSSIBLE',tone:'save',note:'Also scores Day 5 and Day 6'},
@@ -347,9 +347,9 @@ updateServerDayStatus();
 function fieldMarkup(s,i){
  const saved=getDayValues(activeDay)[s.label] ?? 0;
  return '<div class="planner-field '+s.tone+'">'+
-   '<div class="planner-field-copy"><div class="planner-field-title"><b>'+s.label+'</b><span class="planner-tag '+s.tone+'">'+s.status+'</span></div>'+
-   '<small>'+fmt(s.rate)+' pts each · '+s.note+'</small></div>'+
-   '<div class="planner-field-entry"><input type="number" min="0" step="1" value="'+saved+'" data-rate="'+s.rate+'" data-index="'+i+'" data-label="'+s.label.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" aria-label="'+s.label+' amount"><span class="planner-field-points">0 pts</span></div></div>';
+   '<div class="planner-field-copy"><div class="planner-field-title"><b>'+s.label+'</b><span class="planner-tag '+s.tone+'">'+s.status+'</span><span class="planner-rate">'+(s.rateText||fmt(s.rate)+' PTS EACH')+'</span></div>'+
+   '<small>'+s.note+'</small></div>'+
+   '<div class="planner-field-entry"><input type="number" min="0" step="1" value="'+saved+'" data-rate="'+s.rate+'" data-divisor="'+(s.divisor||1)+'" data-index="'+i+'" data-label="'+s.label.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" aria-label="'+s.label+' amount"><span class="planner-field-points">0 pts</span></div></div>';
 }
 function showDay(d){
  activeDay=d;
@@ -372,7 +372,7 @@ function showDay(d){
 function calcPlanner(){
  let total=0;
  document.querySelectorAll('#plannerFields input').forEach(i=>{
-   const pts=(+i.value||0)*(+i.dataset.rate||0); total+=pts;
+   const pts=((+i.value||0)/(+i.dataset.divisor||1))*(+i.dataset.rate||0); total+=pts;
    i.closest('.planner-field-entry').querySelector('.planner-field-points').textContent=Math.round(pts).toLocaleString()+' pts';
  });
  document.getElementById('plannerTotal').textContent=Math.round(total).toLocaleString();
