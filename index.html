@@ -11,6 +11,10 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./favicon.png">
 <link rel="shortcut icon" href="./favicon.png">
 <style>
+/* Seven planner tabs: Days 1-6 + Week Total */
+#dayTabs.week-strip{grid-template-columns:repeat(7,minmax(0,1fr));}
+@media(max-width:860px){#dayTabs.week-strip{grid-template-columns:repeat(4,minmax(0,1fr));}}
+@media(max-width:600px){#dayTabs.week-strip{grid-template-columns:repeat(2,minmax(0,1fr));}}
 .hero { position: relative; }
 .hero-logo { position:absolute; right:3%; top:50%; transform:translateY(-50%); width:min(34%,420px); display:flex; align-items:center; justify-content:center; pointer-events:none; }
 .hero-logo img {
@@ -333,7 +337,7 @@ function getNextReset(){
 const detectedServerDay=getServerVsDay();
 let activeDay=detectedServerDay || 1;
 function savePlannerState(){
- plannerState.activeDay=activeDay;
+ if(activeDay!=='week') plannerState.activeDay=activeDay;
  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(plannerState));}catch(e){}
 }
 function getDayValues(d){return plannerState.values[String(d)]||{};}
@@ -350,6 +354,12 @@ for(let d=1;d<=6;d++){
  if(detectedServerDay===d){ b.classList.add('server-today'); b.setAttribute('data-today','TODAY'); }
  b.addEventListener('click',()=>showDay(d)); tabs.appendChild(b);
 }
+const weekButton=document.createElement('button');
+weekButton.className='week-day week-total-tab';
+weekButton.dataset.day='week';
+weekButton.innerHTML='<span class="day-num">WEEK</span><strong>Total</strong><span class="day-vp">Projection</span>';
+weekButton.addEventListener('click',showWeekTotal);
+tabs.appendChild(weekButton);
 function updateServerDayStatus(){
  const reset=getNextReset();
  const resetText=reset.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
@@ -369,9 +379,37 @@ function fieldMarkup(s,i){
    '<small>'+s.note+'</small></div>'+
    '<div class="planner-field-entry"><input type="number" min="0" step="1" value="'+saved+'" data-rate="'+s.rate+'" data-divisor="'+(s.divisor||1)+'" data-index="'+i+'" data-label="'+s.label.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" aria-label="'+s.label+' amount"><span class="planner-field-points">0 pts</span></div></div>';
 }
+function getPlannedDayTotal(d){
+ const vals=getDayValues(d); let total=0;
+ DAYS[d].scores.forEach(s=>{ total+=((+vals[s.label]||0)/(s.divisor||1))*s.rate; });
+ return total;
+}
+function showWeekTotal(){
+ activeDay='week';
+ document.querySelectorAll('.week-day').forEach(b=>b.classList.toggle('active',b.dataset.day==='week'));
+ document.getElementById('dayLabel').textContent='Week Total';
+ document.getElementById('dayName').textContent='Weekly VS Projection';
+ document.getElementById('dayVP').textContent='13 VP';
+ document.getElementById('dayVP').classList.remove('critical');
+ document.getElementById('postureLabel').textContent='FULL WEEK';
+ document.getElementById('postureLabel').classList.remove('critical');
+ document.getElementById('postureCopy').textContent='A quick view of what scores each day and the VS points currently entered across the entire week.';
+ const rows=[1,2,3,4,5,6].map(d=>{
+   const total=getPlannedDayTotal(d);
+   const items=DAYS[d].scores.map(s=>s.label).join(' · ');
+   return '<div class="planner-field flex"><div class="planner-field-copy"><div class="planner-field-title"><b>Day '+d+' · '+DAYS[d].name+'</b><span class="planner-tag flex">'+DAYS[d].vp+' VP</span><span class="planner-rate">'+Math.round(total).toLocaleString()+' PLANNED PTS</span></div><small>'+items+'</small></div></div>';
+ }).join('');
+ document.getElementById('plannerFields').innerHTML=rows;
+ const weekTotal=[1,2,3,4,5,6].reduce((n,d)=>n+getPlannedDayTotal(d),0);
+ document.getElementById('plannerTotal').textContent=Math.round(weekTotal).toLocaleString();
+ document.getElementById('plannerTarget').value='';
+ document.getElementById('plannerTargetStatus').textContent='Combined projected VS points from all six days.';
+ document.getElementById('dayAdvice').innerHTML='<div class="advice-stack">'+[1,2,3,4,5,6].map(d=>'<div class="advice-item"><b>DAY '+d+'</b><span>'+Math.round(getPlannedDayTotal(d)).toLocaleString()+' projected points · '+DAYS[d].vp+' VP available</span></div>').join('')+'<div class="advice-item"><b>WEEK TOTAL</b><span>'+Math.round(weekTotal).toLocaleString()+' projected VS points across all entered items. The weekly matchup still awards a maximum of 13 Victory Points based on which days FAM wins.</span></div></div>';
+ savePlannerState();
+}
 function showDay(d){
  activeDay=d;
- document.querySelectorAll('.week-day').forEach(b=>b.classList.toggle('active',+b.dataset.day===d));
+ document.querySelectorAll('.week-day').forEach(b=>b.classList.toggle('active',b.dataset.day===String(d)));
  const x=DAYS[d];
  document.getElementById('dayLabel').textContent='Day '+d;
  document.getElementById('dayName').textContent=x.name;
@@ -406,6 +444,7 @@ function updateTarget(total){
  else{status.textContent=Math.round(diff).toLocaleString()+' more VS points needed.';status.classList.add('short');}
 }
 document.getElementById('plannerTarget').addEventListener('input',e=>{
+ if(activeDay==='week') return;
  const key=String(activeDay);
  if(e.target.value==='') delete plannerState.targets[key];
  else plannerState.targets[key]=e.target.value;
@@ -413,6 +452,7 @@ document.getElementById('plannerTarget').addEventListener('input',e=>{
  calcPlanner();
 });
 document.getElementById('plannerClear').addEventListener('click',()=>{
+ if(activeDay==='week') return;
  delete plannerState.values[String(activeDay)];
  document.querySelectorAll('#plannerFields input').forEach(i=>i.value=0);
  savePlannerState();
